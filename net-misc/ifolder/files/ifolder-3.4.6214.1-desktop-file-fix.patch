@@ -1,0 +1,10 @@
+--- src/LinuxClient/application/ifolder.desktop.in	2006-04-06 01:22:33.000000000 -0600
++++ src/LinuxClient/application/ifolder.desktop.in.new	2006-04-07 00:05:00.000000000 -0600
+@@ -1,6 +1,6 @@
+ [Desktop Entry]
+ X-SuSE-translate=false
+-Categories=Application;Utility;Filesystem;
++Categories=Application;Network;
+ Name=iFolder 3
+ GenericName=Collaborative File Sharing
+ Comment=Backup, synchronize, and share files with others

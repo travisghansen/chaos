@@ -1,0 +1,12 @@
+--- /home/srinidhi/sandbox/simias/configure.in	2007-01-04 19:57:04.000000000 +0530
++++ configure.in	2007-01-04 21:21:43.000000000 +0530
+@@ -616,7 +616,7 @@
+ fi
+ 
+ AC_SUBST(MODMONO_CONFPATH)
+-
++AM_CONFIG_HEADER(config.h)
+ 
+ #
+ # Configure files
+

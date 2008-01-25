@@ -1,0 +1,8 @@
+DIST thelastripper-1.1.0.tar.gz 202622 RMD160 8eebb4e80a858f93e7648ef2bfb3a0440d83c328 SHA1 a23882ef0f0f2dbebed8af2d4b2e3e18f6d40fed SHA256 786a230c85d105824caf64a2ca433dd7400ed42d37e6b2a5b6f819cb28975cb4
+EBUILD thelastripper-1.1.0.ebuild 525 RMD160 d2bba93a259ce86119bc30b89a9cd64870a24b27 SHA1 09d5322803c3fb6bba55b4bc5db9a23653d75769 SHA256 df01b8640efbf786ee65763d8ef9a46598cfa20a9060d17a84e6bb9e4f73ac74
+MD5 52af72aaed98358225e2e3aa7b9afbe9 thelastripper-1.1.0.ebuild 525
+RMD160 d2bba93a259ce86119bc30b89a9cd64870a24b27 thelastripper-1.1.0.ebuild 525
+SHA256 df01b8640efbf786ee65763d8ef9a46598cfa20a9060d17a84e6bb9e4f73ac74 thelastripper-1.1.0.ebuild 525
+MD5 51b4d8a4cae66236c4a6e8a88e856364 files/digest-thelastripper-1.1.0 259
+RMD160 589ba48b19d4dfc1508d9e04a161e003e0ce7df0 files/digest-thelastripper-1.1.0 259
+SHA256 76653db32bcfe8629f1e2e2a1a15e7dbee41419005cf2baeeed216d85388a9e6 files/digest-thelastripper-1.1.0 259

@@ -1,0 +1,260 @@
+Index: gnome-panel/panel-run-dialog.c
+================================================================================
+--- gnome-panel/panel-run-dialog.c
++++ gnome-panel/panel-run-dialog.c
+@@ -96,7 +96,7 @@
+ 	gboolean	  completion_started;
+ 	
+ 	char		 *icon_path;
+-	char		 *item_name;	
++	char		 *item_path;
+ } PanelRunDialog;
+ 
+ enum {
+@@ -126,7 +126,7 @@
+ 	dialog->add_icon_paths = NULL;
+ 
+ 	g_free (dialog->icon_path);
+-	g_free (dialog->item_name);
++	g_free (dialog->item_path);
+ 
+ 	if (dialog->add_icons_idle_id)
+ 		g_source_remove (dialog->add_icons_idle_id);
+@@ -259,6 +259,101 @@
+ 	return TRUE;
+ }
+ 
++static char *
++fuzzy_command_merge (const char *ditem_cmd,
++		     const char *user_cmd)
++{
++	char **tokens;
++	char  *path, *basename, *new_cmd;
++
++	if (!strcmp (ditem_cmd, user_cmd) ||
++	    !g_path_is_absolute (ditem_cmd) ||
++	    g_path_is_absolute (user_cmd))
++		return g_strdup (user_cmd);
++
++	/* find path from desktop item */
++	tokens = g_strsplit (ditem_cmd, " ", -1);
++	if (!tokens || !tokens [0]) {
++		g_strfreev (tokens);
++		return g_strdup (user_cmd);
++	}
++
++	path = g_path_get_dirname (tokens [0]);
++	g_strfreev (tokens);
++
++	/* merge it with basename from user_cmd */
++	tokens = g_strsplit (user_cmd, " ", -1);
++	if (!tokens || !tokens [0]) {
++		g_free (path);
++		g_strfreev (tokens);
++		return g_strdup (user_cmd);
++	}
++	basename = g_path_get_basename (tokens [0]);
++	g_free (tokens [0]);
++	tokens [0] = g_build_filename (path, basename, NULL);
++
++	new_cmd = g_strjoinv (" ", tokens);
++
++	g_free (path);
++	g_free (basename);
++	g_strfreev (tokens);
++
++	return new_cmd;
++}
++
++static gboolean
++panel_run_dialog_launch_ditem (PanelRunDialog *dialog,
++			       const char     *ditem_path,
++			       const char     *command,
++			       const char     *escaped)
++{
++	GdkScreen *screen;
++	GnomeDesktopItem *ditem;
++	int result;
++	char *merged_command;
++	GError *error = NULL;
++	
++	screen = gtk_window_get_screen (GTK_WINDOW (dialog->run_dialog));
++	
++	ditem = gnome_desktop_item_new_from_file (ditem_path,
++						  GNOME_DESKTOP_ITEM_LOAD_ONLY_IF_EXISTS,
++						  &error);
++	if (!ditem) {
++		panel_error_dialog (screen, "cannot_open_desktop_item", TRUE,
++				    _("Cannot open desktop item '%s'"),
++				    "%s",
++				    ditem_path,
++				    error->message);
++
++		g_error_free (error);
++		return FALSE;
++	}
++
++	merged_command = fuzzy_command_merge (
++		gnome_desktop_item_get_string (ditem, GNOME_DESKTOP_ITEM_EXEC),
++		command);
++	gnome_desktop_item_set_string (ditem, GNOME_DESKTOP_ITEM_EXEC, merged_command);
++	g_free (merged_command);
++
++	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->terminal_checkbox))) {
++		gnome_desktop_item_set_string (ditem, GNOME_DESKTOP_ITEM_TERMINAL,
++					       "true");
++	}
++		   
++	result = panel_ditem_launch (ditem, NULL, 0, screen, &error);
++	if (result == -1) {
++		panel_error_dialog (screen, "cannot_spawn_command", TRUE,
++				    _("Cannot launch command '%s'"),
++				    "%s",
++				    escaped,
++				    error->message);
++
++		g_error_free (error);
++	}
++	
++	return result != -1;
++}
++
+ static gboolean
+ panel_run_dialog_launch_command (PanelRunDialog *dialog,
+ 				 const char     *command,
+@@ -389,8 +484,12 @@
+ 	scheme = gnome_vfs_get_uri_scheme (url);
+ 	result = FALSE;
+ 	
+-	if (!g_ascii_strcasecmp (scheme, "http") ||
+-	    !g_ascii_strcasecmp (scheme, "file"))
++	if (dialog->item_path)
++		result = panel_run_dialog_launch_ditem (dialog, dialog->item_path, disk, escaped);
++
++	if (!result &&
++	    (!g_ascii_strcasecmp (scheme, "http") ||
++	     !g_ascii_strcasecmp (scheme, "file")))
+ 		/* If this returns an http or file url, the url might refer to a
+ 		 * command that is somewhere in the path or an executable file.
+ 		 * So try executing it before displaying it. We execute the 
+@@ -574,14 +673,14 @@
+ 	GtkTreePath  *path;
+ 	const char   *text;
+ 	char         *found_icon;
+-	char         *found_name;
++	char         *found_ditem;
+ 	gboolean      fuzzy;
+ 	
+ 	model = GTK_TREE_MODEL (dialog->program_list_store);
+ 	path = gtk_tree_path_new_first ();
+ 	text = sure_string (gtk_entry_get_text (GTK_ENTRY (dialog->gtk_entry)));
+ 	found_icon = NULL;
+-	found_name = NULL;
++	found_ditem = NULL;
+ 	fuzzy = FALSE;
+ 	
+ 	if (!path || !gtk_tree_model_get_iter (model, &iter, path)) {
+@@ -610,10 +709,10 @@
+ 		if (!fuzzy && exec && icon &&
+ 		    fuzzy_command_match (text, exec, &fuzzy)) {
+ 			g_free (found_icon);
+-			g_free (found_name);
++			g_free (found_ditem);
+ 			
+ 			found_icon = g_strdup (icon);
+-			found_name = g_strdup (name);
++			found_ditem = g_strdup (name);
+ 			
+ 			gtk_list_store_set (dialog->program_list_store,
+ 					    &iter,
+@@ -638,6 +737,9 @@
+ 		g_free (name);
+ 		g_free (comment);
+ 	
++		if (found_ditem && !fuzzy)
++			break;
++
+         } while (gtk_tree_model_iter_next (model, &iter));
+ 
+ 	if (gtk_tree_model_get_iter (gtk_tree_view_get_model (GTK_TREE_VIEW (dialog->program_list)),
+@@ -652,8 +754,8 @@
+ 
+ 	g_free (found_icon);
+ 	
+-	g_free (dialog->item_name);
+-	dialog->item_name = found_name;
++	g_free (dialog->item_path);
++	dialog->item_path = found_ditem;
+ 	//FIXME err... why is this useful??? don't we want the .desktop path for dnd?
+ 	
+ 	dialog->find_command_idle_id = 0;
+@@ -1005,13 +1107,10 @@
+ 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->terminal_checkbox),
+ 						      terminal);
+ 
+-			if (dialog->item_name)
+-				g_free (dialog->item_name);
+-
+-			dialog->item_name = g_strdup (gnome_desktop_item_get_string (
+-							      ditem,
+-							      GNOME_DESKTOP_ITEM_NAME));
+-
++			if (dialog->item_path)
++				g_free (dialog->item_path);
++			dialog->item_path = g_strdup (path);
++			
+ 			gnome_desktop_item_unref (ditem);
+                 }
+ 
+@@ -1523,9 +1622,9 @@
+ 		start++;
+ 
+ 	/* update item name to use for dnd */
+-	if (!dialog->use_program_list && dialog->item_name) {
+-		g_free (dialog->item_name);
+-		dialog->item_name = NULL;
++	if (!dialog->use_program_list && dialog->item_path) {
++		g_free (dialog->item_path);
++		dialog->item_path = NULL;
+ 	}
+ 
+ 	/* desensitize run button if no text entered */
+@@ -1692,7 +1791,10 @@
+ 	if (!text || !text [0])
+ 		return;
+ 		
+-	ditem = gnome_desktop_item_new ();
++	if (dialog->item_path)
++		ditem = gnome_desktop_item_new_from_file (dialog->item_path, 0, NULL);
++	else
++		ditem = gnome_desktop_item_new ();
+ 
+ 	disk = g_locale_from_utf8 (text, -1, NULL, NULL, NULL);
+ 	uri = gnome_vfs_make_uri_from_input_with_dirs (disk,
+@@ -1713,18 +1815,20 @@
+ 		gnome_desktop_item_set_string (ditem, GNOME_DESKTOP_ITEM_URL, uri);
+ 	}
+ 		
+-	gnome_desktop_item_set_string (ditem,
+-				       GNOME_DESKTOP_ITEM_NAME, (dialog->item_name) ?
+-				              dialog->item_name : text);
++	if (!dialog->item_path) {
++		gnome_desktop_item_set_string (ditem,
++					       GNOME_DESKTOP_ITEM_NAME,
++					       text);
++		gnome_desktop_item_set_string (ditem,
++					       GNOME_DESKTOP_ITEM_ICON, 
++					       dialog->icon_path);
++	}
+ 
+ 	gnome_desktop_item_set_boolean (ditem,
+ 					GNOME_DESKTOP_ITEM_TERMINAL,
+ 					gtk_toggle_button_get_active (
+ 						 GTK_TOGGLE_BUTTON (dialog->terminal_checkbox)));
+ 
+-	gnome_desktop_item_set_string (ditem,
+-				       GNOME_DESKTOP_ITEM_ICON, 
+-				       dialog->icon_path);
+ 	
+ 	g_free (uri);
+ 

@@ -1,0 +1,13 @@
+--- docs/reference/gnome-desktop/Makefile.am	2006-04-24 07:33:20.000000000 -0600
++++ docs/reference/gnome-desktop/Makefile.am.new	2006-09-21 23:40:01.000000000 -0600
+@@ -71,8 +71,8 @@
+ GTKDOC_LIBS=$(GNOME_DESKTOP_LIBS) $(top_builddir)/libgnome-desktop/libgnome-desktop-2.la
+ 
+ # This includes the standard gtk-doc make rules, copied by gtkdocize.
+-include $(top_srcdir)/gtk-doc.make
++#include $(top_srcdir)/gtk-doc.make
+ 
+ # Other files to distribute
+ # e.g. EXTRA_DIST += version.xml.in
+-EXTRA_DIST += 
++#EXTRA_DIST += 

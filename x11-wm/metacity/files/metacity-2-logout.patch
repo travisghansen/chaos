@@ -1,0 +1,185 @@
+diff -ur metacity-2.8.6/src/keybindings.c metacity-2.8.6-patched/src/keybindings.c
+--- metacity-2.8.6/src/keybindings.c	2004-10-11 23:42:37.000000000 +0800
++++ metacity-2.8.6-patched/src/keybindings.c	2004-12-08 11:50:25.631274776 +0800
+@@ -30,6 +30,7 @@
+ #include "place.h"
+ #include "prefs.h"
+ #include "effects.h"
++#include "session.h"
+ 
+ #include <X11/keysym.h>
+ #include <string.h>
+@@ -84,6 +85,11 @@
+                                        MetaWindow     *window,
+                                        XEvent         *event,
+                                        MetaKeyBinding *binding);
++static void handle_logout             (MetaDisplay    *display,
++                                       MetaScreen     *screen,
++                                       MetaWindow     *window,
++                                       XEvent         *event,
++                                       MetaKeyBinding *binding);
+ static void handle_panel_keybinding   (MetaDisplay    *display,
+                                        MetaScreen     *screen,
+                                        MetaWindow     *window,
+@@ -285,6 +291,8 @@
+     GINT_TO_POINTER (META_TAB_LIST_DOCKS) },  
+   { META_KEYBINDING_SHOW_DESKTOP, handle_toggle_desktop,
+     NULL },
++  { META_KEYBINDING_LOGOUT, handle_logout,
++    NULL },
+   { META_KEYBINDING_PANEL_MAIN_MENU, handle_panel_keybinding,
+     GINT_TO_POINTER (META_KEYBINDING_ACTION_PANEL_MAIN_MENU) },
+   { META_KEYBINDING_PANEL_RUN_DIALOG, handle_panel_keybinding,
+@@ -2785,6 +2793,16 @@
+ }
+ 
+ static void
++handle_logout (MetaDisplay    *display,
++	       MetaScreen     *screen,
++	       MetaWindow     *window,
++	       XEvent         *event,
++	       MetaKeyBinding *binding)
++{
++  meta_session_request_logout ();
++}
++
++static void
+ handle_panel_keybinding (MetaDisplay    *display,
+                          MetaScreen     *screen,
+                          MetaWindow     *window,
+diff -ur metacity-2.8.6/src/metacity.schemas metacity-2.8.6-patched/src/metacity.schemas
+--- metacity-2.8.6/src/metacity.schemas	2004-10-04 01:25:40.000000000 +0800
++++ metacity-2.8.6-patched/src/metacity.schemas	2004-12-08 11:50:25.652271584 +0800
+@@ -22578,6 +22578,29 @@
+       </locale>
+     </schema>
+ 
++     <schema>
++      <key>/schemas/apps/metacity/global_keybindings/logout</key>
++      <applyto>/apps/metacity/global_keybindings/logout</applyto>
++      <owner>metacity</owner>
++      <type>string</type>
++      <default>&lt;Control&gt;&lt;Alt&gt;Delete</default>
++      <locale name="C">
++         <short>Log out</short>
++         <long>
++          The keybinding that logs you out from the session.
++
++          The format looks like "&lt;Control&gt;&lt;Alt&gt;Delete" or
++          "&lt;Shift&gt;&lt;Alt&gt;F1.
++
++          The parser is fairly liberal and allows lower or upper case,
++          and also abbreviations such as "&lt;Ctl&gt;" and
++          "&lt;Ctrl&gt;". If you set the option to the special string
++          "disabled", then there will be no keybinding for this
++          action.
++         </long>
++      </locale>
++    </schema>
++
+     <schema>
+       <key>/schemas/apps/metacity/global_keybindings/panel_main_menu</key>
+       <applyto>/apps/metacity/global_keybindings/panel_main_menu</applyto>
+diff -ur metacity-2.8.6/src/metacity.schemas.in metacity-2.8.6-patched/src/metacity.schemas.in
+--- metacity-2.8.6/src/metacity.schemas.in	2004-07-25 00:28:14.000000000 +0800
++++ metacity-2.8.6-patched/src/metacity.schemas.in	2004-12-08 11:50:25.654271280 +0800
+@@ -1641,6 +1641,29 @@
+       </locale>
+     </schema>
+ 
++     <schema>
++      <key>/schemas/apps/metacity/global_keybindings/logout</key>
++      <applyto>/apps/metacity/global_keybindings/logout</applyto>
++      <owner>metacity</owner>
++      <type>string</type>
++      <default>&lt;Control&gt;&lt;Alt&gt;Delete</default>
++      <locale name="C">
++         <short>Log out</short>
++         <long>
++          The keybinding that logs you out from the session.
++
++          The format looks like "&lt;Control&gt;&lt;Alt&gt;Delete" or
++          "&lt;Shift&gt;&lt;Alt&gt;F1.
++
++          The parser is fairly liberal and allows lower or upper case,
++          and also abbreviations such as "&lt;Ctl&gt;" and
++          "&lt;Ctrl&gt;". If you set the option to the special string
++          "disabled", then there will be no keybinding for this
++          action.
++         </long>
++      </locale>
++    </schema>
++
+     <schema>
+       <key>/schemas/apps/metacity/global_keybindings/panel_main_menu</key>
+       <applyto>/apps/metacity/global_keybindings/panel_main_menu</applyto>
+diff -ur metacity-2.8.6/src/prefs.c metacity-2.8.6-patched/src/prefs.c
+--- metacity-2.8.6/src/prefs.c	2004-09-18 23:54:31.000000000 +0800
++++ metacity-2.8.6-patched/src/prefs.c	2004-12-08 11:50:25.655271128 +0800
+@@ -1421,6 +1421,7 @@
+   { META_KEYBINDING_CYCLE_PANELS, 0, 0, TRUE },
+   { META_KEYBINDING_CYCLE_PANELS_BACKWARD, 0, 0, TRUE },
+   { META_KEYBINDING_SHOW_DESKTOP, 0, 0, FALSE },
++  { META_KEYBINDING_LOGOUT, 0, 0, FALSE },
+   { META_KEYBINDING_PANEL_MAIN_MENU, 0, 0, FALSE },
+   { META_KEYBINDING_PANEL_RUN_DIALOG, 0, 0, FALSE },
+   { META_KEYBINDING_COMMAND_1, 0, 0, FALSE },
+diff -ur metacity-2.8.6/src/prefs.h metacity-2.8.6-patched/src/prefs.h
+--- metacity-2.8.6/src/prefs.h	2004-02-20 02:36:14.000000000 +0800
++++ metacity-2.8.6-patched/src/prefs.h	2004-12-08 11:52:59.051951288 +0800
+@@ -111,6 +111,7 @@
+ #define META_KEYBINDING_CYCLE_PANELS             "cycle_panels"
+ #define META_KEYBINDING_CYCLE_PANELS_BACKWARD    "cycle_panels_backward"
+ #define META_KEYBINDING_SHOW_DESKTOP             "show_desktop"
++#define META_KEYBINDING_LOGOUT			 "logout"
+ #define META_KEYBINDING_PANEL_MAIN_MENU          "panel_main_menu"
+ #define META_KEYBINDING_PANEL_RUN_DIALOG         "panel_run_dialog"
+ #define META_KEYBINDING_COMMAND_1                "run_command_1"
+@@ -211,6 +212,7 @@
+   META_KEYBINDING_ACTION_CYCLE_PANELS,
+   META_KEYBINDING_ACTION_CYCLE_PANELS_BACKWARD,
+   META_KEYBINDING_ACTION_SHOW_DESKTOP,
++  META_KEYBINDING_ACTION_LOGOUT,
+   META_KEYBINDING_ACTION_PANEL_MAIN_MENU,
+   META_KEYBINDING_ACTION_PANEL_RUN_DIALOG,
+   META_KEYBINDING_ACTION_COMMAND_1,
+diff -ur metacity-2.8.6/src/session.c metacity-2.8.6-patched/src/session.c
+--- metacity-2.8.6/src/session.c	2004-08-30 14:14:25.000000000 +0800
++++ metacity-2.8.6-patched/src/session.c	2004-12-08 11:50:25.656270976 +0800
+@@ -357,6 +357,24 @@
+   g_free (saved_client_id);
+ }
+ 
++/**
++ * meta_session_request_logout:
++ *
++ * Requests that a save_yourself be sent to the session manager so that we log
++ * out.
++ **/
++void
++meta_session_request_logout (void)
++{
++  if (!session_connection)
++    {
++      meta_warning (_("Cannot log out because we could not connect to the session manager\n"));
++      return;
++    }
++
++  SmcRequestSaveYourself (session_connection, SmSaveGlobal, TRUE, SmInteractStyleAny, FALSE, TRUE);
++}
++
+ void
+ meta_session_shutdown (void)
+ {
+diff -ur metacity-2.8.6/src/session.h metacity-2.8.6-patched/src/session.h
+--- metacity-2.8.6/src/session.h	2002-09-04 10:44:52.000000000 +0800
++++ metacity-2.8.6-patched/src/session.h	2004-12-08 11:50:25.657270824 +0800
+@@ -72,7 +72,7 @@
+ void meta_session_init (const char *client_id,
+                         const char *save_file);
+ 
+-
++void meta_session_request_logout (void);
+ void meta_session_shutdown (void);
+ 
+ #endif

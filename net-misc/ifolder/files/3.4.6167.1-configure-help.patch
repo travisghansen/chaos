@@ -1,0 +1,11 @@
+--- configure	2006-11-08 21:18:00.000000000 -0700
++++ configure.new	2006-11-08 21:21:01.000000000 -0700
+@@ -23576,7 +23576,7 @@
+ #
+ # Configure files
+ #
+-                                                                                                                                                                                                                                                                                                  ac_config_files="$ac_config_files Makefile src/Makefile src/iFolder/Makefile src/LinuxClient/Makefile src/LinuxClient/library/Makefile src/LinuxClient/application/Makefile src/LinuxClient/bonjour-ui/Makefile src/LinuxClient/po/Makefile src/LinuxClient/po/POTFILES src/FormsTrayApp/Makefile src/iFolderShell/Makefile src/TrayIcon/Makefile src/TrayIcon/libtrayicon/Makefile src/WebService/Makefile src/libifolder/Makefile src/OSXClient/Makefile src/OSXClient/Info.plist src/OSXClient/src/config.h test/Makefile test/iFolder/Makefile test/iFolderComponent/Makefile package/Makefile package/windows/Makefile package/linux/Makefile package/darwin/Makefile doc/Makefile help/Makefile help-linux/Makefile po/Makefile"
++                                                                                                                                                                                                                                                                                                  ac_config_files="$ac_config_files Makefile src/Makefile src/iFolder/Makefile src/LinuxClient/Makefile src/LinuxClient/library/Makefile src/LinuxClient/application/Makefile src/LinuxClient/bonjour-ui/Makefile src/LinuxClient/po/Makefile src/LinuxClient/po/POTFILES src/FormsTrayApp/Makefile src/iFolderShell/Makefile src/TrayIcon/Makefile src/TrayIcon/libtrayicon/Makefile src/WebService/Makefile src/libifolder/Makefile src/OSXClient/Makefile src/OSXClient/Info.plist src/OSXClient/src/config.h test/Makefile test/iFolder/Makefile test/iFolderComponent/Makefile package/Makefile package/windows/Makefile package/linux/Makefile package/darwin/Makefile doc/Makefile help-linux/Makefile po/Makefile"
+ cat >confcache <<\_ACEOF
+ # This file is a shell script that caches the results of configure
+ # tests run on this system so they can be shared between configure

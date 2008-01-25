@@ -1,0 +1,13 @@
+--- gnome-panel/panel-addto.c
++++ gnome-panel/panel-addto.c
+@@ -133,8 +133,8 @@
+ static PanelAddtoItemInfo internal_addto_items [] = {
+ 
+ 	{ PANEL_ADDTO_MENU,
+-	  N_("Main Menu"),
+-	  N_("The main GNOME menu"),
++	  N_("Traditional Main Menu"),
++	  N_("The traditional GNOME menu"),
+ 	  PANEL_MAIN_MENU_ICON,
+ 	  PANEL_ACTION_NONE,
+ 	  NULL,

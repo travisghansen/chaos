@@ -1,0 +1,10 @@
+--- src/core/libsimias/Makefile.am	2007-08-18 02:05:39.000000000 -0600
++++ src/core/libsimias/Makefile.am.new	2007-08-18 02:05:32.000000000 -0600
+@@ -27,6 +27,7 @@
+ 	$(GSOAP_PATH)/soapcpp2 -c -penv $(srcdir)/env.h
+ 
+ $(srcdir)/stdsoap2.c:
++	cp $(GSOAP_PATH)/bin/* $(GSOAP_PATH)
+ 	cp $(GSOAP_PATH)/stdsoap2.h $(srcdir)
+ 	cp $(GSOAP_PATH)/stdsoap2.c $(srcdir)
+ 

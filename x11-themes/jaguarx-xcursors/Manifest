@@ -1,0 +1,8 @@
+DIST 14775-jaguarx.tar.bz2 201940 RMD160 c440a13ea1ad61cadc1bcea81f6de571ce1dec07 SHA1 84563d39c292cfe9b91e55cb4c3fe82e649d1396 SHA256 b6035516437f119b9610f0a25a2f4453fb349d81c638fe0fef921a8560a76e7a
+EBUILD jaguarx-xcursors-0.0.1.ebuild 1600 RMD160 0968db6a47f176cdde31134c7b060f37cf856f5d SHA1 7f4e1070f0f4b7884fa5dc2e91ce1175208b0977 SHA256 8e397d6006bf813a7a126fa88f4bcf903108b688ff74e9c8f4da4db9c3e365c6
+MD5 dec959974f04acb4cbaad171b4a16f67 jaguarx-xcursors-0.0.1.ebuild 1600
+RMD160 0968db6a47f176cdde31134c7b060f37cf856f5d jaguarx-xcursors-0.0.1.ebuild 1600
+SHA256 8e397d6006bf813a7a126fa88f4bcf903108b688ff74e9c8f4da4db9c3e365c6 jaguarx-xcursors-0.0.1.ebuild 1600
+MD5 7f0a939328e36adbe7d005647e149595 files/digest-jaguarx-xcursors-0.0.1 244
+RMD160 6b118bbd7cb56693b7bdb75bed7f921be71adbc8 files/digest-jaguarx-xcursors-0.0.1 244
+SHA256 938b54fc54a4fa020d55d9a0f79f8febf1f0aece7775bba6dd0bd444ef83c6bc files/digest-jaguarx-xcursors-0.0.1 244

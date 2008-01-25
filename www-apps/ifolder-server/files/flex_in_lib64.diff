@@ -1,0 +1,12 @@
+diff -Naur simias/tools/gsoap/gsoap-linux-2.7/src/Makefile simias-changed/tools/gsoap/gsoap-linux-2.7/src/Makefile
+--- simias/tools/gsoap/gsoap-linux-2.7/src/Makefile	2007-10-01 22:32:04.000000000 +0200
++++ simias-changed/tools/gsoap/gsoap-linux-2.7/src/Makefile	2007-10-02 19:34:26.000000000 +0200
+@@ -10,7 +10,7 @@
+ YACC=bison
+ #	For static linkage with Flex use:
+ ifndef (lib)
+-lib=lib
++lib=lib64
+ endif
+ 
+ LIBS=/usr/$(lib)/libfl.a

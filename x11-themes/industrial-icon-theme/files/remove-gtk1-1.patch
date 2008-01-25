@@ -1,0 +1,8 @@
+--- gtk/Makefile.am	2002-10-04 08:58:22.000000000 -0600
++++ /home/thansen/.src/ximian-artwork-0.6.2/gtk/Makefile.am	2006-09-27 01:12:24.000000000 -0600
+@@ -1,4 +1,4 @@
+-SUBDIRS = gtk1-engine gtk2-engine
++SUBDIRS = gtk2-engine
+ 
+ # gnome_panel_DATA = ximian-desktop-stripe-end.png  ximian-desktop-stripe.png
+ # gnome_paneldir = $(datadir)/themes/Industrial/gtk-2.0

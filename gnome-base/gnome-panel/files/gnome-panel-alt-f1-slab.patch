@@ -1,0 +1,47 @@
+--- gnome-panel-2.15.91/gnome-panel/panel-action-protocol.c
++++ gnome-panel-2.15.91/gnome-panel/panel-action-protocol.c
+@@ -50,6 +50,7 @@
+ 	PanelWidget *panel_widget;
+ 	GtkWidget   *menu;
+ 	AppletInfo  *info;
++	gchar       *path;
+ 
+ 	info = panel_applet_get_by_type (PANEL_OBJECT_MENU_BAR, screen);
+ 	if (info) {
+@@ -65,6 +66,36 @@
+ 		return;
+ 	}
+ 
++	path = g_find_program_in_path ("application-browser");
++	if (path) {
++		static Atom action_atom = None, type_atom = None;
++		static gboolean atoms_init = FALSE;
++		XClientMessageEvent ev;
++		Display *xdisplay = GDK_DISPLAY_XDISPLAY (gdk_display_get_default ());
++
++		if (!atoms_init) {
++			action_atom = XInternAtom (xdisplay, "_SLAB_ACTION_MAIN_MENU", FALSE);
++			type_atom = XInternAtom (xdisplay, "_SLAB_ACTION", FALSE);
++
++			atoms_init = TRUE;
++		}
++
++		ev.type = ClientMessage;
++		ev.window = RootWindow (xdisplay, DefaultScreen (xdisplay));
++		ev.message_type = type_atom;
++		ev.format = 32;
++		ev.data.l[0] = action_atom;
++		ev.data.l[1] = activate_time;
++
++		XUngrabKeyboard (xdisplay, activate_time);
++		XSendEvent (xdisplay, RootWindow (xdisplay, DefaultScreen (xdisplay)),
++			    True, StructureNotifyMask, (XEvent*) &ev);
++
++		g_free (path);
++
++		return;
++	}
++
+ 	panel_widget = panels->data;
+ 	menu = create_main_menu (panel_widget);
+ 

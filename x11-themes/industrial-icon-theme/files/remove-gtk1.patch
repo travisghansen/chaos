@@ -1,0 +1,24 @@
+--- configure.ac	2006-06-01 13:19:38.000000000 -0600
++++ /home/thansen/.src/ximian-artwork-0.6.2/configure.ac	2006-09-27 01:10:18.000000000 -0600
+@@ -37,12 +37,6 @@
+                  and install ximian-artwork])
+ fi
+ 
+-AM_PATH_GTK(1.2.9, , 
+-        AC_MSG_ERROR([*** GTK+-1.2.9 not installed - please install first ***]))
+-AC_CHECK_LIB(gtk, gtk_style_set_prop_experimental, :,
+-             AC_MSG_ERROR([*** gtk_style_set_prop_experimental() not found; perhaps you have an old CVS version of GTK+ ***]),
+-             $GTK_LIBS)
+-
+ PKG_CHECK_MODULES(XIMART, gtk+-2.0)
+ AC_SUBST(XIMART_CFLAGS)
+ AC_SUBST(XIMART_LIBS)
+@@ -56,8 +50,6 @@
+ gdm/Makefile
+ gnome-session/Makefile
+ gtk/Makefile
+-gtk/gtk1-engine/Makefile
+-gtk/gtk1-engine/gtk/Makefile
+ gtk/gtk2-engine/Makefile
+ gtk/gtk2-engine/gtk-2.0/Makefile
+ gtk/gtk2-engine/gtk-2.0/gtkrc

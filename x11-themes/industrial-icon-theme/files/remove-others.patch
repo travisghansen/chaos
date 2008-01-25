@@ -1,0 +1,31 @@
+--- configure.ac	2006-09-27 01:59:23.000000000 -0600
++++ /home/thansen/.src/ximian-artwork-0.6.2/configure.ac	2006-09-27 02:01:26.000000000 -0600
+@@ -46,13 +46,6 @@
+ 
+ AC_CONFIG_FILES([
+ Makefile
+-galeon/Makefile
+-gdm/Makefile
+-gnome-session/Makefile
+-gtk/Makefile
+-gtk/gtk2-engine/Makefile
+-gtk/gtk2-engine/gtk-2.0/Makefile
+-gtk/gtk2-engine/gtk-2.0/gtkrc
+ icons/Makefile
+ icons/Industrial/Makefile
+ icons/Industrial/16x16/Makefile
+@@ -80,14 +73,6 @@
+ icons/Industrial/scalable/emblems/Makefile
+ icons/Industrial/scalable/places/Makefile
+ icons/Industrial/scalable/status/Makefile
+-metacity/Makefile
+-nautilus/Makefile
+-nautilus/patterns/Makefile
+-nautilus/throbber/Makefile
+-wallpapers/Makefile
+-photos/Makefile
+-xmms/Makefile
+-po/Makefile.in
+ ])
+ 
+ AC_OUTPUT

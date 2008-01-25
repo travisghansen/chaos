@@ -1,0 +1,12 @@
+AUX ubuntulooks_0.9.12-5.diff 11785 RMD160 5d32a8876bad9148ede3d5b55974eec907f727d7 SHA1 cc6fddfd1d77e2fbce695b127e2a06459534cb29 SHA256 61a54e974b2ef998db0736083d4f6ae7a68fb8392815eb54a80e72bb5647d27f
+MD5 a5a993cbc1598ac59919cd7d88690f31 files/ubuntulooks_0.9.12-5.diff 11785
+RMD160 5d32a8876bad9148ede3d5b55974eec907f727d7 files/ubuntulooks_0.9.12-5.diff 11785
+SHA256 61a54e974b2ef998db0736083d4f6ae7a68fb8392815eb54a80e72bb5647d27f files/ubuntulooks_0.9.12-5.diff 11785
+DIST ubuntulooks_0.9.12.orig.tar.gz 345833 RMD160 451dc8a093f9c4f78e66065c7daddb8af91db9ff SHA1 7270727e42e5b1a790c1010e784ad29ac4430348 SHA256 88e3535c3c7a12c24b09fb057c2a6b52eb0d13f1b2fbdabb4a13bb7e164877fa
+EBUILD gtk-engines-ubuntulooks-0.9.12.ebuild 866 RMD160 b349bbfe86516526c96a16ddac2fcd2b3c308076 SHA1 3919abaab0a61684b42c3110ab6b4c2da66b0635 SHA256 46eb9ee686ac30f5cb66fa2e75596db9dfa36d395d3aac4a037e0a3c45656c7c
+MD5 c1f48036dcd6c23ba531ef51f1de6c3a gtk-engines-ubuntulooks-0.9.12.ebuild 866
+RMD160 b349bbfe86516526c96a16ddac2fcd2b3c308076 gtk-engines-ubuntulooks-0.9.12.ebuild 866
+SHA256 46eb9ee686ac30f5cb66fa2e75596db9dfa36d395d3aac4a037e0a3c45656c7c gtk-engines-ubuntulooks-0.9.12.ebuild 866
+MD5 22a098e02510c3c72e70587f1741a5b5 files/digest-gtk-engines-ubuntulooks-0.9.12 271
+RMD160 a064b7396630579d09f336de1de5b774de2a612f files/digest-gtk-engines-ubuntulooks-0.9.12 271
+SHA256 13a72c4ddfc09d982778a2ebec111b99c98f87cbfb350ea1316b2e206da78c04 files/digest-gtk-engines-ubuntulooks-0.9.12 271

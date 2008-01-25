@@ -1,0 +1,94 @@
+Index: configure.in
+===================================================================
+--- configure.in	(Revision 6873)
++++ configure.in	(Arbeitskopie)
+@@ -607,8 +607,87 @@
+ # Configure MONO_WEBSERVER
+ #
+ MONO_WEBSERVER="no"
+-if test -e "/usr/lib/mono/1.0/Mono.WebServer.dll"; then
+-	MONO_WEBSERVER="yes"
++if test "$SIMIAS_OS" = "linux"; then
++	# If we have xsp in our $PATH, then we have xsp installed
++	AC_CHECK_PROG(HAVE_XSP, xsp, yes)
++	AC_CHECKING([whether xsp version is >= 1.1.13.8])
++	if test "$HAVE_XSP" = "yes"; then
++		# Get the version info and check if we have a version >= 1.1.18
++		# 1st: Get the version string
++		XSP_EXE_VER=`LANG="C" xsp --version | head -n 1 | cut -d" " -f2`
++		
++		# We have to look at a minimum of 3 digits (mono-W.X.Y.Z)
++		DIGIT_W=`echo $XSP_EXE_VER | cut -d"." -f1`    # major
++		DIGIT_X=`echo $XSP_EXE_VER | cut -d"." -f2`    # minor
++		DIGIT_Y=`echo $XSP_EXE_VER | cut -d"." -f3`    # sub		
++		DIGIT_Z=`echo $XSP_EXE_VER | cut -d"." -f4`    # extra		
++		
++		# We want to require a minimum of 1.1.18 (no z, setting "0")
++		REQ_MAJOR="1"
++		REQ_MINOR="1"
++		REQ_SUB="13"
++		REQ_EXTRA="7"
++		
++		# Lets compare things
++		echo "      M   M   S   E"
++		echo "      A   I   U   X"
++		echo "      J   N   B   T"
++		echo "      O   O       R"
++		echo "      R   R       A"		
++		echo "        -   -   -  "
++		echo "DEBUG $DIGIT_W - $DIGIT_X - $DIGIT_Y - $DIGIT_Z"
++		echo "DEBUG $REQ_MAJOR - $REQ_MINOR - $REQ_SUB - $REQ_EXTRA"		
++		
++XSP_ERROR_MSG="
++* Your xsp version seems to be $DIGIT_W.$DIGIT_X.$DIGIT_Y.$DIGIT_Z
++* You need to install xsp >= $REQ_MAJOR.$REQ_MINOR.$REQ_SUB to run simias
++"
++		
++		if [[[ -n $DIGIT_W   &&  $DIGIT_W -ge $REQ_MAJOR ]]] ; then
++		     echo "MAJOR OK"
++		    # MAJOR IS OK, NOW CHECK MINOR
++		    if [[[ -n $DIGIT_X   &&  $DIGIT_X -gt $REQ_MINOR ]]] ; then
++			     echo "MINOR GREATER"
++			    # MINOR IS GREATER, SKIP CHECK SUB
++			    MONO_WEBSERVER="yes"
++		    else
++		    	    if [[[ -n $DIGIT_X   &&  $DIGIT_X -eq $REQ_MINOR ]]] ; then
++				 echo "MINOR EQUAL"
++				# MINOR IS EQUAL, CHECK SUB
++		    		if [[[ -n $DIGIT_Y   &&  $DIGIT_Y -gt $REQ_SUB ]]] ; then
++				     echo "SUB OK"
++				    # SUB IS GREATER - SKIP CHECK EXTRA
++				    MONO_WEBSERVER="yes"
++				else
++				    if [[[ -n $DIGIT_Y   &&  $DIGIT_Y -eq $REQ_SUB ]]] ; then
++				     echo "SUB OK"
++				    # SUB IS EQUAL, CHECK EXTRA
++			    		if [[[ -n $DIGIT_Z   &&  $DIGIT_Z -ge $REQ_EXTRA ]]] ; then
++					     echo "EXTRA OK"
++					    # EXTRA IS GREATER/EQUAL 
++					    MONO_WEBSERVER="yes"
++					else
++					     echo "EXTRA NOT OK !"
++					    AC_MSG_ERROR($XSP_ERROR_MSG)
++					fi
++				    else
++				     echo "SUB NOT OK !"
++				    AC_MSG_ERROR($XSP_ERROR_MSG)
++				    fi
++				fi
++			    else
++				 echo "MINOR NOT OK !"
++				AC_MSG_ERROR($XSP_ERROR_MSG)
++			    fi
++		    fi
++		else
++		     echo "MAJOR NOT OK !"
++		    AC_MSG_ERROR($XSP_ERROR_MSG)
++		fi
++	 echo "DEBUG MONO_WEBSERVER=yes"
++	else
++		AC_MSG_ERROR(* xsp command not found)
++	fi
+ fi
+ 
+ AC_SUBST(MONO_WEBSERVER)

@@ -1,0 +1,14 @@
+diff -Naur simias_orig/src/server/Simias.config.in simias/src/server/Simias.config.in
+--- simias_orig/src/server/Simias.config.in	2007-10-16 16:19:39.000000000 +0200
++++ simias/src/server/Simias.config.in	2007-10-30 01:10:50.068278089 +0100
+@@ -6,7 +6,9 @@
+     <setting name="AdminPassword" value="simias" />
+   </section>
+   <section name="Server">
+-    <setting name="Name" value="Host1" />
++    <setting name="Name" value="Host1" />
++    <setting name="PublicAddress" value="http://xxxPUBLICADDRESSxxx/simias10" />
++    <setting name="PrivateAddress" value="http://xxxPRIVATEADDRESSxxx/simias10" />
+   </section>
+   <section name="Authentication">
+ 	<setting name="SimiasAuthNotRequired" value="Registration.asmx, Login.ashx, Simias.asmx:PingSimias, DomainService.asmx:GetDomainID, pubrss.ashx, pubsfile.ashx, Simias.asmx:GetRAList, Simias.asmx:GetRACertificate, iFolderBackup.asmx:GetSimiasDataPath, iFolderBackup.asmx:Ping" />

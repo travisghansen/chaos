@@ -1,0 +1,11 @@
+--- configure	2006-03-20 01:28:11.000000000 -0700
++++ configure.new	2006-04-03 01:27:30.000000000 -0600
+@@ -5832,7 +5832,7 @@
+ #
+ # We have our own "standard" directories for web services.
+ #
+-webdir='${libexecdir}/web'
++webdir='${prefix}/lib/simias/web'
+ webbindir='${webdir}/bin'
+ 
+ 

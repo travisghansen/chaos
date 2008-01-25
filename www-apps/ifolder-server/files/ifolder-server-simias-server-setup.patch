@@ -1,0 +1,17 @@
+--- src/server/setup/SimiasServerSetup.cs	2007-01-02 01:45:42.000000000 -0700
++++ src/server/setup/SimiasServerSetup.cs.new	2007-01-03 16:31:20.000000000 -0700
+@@ -499,12 +499,12 @@
+ 			}
+ 
+ 			SetupPermissions();
+-			SetupModMono();
++//			SetupModMono();
+ 			if ( usingLDAP )
+ 			{
+ 				SetupLdap();
+ 			}
+-			SetupScriptFiles();
++//			SetupScriptFiles();
+ 			SetupLog4Net();
+ 		}
+ 

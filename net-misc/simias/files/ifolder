@@ -1,0 +1,57 @@
+#!/sbin/runscript
+# Copyright 1999-2005 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+SIMPLESERVER=`which simpleserver`
+DEVNULL=/dev/null
+
+if [[ -f $SIMPLESERVER ]];then
+	echo "We'll continue" >> $DEVNULL
+else
+	eerror "Error: simpleserver command not found"
+	eerror "Please ensure you installed simias with the"
+	eerror "\"simpleserver\" USE flag enabled"
+	eend 1
+fi
+
+
+depend() {
+	
+	need net
+	
+}
+
+start() {
+
+	ebegin "Starting iFolder"
+	$SIMPLESERVER 2>&1 > $DEVNULL
+	eend $?
+
+}
+
+stop() {
+
+	ebegin "Stopping iFolder"
+
+	PIDS=$(pidof mono)
+	
+	if [ -z "$PIDS" ];then
+		einfo "iFolder service does not appear to be started"
+		eend 0
+	else
+		for EACHPID in $PIDS;do
+			isSimiasPid=$(ps -p $EACHPID -f | grep "Simias.exe")
+			if [ -z "$isSimiasPid" ];then
+				#leave it be
+				isNotSimias=1
+			else
+				#kill $EACHPID
+				$SIMPLESERVER --stop 2>&1 > $DEVNULL
+				eend $?
+			fi
+		done
+	fi
+	eend $?
+
+}

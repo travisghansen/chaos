@@ -1,0 +1,9 @@
+[Desktop Entry]
+_Name=Software Update
+Exec=gksu porthole
+Icon=porthole-icon.png
+Terminal=False
+Type=Application
+StartupNotify=true
+Encoding=UTF-8
+NoDisplay=true

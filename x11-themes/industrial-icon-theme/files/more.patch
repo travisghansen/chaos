@@ -1,0 +1,15 @@
+--- Makefile.am	2004-08-25 13:38:12.000000000 -0600
++++ /home/thansen/.src/ximian-artwork-0.6.2/Makefile.am	2006-09-27 02:06:47.000000000 -0600
+@@ -1,4 +1,4 @@
+-SUBDIRS = po gdm gnome-session gtk icons galeon metacity nautilus wallpapers photos xmms
++SUBDIRS = icons
+ 
+ THEME_IN_FILES=index.theme.in
+ 
+@@ -15,4 +15,4 @@
+ 
+ CLEANFILES = index.theme
+ 
+-DISTCLEANFILES = intltool-extract intltool-merge intltool-update
+\ No newline at end of file
++DISTCLEANFILES = intltool-extract intltool-merge intltool-update

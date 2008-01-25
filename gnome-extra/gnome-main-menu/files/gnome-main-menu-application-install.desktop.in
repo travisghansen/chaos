@@ -1,0 +1,9 @@
+[Desktop Entry]
+_Name=Software Update
+Exec=/usr/sbin/gnome-main-menu-utils install
+Icon=gnome-terminal.png
+Terminal=true
+Type=Application
+StartupNotify=true
+Encoding=UTF-8
+NoDisplay=true

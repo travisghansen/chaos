@@ -1,0 +1,47 @@
+--- main-menu/etc/slab.schemas.in.in	2006-05-21 19:54:08.000000000 -0600
++++ main-menu/etc/slab.schemas.in.in.new	2006-06-28 01:19:47.000000000 -0600
+@@ -6,7 +6,7 @@
+ 			<owner>gnome-main-menu</owner>
+ 			<type>list</type>
+ 			<list_type>string</list_type>
+-			<default>[MozillaFirefox.desktop,evolution.desktop,banshee.desktop,writer.desktop,f-spot.desktop,nautilus-home.desktop]</default>
++			<default>[nautilus-home.desktop,gnome-terminal.desktop]</default>
+ 			<locale name="C">
+ 				<short>.desktop files for "Favorite Applications"</short>
+ 				<long>.desktop files for "Favorite Applications"</long>
+@@ -18,7 +18,7 @@
+ 			<applyto>/desktop/gnome/applications/main-menu/uninstall_package_command</applyto>
+ 			<owner>gnome-main-menu</owner>
+ 			<type>string</type>
+-			<default>zen-remover PACKAGE_NAME</default>
++			<default>/usr/sbin/gnome-main-menu-utils uninstall PACKAGE_NAME</default>
+ 			<locale name="C">
+ 				<short>command to uninstall packages</short>
+ 				<long>command to uninstall packages, PACKAGE_NAME is replaced by the name of the package in the command</long>
+@@ -30,7 +30,7 @@
+ 			<applyto>/desktop/gnome/applications/main-menu/upgrade_package_command</applyto>
+ 			<owner>gnome-main-menu</owner>
+ 			<type>string</type>
+-			<default>zen-updater --no-tray PACKAGE_NAME</default>
++			<default>/usr/sbin/gnome-main-menu-utils upgrade PACKAGE_NAME</default>
+ 			<locale name="C">
+ 				<short>command to upgrade packages</short>
+ 				<long>command to upgrade packages, PACKAGE_NAME is replaced by the name of the package in the command</long>
+@@ -79,7 +79,7 @@
+ 			<applyto>/desktop/gnome/applications/main-menu/system-area/package_manager_item</applyto>
+ 			<owner>gnome-main-menu</owner>
+ 			<type>string</type>
+-			<default>zen-installer.desktop</default>
++			<default>gnome-main-menu-application-install.desktop</default>
+ 			<locale name="C">
+ 				<short>package manager item .desktop file</short>
+ 				<long>package manager item .desktop file</long>
+@@ -127,7 +127,7 @@
+ 			<applyto>/desktop/gnome/applications/main-menu/network_config_tool</applyto>
+ 			<owner>gnome-main-menu</owner>
+ 			<type>string</type>
+-			<default>/usr/share/applications/YaST2/lan.desktop</default>
++			<default>gnome-network-preferences.desktop</default>
+ 			<locale name="C">
+ 				<short>.desktop file for the net config tool</short>
+ 				<long>.desktop file for the YaST2 network_devices utility</long>

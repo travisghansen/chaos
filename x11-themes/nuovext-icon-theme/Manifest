@@ -1,0 +1,8 @@
+DIST nuoveXT-1.6.tar.gz 8220990 RMD160 e3c0fcfb2280a3078deadf069674d88f4e937c77 SHA1 bb8278eb8a30a1c25ba30a28bec8bd3fa5558c95 SHA256 d91ab7a338442148775a1486fda022a12525507c8702faadf56d4887bceade13
+EBUILD nuovext-icon-theme-1.6.ebuild 680 RMD160 a77333b6a9db4cdcc180dcb970ae16ff60f5c7da SHA1 ab824ac88b28b0a6d855c66f2b0da571dd8f3438 SHA256 61042eb69d79eb81f01fe8e6856953a540b38a3bdf5f0a4f2cbebd76b416e7e9
+MD5 7b80fe2d910aa2cd64adfbefd1d536f3 nuovext-icon-theme-1.6.ebuild 680
+RMD160 a77333b6a9db4cdcc180dcb970ae16ff60f5c7da nuovext-icon-theme-1.6.ebuild 680
+SHA256 61042eb69d79eb81f01fe8e6856953a540b38a3bdf5f0a4f2cbebd76b416e7e9 nuovext-icon-theme-1.6.ebuild 680
+MD5 323d4f0a4012f668ff00191f95b80c0e files/digest-nuovext-icon-theme-1.6 238
+RMD160 993b50a896dd68936c01eeb6b8e47ff2bb921bb3 files/digest-nuovext-icon-theme-1.6 238
+SHA256 8a1571dd277fbc64ca9b6779a0921fd7b589fff24cf6f52fec81ea2ead70db35 files/digest-nuovext-icon-theme-1.6 238

@@ -1,0 +1,18 @@
+--- Makefile.am	2006-09-27 02:08:07.000000000 -0600
++++ /home/thansen/.src/ximian-artwork-0.6.2/Makefile.am	2006-09-27 02:12:04.000000000 -0600
+@@ -2,15 +2,10 @@
+ 
+ THEME_IN_FILES=index.theme.in
+ 
+-%.theme:   %.theme.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_MERGE) $(top_srcdir)/po $< $@ -d -u -c $(top_builddir)/po/.intltool-merge-cache
+-
+ themedir=$(datadir)/themes/Industrial
+ theme_DATA=index.theme
+ 
+ EXTRA_DIST = \
+-        intltool-extract.in \
+-        intltool-merge.in \
+-        intltool-update.in \
+ 	$(THEME_IN_FILES)
+ 
+ CLEANFILES = index.theme

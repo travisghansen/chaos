@@ -1,0 +1,89 @@
+AUX control-center-apps.patch 1544 RMD160 f347a8d5e7a0c3c98eb3f8d4be2608eb7a448416 SHA1 563b71c7524d0424c8b26d694fa3ad242f7dd0bb SHA256 4b33305ece432fb892da7d5f26bc268a7acda49188afbf111d53eb95b048215c
+MD5 ad193df6752f5408418352d0d4e79962 files/control-center-apps.patch 1544
+RMD160 f347a8d5e7a0c3c98eb3f8d4be2608eb7a448416 files/control-center-apps.patch 1544
+SHA256 4b33305ece432fb892da7d5f26bc268a7acda49188afbf111d53eb95b048215c files/control-center-apps.patch 1544
+AUX control-center-list.patch 452 RMD160 7cbdd0cb116af42a03eb4bf3e157ef31ae7d6c7b SHA1 43a8883b920ed09c9d381def71137d2fd294d19b SHA256 e320aed2eb71bffa161375dee0d1097fcd824f8898cd499182fd3627fef67faf
+MD5 b9345c035fe53bd3172570fb14186f1c files/control-center-list.patch 452
+RMD160 7cbdd0cb116af42a03eb4bf3e157ef31ae7d6c7b files/control-center-list.patch 452
+SHA256 e320aed2eb71bffa161375dee0d1097fcd824f8898cd499182fd3627fef67faf files/control-center-list.patch 452
+AUX file-location-lookup.patch 851 RMD160 7ac7e664f1c8d1f79eb9f3f800a059fc0d7bc238 SHA1 f7e58074c282bf9b629d2f9192cad55ffc3f44d8 SHA256 58416ea734700733a1dd91f6798e7b1fc14e22a9066ea6f8e40d0f6cb2460893
+MD5 247cef40464cd3eb1fa40e9c21a0b2bf files/file-location-lookup.patch 851
+RMD160 7ac7e664f1c8d1f79eb9f3f800a059fc0d7bc238 files/file-location-lookup.patch 851
+SHA256 58416ea734700733a1dd91f6798e7b1fc14e22a9066ea6f8e40d0f6cb2460893 files/file-location-lookup.patch 851
+AUX gnome-main-menu-application-install.desktop.in 187 RMD160 060990a2387484099de7952161748354ed239f89 SHA1 ec38bf7b423a435e51229ece418731f332cb4d5e SHA256 61b996764bb603b7d25738aa3068b31e0266d7b6bc6c061d77f7ccfeaf6759d5
+MD5 4aed6160408b61ac9a4561742784dcba files/gnome-main-menu-application-install.desktop.in 187
+RMD160 060990a2387484099de7952161748354ed239f89 files/gnome-main-menu-application-install.desktop.in 187
+SHA256 61b996764bb603b7d25738aa3068b31e0266d7b6bc6c061d77f7ccfeaf6759d5 files/gnome-main-menu-application-install.desktop.in 187
+AUX gnome-main-menu-application-upgrade 521 RMD160 715ed003ca24652ca250f34de523cd0ec628a154 SHA1 6992d006f2ac9efc2f47308f0c5701d0b219669a SHA256 6cd10a6c00bc070ed52c88cb12b6f2fb379226e8d3b32840ab2adb7616b5c35f
+MD5 4f7330b886b5f010f6708838dc15e78a files/gnome-main-menu-application-upgrade 521
+RMD160 715ed003ca24652ca250f34de523cd0ec628a154 files/gnome-main-menu-application-upgrade 521
+SHA256 6cd10a6c00bc070ed52c88cb12b6f2fb379226e8d3b32840ab2adb7616b5c35f files/gnome-main-menu-application-upgrade 521
+AUX gnome-main-menu-doc_check.patch 383 RMD160 a483976a07bb58c77d6f0e89c07a1bc5be0ca56e SHA1 6a23cc295b91c2c44bee3b6b3c261f1740cf039c SHA256 64c4394e2eaf7166e4824b134dd9d8a91352db2898984172966c018de75d43d5
+MD5 7414249c39c4a00110b28057c7680a55 files/gnome-main-menu-doc_check.patch 383
+RMD160 a483976a07bb58c77d6f0e89c07a1bc5be0ca56e files/gnome-main-menu-doc_check.patch 383
+SHA256 64c4394e2eaf7166e4824b134dd9d8a91352db2898984172966c018de75d43d5 files/gnome-main-menu-doc_check.patch 383
+AUX gnome-main-menu-utils 965 RMD160 7d89a13612d69d9bf15cfabe2c2a5a92fb63e99f SHA1 294ee167e125854d4842f145dae909f3b984bd45 SHA256 b3963814574a16cbece40df292211a36f9ec20805889d3e068c524ac7c710ff9
+MD5 e7583cafce39b65c39937d7f3f8cae34 files/gnome-main-menu-utils 965
+RMD160 7d89a13612d69d9bf15cfabe2c2a5a92fb63e99f files/gnome-main-menu-utils 965
+SHA256 b3963814574a16cbece40df292211a36f9ec20805889d3e068c524ac7c710ff9 files/gnome-main-menu-utils 965
+AUX main-menu-porthole.desktop.in 161 RMD160 5a9b9abbd297350139f9a0c4d42980c2fcfe2f73 SHA1 6c9572cc9a4480f8d9f1d16509e08fcacce414bd SHA256 9ed6663bfde2159d5d067fc9f4fef2843d8402de3921838d9db7b152689e9380
+MD5 840a929f8bf83e88039463ddfce3e2ff files/main-menu-porthole.desktop.in 161
+RMD160 5a9b9abbd297350139f9a0c4d42980c2fcfe2f73 files/main-menu-porthole.desktop.in 161
+SHA256 9ed6663bfde2159d5d067fc9f4fef2843d8402de3921838d9db7b152689e9380 files/main-menu-porthole.desktop.in 161
+AUX package-lookup.patch 871 RMD160 9b6ffd19195bd96eb402261f78949a57d65a1773 SHA1 29b27f2b369e0513b863c89e35ee5a556b83fb11 SHA256 6bd7764568639e92e7b9ee613cec76b6c94f72e82b46596174b018a75a0837a1
+MD5 bc3cedb27aad34f95ac6f5a9883e8156 files/package-lookup.patch 871
+RMD160 9b6ffd19195bd96eb402261f78949a57d65a1773 files/package-lookup.patch 871
+SHA256 6bd7764568639e92e7b9ee613cec76b6c94f72e82b46596174b018a75a0837a1 files/package-lookup.patch 871
+AUX slab-schema.patch 2410 RMD160 1d7f94e00fc6ed7add68e8dfb1e8b20b49fc9a50 SHA1 dedf08a69ea307ff38462709487f2a365a044853 SHA256 58f21fad719a7f6d25b82db9db48906129be8a181ec1cbf3be92a4e2ef9b3235
+MD5 3d5bdd621ef0a90f2d548d79143e476f files/slab-schema.patch 2410
+RMD160 1d7f94e00fc6ed7add68e8dfb1e8b20b49fc9a50 files/slab-schema.patch 2410
+SHA256 58f21fad719a7f6d25b82db9db48906129be8a181ec1cbf3be92a4e2ef9b3235 files/slab-schema.patch 2410
+AUX upgrade-uninstall.patch 956 RMD160 a668fb6bd96d5501580a7a6a2b7b8b105c12d7d5 SHA1 bcaedbbfaccecfc797a18fffc1e16f8443529ac5 SHA256 f40888cfb77fa68a3de2171fd0df4be1964bbbdcf23f0c223519e62e0dad440f
+MD5 4b9e8764cf01d99f7f41ab88f199d837 files/upgrade-uninstall.patch 956
+RMD160 a668fb6bd96d5501580a7a6a2b7b8b105c12d7d5 files/upgrade-uninstall.patch 956
+SHA256 f40888cfb77fa68a3de2171fd0df4be1964bbbdcf23f0c223519e62e0dad440f files/upgrade-uninstall.patch 956
+DIST gnome-main-menu-0.6.3.1.tar.gz 659653 RMD160 8d895c76ba5fd1654356658640b8114f4a85c294 SHA1 6330132ca77e40487ed5381be1c045cff834c9ee SHA256 9e0602ba34136c0776655422504e67a1692b25bde5005cd37aa9c85ddfb354db
+DIST gnome-main-menu-0.9.7.tar.gz 739301 RMD160 ed6dbf3e12d82f93b7bab8cf3655a1a531a0724e SHA1 d198fe1812268564226c67a4f46b959008c46aca SHA256 897727a953cfa7192620e2d2cbecede4ad7edd9f7e0fa6c2380bf4d2caac6fc1
+DIST gnome-main-menu-0.9.8.tar.gz 779329 RMD160 d62b875d6d065b8ba8224f60b504cea808d5306f SHA1 03ce14bd5c715e4db139dc00e076e48c73333a73 SHA256 924796fa5ec1ae508595d8dd1a7b27a6cd412e2ffee6fb338d1ed15b33d7c395
+EBUILD gnome-main-menu-0.6.3.1-r1.ebuild 1334 RMD160 6ce9f7c7a4d5b7856b102d556702ccabcb716da6 SHA1 0991cde9b98630063f5625c16197f99a52b74c90 SHA256 04ca9ae1e9c2ce05db9553b5e892491a8a83dda43eed4a9a4900c9a4db189ebe
+MD5 0502ca86cb3795b9c022571317db8c08 gnome-main-menu-0.6.3.1-r1.ebuild 1334
+RMD160 6ce9f7c7a4d5b7856b102d556702ccabcb716da6 gnome-main-menu-0.6.3.1-r1.ebuild 1334
+SHA256 04ca9ae1e9c2ce05db9553b5e892491a8a83dda43eed4a9a4900c9a4db189ebe gnome-main-menu-0.6.3.1-r1.ebuild 1334
+EBUILD gnome-main-menu-0.6.3.1-r2.ebuild 1411 RMD160 29ee4c79178736d50801a6e43b9d827500d471db SHA1 c0e3540d2f50ed8296856b9effc03d6e0484eb57 SHA256 efa2f72c8dc52444fd8dbc7f21e03418e1c51e60f2e39c3e5f0732d6d756c349
+MD5 60a7ecefe1421a3463d917bb8b1e1c85 gnome-main-menu-0.6.3.1-r2.ebuild 1411
+RMD160 29ee4c79178736d50801a6e43b9d827500d471db gnome-main-menu-0.6.3.1-r2.ebuild 1411
+SHA256 efa2f72c8dc52444fd8dbc7f21e03418e1c51e60f2e39c3e5f0732d6d756c349 gnome-main-menu-0.6.3.1-r2.ebuild 1411
+EBUILD gnome-main-menu-0.6.3.1-r3.ebuild 1413 RMD160 ec62b67f961a5f991fe576f0653b9a44a85945af SHA1 f92067101c6bccca5e426be61177ef75d669eb62 SHA256 d164d39c89618b4469ba3b651784f84ab74241f0a990f45d4625d0967575fc2e
+MD5 1fad8350a93de23b8d1fc232e0c61ee3 gnome-main-menu-0.6.3.1-r3.ebuild 1413
+RMD160 ec62b67f961a5f991fe576f0653b9a44a85945af gnome-main-menu-0.6.3.1-r3.ebuild 1413
+SHA256 d164d39c89618b4469ba3b651784f84ab74241f0a990f45d4625d0967575fc2e gnome-main-menu-0.6.3.1-r3.ebuild 1413
+EBUILD gnome-main-menu-0.6.3.1.ebuild 1337 RMD160 938e0766b437bc8aa8c5cd2bfaac5f233c920939 SHA1 9be0deefee0f37e98de9c04808776ed039639ccd SHA256 62ae790f9706c5e21d01e2092087f055c34c41b0899a07432b1e51ad39872a46
+MD5 e73d8b64b79affee7b1e736a4beeb7ec gnome-main-menu-0.6.3.1.ebuild 1337
+RMD160 938e0766b437bc8aa8c5cd2bfaac5f233c920939 gnome-main-menu-0.6.3.1.ebuild 1337
+SHA256 62ae790f9706c5e21d01e2092087f055c34c41b0899a07432b1e51ad39872a46 gnome-main-menu-0.6.3.1.ebuild 1337
+EBUILD gnome-main-menu-0.9.7.ebuild 1417 RMD160 0011aff7131a212cefcce89630ef3acdace1c4fe SHA1 beef5e7ef10a67d4232c0bb889cda7f22d4f3bc0 SHA256 015fd0bac4f982bb89d87177db1772ee0b06c5a37d35b41a9527710d92031e3e
+MD5 5378bbb30fe80d888847d3f0327b1226 gnome-main-menu-0.9.7.ebuild 1417
+RMD160 0011aff7131a212cefcce89630ef3acdace1c4fe gnome-main-menu-0.9.7.ebuild 1417
+SHA256 015fd0bac4f982bb89d87177db1772ee0b06c5a37d35b41a9527710d92031e3e gnome-main-menu-0.9.7.ebuild 1417
+EBUILD gnome-main-menu-0.9.8.ebuild 1369 RMD160 d4134896568f1f0e3aa6eed7e278870f77c17d6d SHA1 76c5bd2f737d12fa88947c0542f46db9762f99e4 SHA256 0c19493bf583a3b073ae5934b318937299587263963b56238547df3f5b25a39b
+MD5 9d1c6c4a98d744a6328bfe92fd1be466 gnome-main-menu-0.9.8.ebuild 1369
+RMD160 d4134896568f1f0e3aa6eed7e278870f77c17d6d gnome-main-menu-0.9.8.ebuild 1369
+SHA256 0c19493bf583a3b073ae5934b318937299587263963b56238547df3f5b25a39b gnome-main-menu-0.9.8.ebuild 1369
+MD5 6592f1f591a19a074ce70cfa53f6caae files/digest-gnome-main-menu-0.6.3.1 271
+RMD160 1af987e4b3fd45edc4b6f065b8a4cba5959e0c09 files/digest-gnome-main-menu-0.6.3.1 271
+SHA256 e3ee95e2468b67366d7b75452ce9d023b240945bea0918f1cfca8a7ef02274aa files/digest-gnome-main-menu-0.6.3.1 271
+MD5 6592f1f591a19a074ce70cfa53f6caae files/digest-gnome-main-menu-0.6.3.1-r1 271
+RMD160 1af987e4b3fd45edc4b6f065b8a4cba5959e0c09 files/digest-gnome-main-menu-0.6.3.1-r1 271
+SHA256 e3ee95e2468b67366d7b75452ce9d023b240945bea0918f1cfca8a7ef02274aa files/digest-gnome-main-menu-0.6.3.1-r1 271
+MD5 6592f1f591a19a074ce70cfa53f6caae files/digest-gnome-main-menu-0.6.3.1-r2 271
+RMD160 1af987e4b3fd45edc4b6f065b8a4cba5959e0c09 files/digest-gnome-main-menu-0.6.3.1-r2 271
+SHA256 e3ee95e2468b67366d7b75452ce9d023b240945bea0918f1cfca8a7ef02274aa files/digest-gnome-main-menu-0.6.3.1-r2 271
+MD5 6592f1f591a19a074ce70cfa53f6caae files/digest-gnome-main-menu-0.6.3.1-r3 271
+RMD160 1af987e4b3fd45edc4b6f065b8a4cba5959e0c09 files/digest-gnome-main-menu-0.6.3.1-r3 271
+SHA256 e3ee95e2468b67366d7b75452ce9d023b240945bea0918f1cfca8a7ef02274aa files/digest-gnome-main-menu-0.6.3.1-r3 271
+MD5 96ad8717eb46a59c2a83d2eece14573e files/digest-gnome-main-menu-0.9.7 265
+RMD160 fd54392bc18ca6d3cd15f0251b36904e4189b07c files/digest-gnome-main-menu-0.9.7 265
+SHA256 49d6a1e117af34db31985d34b6893c56f22c45648b827e62b506025032df1e65 files/digest-gnome-main-menu-0.9.7 265
+MD5 2ac1526daef9149902dfff5e8da731e2 files/digest-gnome-main-menu-0.9.8 265
+RMD160 e5d0c4070ee5956e3d6ad54e7e891d40cbe09365 files/digest-gnome-main-menu-0.9.8 265
+SHA256 bdeb8a3cf213d525e22f33e424c4d052ecea1a71c3b616f9f71ea88bb280d64a files/digest-gnome-main-menu-0.9.8 265

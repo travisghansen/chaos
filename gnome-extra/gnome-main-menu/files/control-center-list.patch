@@ -1,0 +1,11 @@
+--- control-center/src/control-center.c	2006-10-02 09:28:18.000000000 -0600
++++ control-center/src/control-center.c.new	2006-10-26 12:45:37.000000000 -0600
+@@ -139,7 +139,7 @@
+ 	}
+ 
+ 	AppShellData *app_data = appshelldata_new (
+-		"preferences.menu", NULL, CONTROL_CENTER_PREFIX, GTK_ICON_SIZE_DIALOG);
++		"settings.menu", NULL, CONTROL_CENTER_PREFIX, GTK_ICON_SIZE_DIALOG);
+ 	generate_categories (app_data);
+ 
+ 	GSList *actions = get_actions_list ();
