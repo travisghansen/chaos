@@ -8,7 +8,8 @@ BUILDDATEANDTIME="20070103-0142"
 
 DESCRIPTION="Enterprise backend for iFolder"
 HOMEPAGE="http://www.ifolder.com/"
-SRC_URI="http://distfiles.one-gear.com/data/ifolder${PV:0:1}-server-${PV}.tar.gz"
+SRC_URI="http://distfiles.one-gear.com/data/ifolder${PV:0:1}-server-${PV}.tar.gz
+		http://superb-east.dl.sourceforge.net/sourceforge/gsoap2/gsoap-linux-2.7.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -37,11 +38,12 @@ src_unpack() {
 	cd ${S}
 	#Patch the path of mod_mono.conf
 #	epatch ${FILESDIR}/${PN}-mod_mono-path.patch
-#	epatch ${FILESDIR}/gsoap-path.patch
-#	epatch ${FILESDIR}/gsoap-compile-final.patch
+	epatch ${FILESDIR}/gsoap-path.patch
+	epatch ${FILESDIR}/gsoap-compile-new.patch
 #	epatch ${FILESDIR}/${PN}-apache-rights.patch
 #	epatch ${FILESDIR}/${PN}-simias-server-setup.patch
 
+	
 	epatch ${FILESDIR}/new_mod_mono.diff
 	epatch ${FILESDIR}/ifolder-admin-setup.diff
 	epatch ${FILESDIR}/ifolder-apache-conf.diff
@@ -62,6 +64,7 @@ src_compile() {
 	./autogen.sh ${myconf}
 #	eautoreconf
 	econf ${myconf}
+	mv ${WORKDIR}/gsoap-linux-2.7 ${S}/tools/gsoap/
 	make DESTDIR={$D} || die "Error compiling ${PN}"
 
 }

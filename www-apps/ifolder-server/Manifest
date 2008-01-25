@@ -10,10 +10,10 @@ AUX gsoap-compile-final.patch 402 RMD160 29619a25145d4fd7f8a6f05211a5eb2322c5634
 MD5 cd7fc740a95f94e6b34ec74decce085a files/gsoap-compile-final.patch 402
 RMD160 29619a25145d4fd7f8a6f05211a5eb2322c56341 files/gsoap-compile-final.patch 402
 SHA256 08abcc2c6182857e832f3914fe8b64b522c75abd0a75da45c9fdf05471fd39f3 files/gsoap-compile-final.patch 402
-AUX gsoap-compile-new.patch 452 RMD160 1bdeb58e82adab3c1a0839b635341cc2c8c2f4f2 SHA1 98c02d3d05437b2c0602ea0cc6f1a76bc7ec02a6 SHA256 7e1e571709b91dcd991a93d0724ac347d65e2afa6e3e88bfe7a5dee6126f51db
-MD5 984bc7eacb4ff1b775c09fee29fd6d5e files/gsoap-compile-new.patch 452
-RMD160 1bdeb58e82adab3c1a0839b635341cc2c8c2f4f2 files/gsoap-compile-new.patch 452
-SHA256 7e1e571709b91dcd991a93d0724ac347d65e2afa6e3e88bfe7a5dee6126f51db files/gsoap-compile-new.patch 452
+AUX gsoap-compile-new.patch 431 RMD160 e6230ce3337369bfd773b68c71ea5b0ca64312d9 SHA1 ab6872d237a6007019471d23785911e7bf36edca SHA256 6539b41d1c421f9578be3eb4f3e698567d0954e6417619e9f9431d09b62c7b28
+MD5 65516105cce521ad4acc32b5c6bfdfa0 files/gsoap-compile-new.patch 431
+RMD160 e6230ce3337369bfd773b68c71ea5b0ca64312d9 files/gsoap-compile-new.patch 431
+SHA256 6539b41d1c421f9578be3eb4f3e698567d0954e6417619e9f9431d09b62c7b28 files/gsoap-compile-new.patch 431
 AUX gsoap-compile.patch 360 RMD160 3f498dcf545df164aaf9cfeacb7382a0a6b18194 SHA1 4ce5bf7e6a8f7343e06e8445cfd200cf33ea9651 SHA256 e813db06442e5375a45dfa32a71de3d6b5eddea3cf90b6be5c9e5a04cd917bc5
 MD5 67e18756cfb116cfdd4bc5cd39435d0a files/gsoap-compile.patch 360
 RMD160 3f498dcf545df164aaf9cfeacb7382a0a6b18194 files/gsoap-compile.patch 360
@@ -74,11 +74,12 @@ AUX webaccess-browse.patch 1001 RMD160 6262f046567d6736fb4193913cc4b4d0bb764792 
 MD5 37875b14a943d79d05ca281ab180cd42 files/webaccess-browse.patch 1001
 RMD160 6262f046567d6736fb4193913cc4b4d0bb764792 files/webaccess-browse.patch 1001
 SHA256 8517e52d6ac974de169fafe01705e1f9a6b8834b2f493ef485477398029b2353 files/webaccess-browse.patch 1001
+DIST gsoap-linux-2.7.tar.gz 5528885 RMD160 d952e0e6cc8d5bf19b5a157cfbd7585d043d92c1 SHA1 c077e7a48532da680734768cc1c085d666b1fc8c SHA256 6e6999f4d57d9aadf38fb02aac983c61eeefbf371839a44924c0ba1f5228dbab
 DIST ifolder3-server-3.6.7303.1.tar.gz 19986658 RMD160 703f38b730c0dc59f77b1c55e83bb864008d45cf SHA1 329d128772c09ac7facff6d3b9e23989c8a1b972 SHA256 a047e14b5bf7235c83b0fe706a0bb05f69319887e49b9176b2c373c1e409ba55
-EBUILD ifolder-server-3.6.7303.1.ebuild 4186 RMD160 8cdc9db845ecdb7bb2c5a7fb556fb676ea7800d7 SHA1 646fd105c9acab798c73d9dd2e5ec9cc440f6207 SHA256 06ca646c30c88be5fa59ee79db703ee9ab3039a29321d15b51ab5795a9b57c68
-MD5 722ead5531ea5e14a2257caf15ad1ed2 ifolder-server-3.6.7303.1.ebuild 4186
-RMD160 8cdc9db845ecdb7bb2c5a7fb556fb676ea7800d7 ifolder-server-3.6.7303.1.ebuild 4186
-SHA256 06ca646c30c88be5fa59ee79db703ee9ab3039a29321d15b51ab5795a9b57c68 ifolder-server-3.6.7303.1.ebuild 4186
-MD5 9a4872554a34620f86152ac53e4be942 files/digest-ifolder-server-3.6.7303.1 286
-RMD160 dc8e7d25fe1b9abb82dcdfa98f4afe1fca3c4ae1 files/digest-ifolder-server-3.6.7303.1 286
-SHA256 7df4f11c87bc267d98faa3402bce5a1d394f2ea8c7bfd8f921fc3c502e3d47b1 files/digest-ifolder-server-3.6.7303.1 286
+EBUILD ifolder-server-3.6.7303.1.ebuild 4315 RMD160 ad01aa0caa15853ab57c04e041b00365ddb56d45 SHA1 8c34251b941c5c555d772b69dd8e4464e9d3e2a0 SHA256 0f28ec6fbea65a1233a4944798eaaa9a3a817f5a36c1d232d64f76dd7367d5fc
+MD5 b7be1a887fb0ea6b31d2c429d227ef53 ifolder-server-3.6.7303.1.ebuild 4315
+RMD160 ad01aa0caa15853ab57c04e041b00365ddb56d45 ifolder-server-3.6.7303.1.ebuild 4315
+SHA256 0f28ec6fbea65a1233a4944798eaaa9a3a817f5a36c1d232d64f76dd7367d5fc ifolder-server-3.6.7303.1.ebuild 4315
+MD5 d4e1ac2c5141345c71f62815a47010e8 files/digest-ifolder-server-3.6.7303.1 536
+RMD160 f4142ddb70a35c7cf28ac50908d3632eca4aae09 files/digest-ifolder-server-3.6.7303.1 536
+SHA256 80b6fe12cd9ae5d549c2564cf9e224c0fde91edfdfb30b5badd60aa22c2f79e7 files/digest-ifolder-server-3.6.7303.1 536

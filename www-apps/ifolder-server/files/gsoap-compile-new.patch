@@ -4,9 +4,9 @@
  	$(GSOAP_PATH)/soapcpp2 -c -penv $(srcdir)/env.h
  
  $(srcdir)/stdsoap2.c:
-+	cd $(GSOAP_PATH)/src && make && cp soapcpp2 $(GSOAP_PATH)
-+	cd $(GSOAP_PATH)/wsdl && make
-+	cp $(GSOAP_PATH)/bin/* $(GSOAP_PATH)
++	cd $(GSOAP_PATH)/src && make
++	cd $(GSOAP_PATH)/wsdl &&  make
++	cp $(GSOAP_PATH)/src/soapcpp2 $(GSOAP_PATH)
  	cp $(GSOAP_PATH)/stdsoap2.h $(srcdir)
  	cp $(GSOAP_PATH)/stdsoap2.c $(srcdir)
  
