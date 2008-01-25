@@ -3,14 +3,14 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit eutils
-inherit mono
+inherit eutils mono
 
-BUILDDATE="20061222-0545"
+BUILDDATE="20061231-0101"
 
 DESCRIPTION="Simias SimpleServer"
 HOMEPAGE="http://www.ifolder.com/"
-SRC_URI="http://forgeftp.novell.com/ifolder/client/3.5/${BUILDDATE}/src/${P}.tar.gz"
+SRC_URI="http://distfiles.one-gear.com/distfiles/${P}.tar.gz"
+RESTRICT="mirror"
 
 SLOT="0"
 LICENSE="GPL-2"
@@ -25,6 +25,7 @@ DEPEND=">=dev-lang/mono-1.2.2.1
 
 
 simiasdatadir="${ROOT}var/lib/simias"
+S=${WORKDIR}/${PN}
 
 src_unpack() {
 	unpack ${A} || die "Error unpacking ${PN}"
@@ -38,7 +39,8 @@ src_compile() {
 	local myconf
 
 #	sed -i -e "s|@_simiasdatadir_@|${simiasdatadir}|g" ${S}/other/SimpleServer/simpleserver.in || die "Error patching simpleserver.in"
-	myconf="--sysconfdir=${ROOT}etc/simias --with-simiasdatadir=${simiasdatadir} --with-runasclient"
+	myconf="--with-runasclient"
+	./autogen.sh ${myconf}
 	econf ${myconf}
 	emake
 
