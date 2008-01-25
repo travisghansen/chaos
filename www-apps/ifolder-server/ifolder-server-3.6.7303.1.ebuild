@@ -13,6 +13,7 @@ SRC_URI="http://distfiles.one-gear.com/data/ifolder${PV:0:1}-server-${PV}.tar.gz
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~x86 ~ppc ~amd64"
+RESTRICT="mirror"
 
 DEPEND="!net-misc/simias
 		>=dev-lang/mono-1.2.1
