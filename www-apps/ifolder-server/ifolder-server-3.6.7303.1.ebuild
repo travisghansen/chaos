@@ -8,7 +8,7 @@ BUILDDATEANDTIME="20070103-0142"
 
 DESCRIPTION="Enterprise backend for iFolder"
 HOMEPAGE="http://www.ifolder.com/"
-SRC_URI="http://forgeftp.novell.com/ifolder/server/${PV:0:3}/${BUILDDATEANDTIME}/src/ifolder${PV:0:1}-server-${PV}.tar.gz"
+SRC_URI="http://distfiles.one-gear.com/data/ifolder${PV:0:1}-server-${PV}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
