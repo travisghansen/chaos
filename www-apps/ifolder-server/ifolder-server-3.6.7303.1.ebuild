@@ -8,7 +8,7 @@ BUILDDATEANDTIME="20070103-0142"
 
 DESCRIPTION="Enterprise backend for iFolder"
 HOMEPAGE="http://www.ifolder.com/"
-SRC_URI="http://distfiles.one-gear.com/data/ifolder${PV:0:1}-server-${PV}.tar.gz
+SRC_URI="http://distfiles.one-gear.com/distfiles/ifolder${PV:0:1}-server-${PV}.tar.gz
 		http://superb-east.dl.sourceforge.net/sourceforge/gsoap2/gsoap-linux-2.7.tar.gz"
 
 LICENSE="GPL-2"
