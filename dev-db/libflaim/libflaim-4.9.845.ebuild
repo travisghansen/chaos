@@ -11,6 +11,7 @@ SRC_URI="http://forgeftp.novell.com/flaim/release/flaim/downloads/source/${P}.ta
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~x86 ~amd64 ~ppc"
+RESTRICT="mirror"
 
 RDEPEND=""
 
