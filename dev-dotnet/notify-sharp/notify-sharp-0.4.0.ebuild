@@ -10,17 +10,22 @@ SRC_URI="http://green.hivalley.com/data/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="alpha amd64 ~arm hppa ~ia64 ~mips ppc ppc64 sparc x86"
+IUSE="doc"
 
 RDEPEND=""
 
 DEPEND="${RDEPEND}
 	dev-lang/mono
-	dev-dotnet/ndesk-dbus"
+	dev-dotnet/dbus-sharp"
 
 src_compile() {
-	
+
+	myconf=""
+	if ! use doc; then
+		myconf="--disable-docs"
+	fi
 	cd ${S}
-	./configure --prefix=/usr --sysconfdir=/etc || die
+	./configure --prefix=/usr --sysconfdir=/etc $myconf || die
 	make || die
 
 }

@@ -15,7 +15,7 @@ RDEPEND=""
 
 DEPEND="${RDEPEND}
 	dev-lang/mono
-	dev-dotnet/ndesk-dbus"
+	dev-dotnet/dbus-sharp"
 
 S=${WORKDIR}/Gnome.Keyring-${PV}
 
