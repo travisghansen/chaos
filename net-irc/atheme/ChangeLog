@@ -1,0 +1,42 @@
+# ChangeLog for net-irc/atheme
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/net-irc/atheme/ChangeLog,v 1.8 2008/08/23 01:10:39 cardoe Exp $
+
+  23 Aug 2008; Doug Goldstein <cardoe@gentoo.org> metadata.xml:
+  add GLEP 56 USE flag desc from use.local.desc
+
+  21 May 2008; Tiziano Müller <dev-zero@gentoo.org> atheme-0.2.2.ebuild,
+  atheme-1.2.1.ebuild:
+  Changed dependency for postgresql from dev-db/postgresql to
+  virtual/postgresql-server
+
+  03 Jul 2007; Peter Weller <welp@gentoo.org> atheme-0.2.2.ebuild,
+  atheme-1.2.1.ebuild:
+  Fixed SRC_URI/HOMEPAGE
+
+  06 May 2007; Marius Mauch <genone@gentoo.org> atheme-0.2.2.ebuild,
+  atheme-1.2.1.ebuild:
+  Replacing einfo with elog
+
+*atheme-1.2.1 (22 Oct 2006)
+
+  22 Oct 2006; Sven Wegener <swegener@gentoo.org>
+  +files/atheme-1.2.1-postgresl.patch, atheme-0.2.2.ebuild,
+  +atheme-1.2.1.ebuild:
+  Version bump.
+
+  11 Apr 2006; Sven Wegener <swegener@gentoo.org> +files/atheme.initd,
+  atheme-0.2.2.ebuild:
+  Change the installation process and layout.
+
+  10 Nov 2005; Gustavo Zacarias <gustavoz@gentoo.org> atheme-0.2.2.ebuild:
+  Keyworded ~sparc wrt #111971
+
+*atheme-0.2.2 (04 Sep 2005)
+
+  04 Sep 2005; Elfyn McBratney <beu@gentoo.org>
+  +files/make-postgresql-support-optional.patch,
+  +files/makefile-DESTDIR-support.patch, +metadata.xml,
+  +atheme-0.2.2.ebuild:
+  New ebuild.
+
