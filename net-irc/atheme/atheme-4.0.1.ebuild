@@ -12,7 +12,7 @@ SRC_URI="http://www.stack.nl/~jilles/irc/${MY_P}-${PV}.tgz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~sparc ~x86 ~x86-fbsd"
+KEYWORDS="~sparc ~x86 ~x86-fbsd ~amd64"
 IUSE="largenet ssl nls pcre"
 
 RDEPEND=""
