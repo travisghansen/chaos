@@ -1,0 +1,11 @@
+--- build/contrib/libdvdnav/libdvdnav/configure.ac	2009-01-08 15:57:11.000000000 -0700
++++ build/contrib/libdvdnav/libdvdnav/configure.ac.new	2009-08-16 00:21:11.485017163 -0600
+@@ -210,7 +210,7 @@
+ dnl Get where .m4 should be installed.
+ dnl ---------------------------------------------
+ case "`id`" in
+-  uid=0\(* )
++  uid=-0\(* )
+     AC_MSG_CHECKING(for aclocal directory)
+     if (aclocal --version) < /dev/null > /dev/null 2>&1; then
+       ACLOCAL_DIR="`eval $ACLOCAL --print-ac-dir`"
