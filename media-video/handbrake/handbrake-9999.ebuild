@@ -6,7 +6,7 @@ EAPI="2"
 
 ESVN_REPO_URI="svn://svn.handbrake.fr/HandBrake/trunk"
 
-inherit eutils subversion gnome2-utils
+inherit subversion gnome2-utils
 
 DESCRIPTION="Open-source DVD to MPEG-4 converter."
 HOMEPAGE="http://handbrake.fr/"
@@ -18,11 +18,17 @@ KEYWORDS="~x86 ~amd64"
 IUSE="doc gtk"
 RDEPEND="
 	gtk? (	>=x11-libs/gtk+-2.8
-		>=gnome-extra/gtkhtml-3.14
+			dev-libs/glib
+			dev-libs/dbus-glib
+			sys-apps/hal
+			net-libs/webkit-gtk
+			x11-libs/libnotify
+			media-libs/gstreamer
+			media-libs/gst-plugins-base
 	)"
 DEPEND="sys-libs/zlib
+	dev-lang/yasm
 	>=dev-lang/python-2.4.6
-	dev-util/ftjam
 	|| ( >=net-misc/wget-1.11.4 >=net-misc/curl-7.19.4 ) 
 	$RDEPEND"
 
@@ -30,30 +36,13 @@ src_configure() {
 
 	local myconf=""
 
-	myconf="${myconf} --force --prefix=/usr"
-	! use gtk && myconf="${myconf} $(use_enable gtk)"
+	! use gtk && myconf="${myconf} --disable-gtk"
 
-	./configure ${myconf} || die "configure failed"
-
-}
-
-src_prepare() {
-
-	einfo "Patching DESTDIR"
-	epatch ${FILESDIR}/destdir-fix.patch || die "failed patched DESTDIR into"
-	epatch ${FILESDIR}/icon-update.patch || die "failed patching icon-cache"
+	./configure --force --prefix=/usr ${myconf} || die "configure failed"
 
 }
 
 src_compile() {
-
-	cd "${S}/build" || die "cannot find build dir"
-	#libdvdread comes up with a system aclocal path when run as root
-	#need to patch the check to build correctly and avoid sandbox issues
-	make libdvdread.extract
-	make libdvdnav.extract
-	epatch ${FILESDIR}/libdvdread-aclocal.patch || die "failed patching libdvdread"
-	epatch ${FILESDIR}/libdvdnav-aclocal.patch || die "failed patching libdvdnav"
 
 	cd "${S}/build" || die "cannot find build dir"
 	make || die "failed compiling ${PN}"
@@ -63,7 +52,20 @@ src_compile() {
 src_install() {
 
 	cd "${S}/build" || die "cannot find build dir"
-	make DESTDIR=${D} install || die "failed installing ${PN}"
+	make DESTDIR="${D}" install || die "failed installing ${PN}"
+
+	if use doc;then
+		make doc || die "failed making docs"
+		cd "${S}"
+		dodoc AUTHORS CREDITS NEWS THANKS || die "failed installing docs"
+		dodoc build/doc/articles/txt/* || die "failed installing docs"
+	fi
+
+}
+
+pkg_preinst() {
+
+	gnome2_icon_savelist
 
 }
 
