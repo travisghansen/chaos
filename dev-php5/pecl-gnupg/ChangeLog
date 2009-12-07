@@ -1,0 +1,17 @@
+# ChangeLog for dev-php5/pecl-gnupg
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/dev-php5/pecl-gnupg/ChangeLog,v 1.2 2008/06/09 19:40:02 swegener Exp $
+
+  09 Jun 2008; Sven Wegener <swegener@gentoo.org> pecl-gnupg-1.3.1.ebuild:
+  Set RDEPEND="${DEPEND}"
+
+*pecl-gnupg-1.3.1 (30 Aug 2007)
+
+  30 Aug 2007; Markus Ullmann <jokey@gentoo.org> +metadata.xml,
+  +pecl-gnupg-1.3.1.ebuild:
+  Port from project overlay
+
+  28 Aug 2007; Jakub Moc <jakub@gentoo.org> +metadata.xml,
+  +pecl-gnupg-1.3.1.ebuild:
+  New ebuild, Bug 121212
+
