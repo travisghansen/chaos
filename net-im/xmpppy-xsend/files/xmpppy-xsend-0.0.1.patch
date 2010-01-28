@@ -1,0 +1,57 @@
+--- xsend.py	2006-10-06 06:30:42.000000000 -0600
++++ xsend.py.new	2010-01-28 16:23:35.653977297 -0700
+@@ -3,18 +3,50 @@
+ import sys,os,xmpp,time
+ 
+ if len(sys.argv) < 2:
+-    print "Syntax: xsend JID text"
++    print "Syntax: xsend <TO_JID> <message> [<FROM_JID>] [<FROM_PASSWORD>]"
+     sys.exit(0)
+ 
+ tojid=sys.argv[1]
+-text=' '.join(sys.argv[2:])
++text=sys.argv[2]
++try:
++	jid=sys.argv[3]
++except IndexError:
++	jid=""
++
++try:
++	password=sys.argv[4]
++except IndexError:
++	password=""
++
++#print jid
++#print password
+ 
+ jidparams={}
++jidparams['jid']=jid
++jidparams['password']=password
+ if os.access(os.environ['HOME']+'/.xsend',os.R_OK):
+     for ln in open(os.environ['HOME']+'/.xsend').readlines():
+         if not ln[0] in ('#',';'):
+-            key,val=ln.strip().split('=',1)
+-            jidparams[key.lower()]=val
++		try:
++	    		key,val=ln.strip().split('=',1)
++		except ValueError:
++			continue
++		if jidparams[key.lower()] == "":
++			jidparams[key.lower()]=val
++
++if os.access('/etc/xsend/xsend',os.R_OK):
++    for ln in open('/etc/xsend/xsend').readlines():
++        if not ln[0] in ('#',';'):
++		try:
++	    		key,val=ln.strip().split('=',1)
++		except ValueError:
++			continue
++		if jidparams[key.lower()] == "":
++			jidparams[key.lower()]=val
++
++#print jidparams['jid']
++#print jidparams['password']
++
+ for mandatory in ['jid','password']:
+     if mandatory not in jidparams.keys():
+         open(os.environ['HOME']+'/.xsend','w').write('#Uncomment fields before use and type in correct credentials.\n#JID=romeo@montague.net/resource (/resource is optional)\n#PASSWORD=juliet\n')

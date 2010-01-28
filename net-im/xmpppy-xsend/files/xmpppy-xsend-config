@@ -1,0 +1,6 @@
+#Uncomment fields before use and type in correct credentials.
+#This is for global use and only takes effect if the repsective
+#values are not given on the command line as args or if
+#~/.xsend does not exist
+#JID=someaccount@domain.com/resource
+#PASSWORD=supersecret
