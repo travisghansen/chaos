@@ -25,6 +25,7 @@ RDEPEND="
 			x11-libs/libnotify
 			media-libs/gstreamer
 			media-libs/gst-plugins-base
+			>=sys-fs/udev-147[extras]
 	)"
 DEPEND="sys-libs/zlib
 	dev-lang/yasm
