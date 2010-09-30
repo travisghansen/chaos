@@ -39,7 +39,7 @@ src_configure() {
 
 	! use gtk && myconf="${myconf} --disable-gtk"
 
-	./configure --force --prefix=/usr ${myconf} || die "configure failed"
+	./configure --force --prefix=/usr --disable-gtk-update-checks ${myconf} || die "configure failed"
 
 }
 
