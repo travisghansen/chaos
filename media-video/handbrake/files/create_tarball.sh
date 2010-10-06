@@ -26,14 +26,8 @@ fetch_contrib() {
 	cd "${SRC_DIR}"
 	./configure --prefix=/usr
 	cd ./build
-	for DIR in .././contrib/*;do
-		MODULE=$(basename $DIR);
-		#hack around zlib
-		if [ "${MODULE}" == "zlib" ];then
-			continue;
-		fi
-		make ${MODULE}.fetch;
-	done
+	# http://trac.handbrake.fr/browser/trunk/doc/BUILD-Linux
+	make contrib.fetch
 }
 
 create_tarball() {
