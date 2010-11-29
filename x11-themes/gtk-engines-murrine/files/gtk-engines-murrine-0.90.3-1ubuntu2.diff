@@ -1,0 +1,667 @@
+--- gtk2-engines-murrine-0.90.3.orig/config.guess
++++ gtk2-engines-murrine-0.90.3/config.guess
+@@ -4,7 +4,7 @@
+ #   2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008
+ #   Free Software Foundation, Inc.
+ 
+-timestamp='2008-01-23'
++timestamp='2009-04-27'
+ 
+ # This file is free software; you can redistribute it and/or modify it
+ # under the terms of the GNU General Public License as published by
+@@ -324,6 +324,9 @@
+ 	case `/usr/bin/uname -p` in
+ 	    sparc) echo sparc-icl-nx7; exit ;;
+ 	esac ;;
++    s390x:SunOS:*:*)
++	echo ${UNAME_MACHINE}-ibm-solaris2`echo ${UNAME_RELEASE}|sed -e 's/[^.]*//'`
++	exit ;;
+     sun4H:SunOS:5.*:*)
+ 	echo sparc-hal-solaris2`echo ${UNAME_RELEASE}|sed -e 's/[^.]*//'`
+ 	exit ;;
+@@ -331,7 +334,20 @@
+ 	echo sparc-sun-solaris2`echo ${UNAME_RELEASE}|sed -e 's/[^.]*//'`
+ 	exit ;;
+     i86pc:SunOS:5.*:* | i86xen:SunOS:5.*:*)
+-	echo i386-pc-solaris2`echo ${UNAME_RELEASE}|sed -e 's/[^.]*//'`
++	eval $set_cc_for_build
++	SUN_ARCH="i386"
++	# If there is a compiler, see if it is configured for 64-bit objects.
++	# Note that the Sun cc does not turn __LP64__ into 1 like gcc does.
++	# This test works for both compilers.
++	if [ "$CC_FOR_BUILD" != 'no_compiler_found' ]; then
++	    if (echo '#ifdef __amd64'; echo IS_64BIT_ARCH; echo '#endif') | \
++		(CCOPTS= $CC_FOR_BUILD -E - 2>/dev/null) | \
++		grep IS_64BIT_ARCH >/dev/null
++	    then
++		SUN_ARCH="x86_64"
++	    fi
++	fi
++	echo ${SUN_ARCH}-pc-solaris2`echo ${UNAME_RELEASE}|sed -e 's/[^.]*//'`
+ 	exit ;;
+     sun4*:SunOS:6*:*)
+ 	# According to config.sub, this is the proper way to canonicalize
+@@ -796,7 +812,7 @@
+ 	    x86)
+ 		echo i586-pc-interix${UNAME_RELEASE}
+ 		exit ;;
+-	    EM64T | authenticamd)
++	    EM64T | authenticamd | genuineintel)
+ 		echo x86_64-unknown-interix${UNAME_RELEASE}
+ 		exit ;;
+ 	    IA64)
+@@ -935,6 +951,9 @@
+ 	if test "$?" = 0 ; then LIBC="libc1" ; else LIBC="" ; fi
+ 	echo ${UNAME_MACHINE}-unknown-linux-gnu${LIBC}
+ 	exit ;;
++    padre:Linux:*:*)
++	echo sparc-unknown-linux-gnu
++	exit ;;
+     parisc:Linux:*:* | hppa:Linux:*:*)
+ 	# Look for CPU level
+ 	case `grep '^cpu[^a-z]*:' /proc/cpuinfo 2>/dev/null | cut -d' ' -f2` in
+@@ -985,9 +1004,6 @@
+ 	  a.out-i386-linux)
+ 		echo "${UNAME_MACHINE}-pc-linux-gnuaout"
+ 		exit ;;
+-	  coff-i386)
+-		echo "${UNAME_MACHINE}-pc-linux-gnucoff"
+-		exit ;;
+ 	  "")
+ 		# Either a pre-BFD a.out linker (linux-gnuoldld) or
+ 		# one that does not give us useful --help.
+@@ -1102,8 +1118,11 @@
+     pc:*:*:*)
+ 	# Left here for compatibility:
+         # uname -m prints for DJGPP always 'pc', but it prints nothing about
+-        # the processor, so we play safe by assuming i386.
+-	echo i386-pc-msdosdjgpp
++        # the processor, so we play safe by assuming i586.
++	# Note: whatever this is, it MUST be the same as what config.sub
++	# prints for the "djgpp" host, or else GDB configury will decide that
++	# this is a cross-build.
++	echo i586-pc-msdosdjgpp
+         exit ;;
+     Intel:Mach:3*:*)
+ 	echo i386-pc-mach3
+@@ -1141,6 +1160,16 @@
+     3[34]??:*:4.0:* | 3[34]??,*:*:4.0:*)
+         /bin/uname -p 2>/dev/null | grep 86 >/dev/null \
+           && { echo i486-ncr-sysv4; exit; } ;;
++    NCR*:*:4.2:* | MPRAS*:*:4.2:*)
++	OS_REL='.3'
++	test -r /etc/.relid \
++	    && OS_REL=.`sed -n 's/[^ ]* [^ ]* \([0-9][0-9]\).*/\1/p' < /etc/.relid`
++	/bin/uname -p 2>/dev/null | grep 86 >/dev/null \
++	    && { echo i486-ncr-sysv4.3${OS_REL}; exit; }
++	/bin/uname -p 2>/dev/null | /bin/grep entium >/dev/null \
++	    && { echo i586-ncr-sysv4.3${OS_REL}; exit; }
++	/bin/uname -p 2>/dev/null | /bin/grep pteron >/dev/null \
++	    && { echo i586-ncr-sysv4.3${OS_REL}; exit; } ;;
+     m68*:LynxOS:2.*:* | m68*:LynxOS:3.0*:*)
+ 	echo m68k-unknown-lynxos${UNAME_RELEASE}
+ 	exit ;;
+@@ -1216,6 +1245,9 @@
+     BePC:BeOS:*:*)	# BeOS running on Intel PC compatible.
+ 	echo i586-pc-beos
+ 	exit ;;
++    BePC:Haiku:*:*)	# Haiku running on Intel PC compatible.
++	echo i586-pc-haiku
++	exit ;;
+     SX-4:SUPER-UX:*:*)
+ 	echo sx4-nec-superux${UNAME_RELEASE}
+ 	exit ;;
+@@ -1324,6 +1356,9 @@
+     i*86:rdos:*:*)
+ 	echo ${UNAME_MACHINE}-pc-rdos
+ 	exit ;;
++    i*86:AROS:*:*)
++	echo ${UNAME_MACHINE}-pc-aros
++	exit ;;
+ esac
+ 
+ #echo '(No uname command or uname output not recognized.)' 1>&2
+--- gtk2-engines-murrine-0.90.3.orig/config.sub
++++ gtk2-engines-murrine-0.90.3/config.sub
+@@ -4,7 +4,7 @@
+ #   2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008
+ #   Free Software Foundation, Inc.
+ 
+-timestamp='2008-01-16'
++timestamp='2009-04-17'
+ 
+ # This file is (in principle) common to ALL GNU software.
+ # The presence of a machine in this file suggests that SOME GNU software
+@@ -122,6 +122,7 @@
+ case $maybe_os in
+   nto-qnx* | linux-gnu* | linux-dietlibc | linux-newlib* | linux-uclibc* | \
+   uclinux-uclibc* | uclinux-gnu* | kfreebsd*-gnu* | knetbsd*-gnu* | netbsd*-gnu* | \
++  kopensolaris*-gnu* | \
+   storm-chaos* | os2-emx* | rtmk-nova*)
+     os=-$maybe_os
+     basic_machine=`echo $1 | sed 's/^\(.*\)-\([^-]*-[^-]*\)$/\1/'`
+@@ -249,13 +250,16 @@
+ 	| h8300 | h8500 | hppa | hppa1.[01] | hppa2.0 | hppa2.0[nw] | hppa64 \
+ 	| i370 | i860 | i960 | ia64 \
+ 	| ip2k | iq2000 \
++	| lm32 \
+ 	| m32c | m32r | m32rle | m68000 | m68k | m88k \
+-	| maxq | mb | microblaze | mcore | mep \
++	| maxq | mb | microblaze | mcore | mep | metag \
+ 	| mips | mipsbe | mipseb | mipsel | mipsle \
+ 	| mips16 \
+ 	| mips64 | mips64el \
+-	| mips64vr | mips64vrel \
++	| mips64octeon | mips64octeonel \
+ 	| mips64orion | mips64orionel \
++	| mips64r5900 | mips64r5900el \
++	| mips64vr | mips64vrel \
+ 	| mips64vr4100 | mips64vr4100el \
+ 	| mips64vr4300 | mips64vr4300el \
+ 	| mips64vr5000 | mips64vr5000el \
+@@ -268,6 +272,7 @@
+ 	| mipsisa64sr71k | mipsisa64sr71kel \
+ 	| mipstx39 | mipstx39el \
+ 	| mn10200 | mn10300 \
++	| moxie \
+ 	| mt \
+ 	| msp430 \
+ 	| nios | nios2 \
+@@ -277,7 +282,7 @@
+ 	| powerpc | powerpc64 | powerpc64le | powerpcle | ppcbe \
+ 	| pyramid \
+ 	| score \
+-	| sh | sh[1234] | sh[24]a | sh[23]e | sh[34]eb | sheb | shbe | shle | sh[1234]le | sh3ele \
++	| sh | sh[1234] | sh[24]a | sh[24]aeb | sh[23]e | sh[34]eb | sheb | shbe | shle | sh[1234]le | sh3ele \
+ 	| sh64 | sh64le \
+ 	| sparc | sparc64 | sparc64b | sparc64v | sparc86x | sparclet | sparclite \
+ 	| sparcv8 | sparcv9 | sparcv9b | sparcv9v \
+@@ -286,7 +291,7 @@
+ 	| v850 | v850e \
+ 	| we32k \
+ 	| x86 | xc16x | xscale | xscalee[bl] | xstormy16 | xtensa \
+-	| z8k)
++	| z8k | z80)
+ 		basic_machine=$basic_machine-unknown
+ 		;;
+ 	m6811 | m68hc11 | m6812 | m68hc12)
+@@ -329,14 +334,17 @@
+ 	| hppa-* | hppa1.[01]-* | hppa2.0-* | hppa2.0[nw]-* | hppa64-* \
+ 	| i*86-* | i860-* | i960-* | ia64-* \
+ 	| ip2k-* | iq2000-* \
++	| lm32-* \
+ 	| m32c-* | m32r-* | m32rle-* \
+ 	| m68000-* | m680[012346]0-* | m68360-* | m683?2-* | m68k-* \
+-	| m88110-* | m88k-* | maxq-* | mcore-* \
++	| m88110-* | m88k-* | maxq-* | mcore-* | metag-* \
+ 	| mips-* | mipsbe-* | mipseb-* | mipsel-* | mipsle-* \
+ 	| mips16-* \
+ 	| mips64-* | mips64el-* \
+-	| mips64vr-* | mips64vrel-* \
++	| mips64octeon-* | mips64octeonel-* \
+ 	| mips64orion-* | mips64orionel-* \
++	| mips64r5900-* | mips64r5900el-* \
++	| mips64vr-* | mips64vrel-* \
+ 	| mips64vr4100-* | mips64vr4100el-* \
+ 	| mips64vr4300-* | mips64vr4300el-* \
+ 	| mips64vr5000-* | mips64vr5000el-* \
+@@ -358,20 +366,20 @@
+ 	| powerpc-* | powerpc64-* | powerpc64le-* | powerpcle-* | ppcbe-* \
+ 	| pyramid-* \
+ 	| romp-* | rs6000-* \
+-	| sh-* | sh[1234]-* | sh[24]a-* | sh[23]e-* | sh[34]eb-* | sheb-* | shbe-* \
++	| sh-* | sh[1234]-* | sh[24]a-* | sh[24]aeb-* | sh[23]e-* | sh[34]eb-* | sheb-* | shbe-* \
+ 	| shle-* | sh[1234]le-* | sh3ele-* | sh64-* | sh64le-* \
+ 	| sparc-* | sparc64-* | sparc64b-* | sparc64v-* | sparc86x-* | sparclet-* \
+ 	| sparclite-* \
+ 	| sparcv8-* | sparcv9-* | sparcv9b-* | sparcv9v-* | strongarm-* | sv1-* | sx?-* \
+ 	| tahoe-* | thumb-* \
+-	| tic30-* | tic4x-* | tic54x-* | tic55x-* | tic6x-* | tic80-* \
++	| tic30-* | tic4x-* | tic54x-* | tic55x-* | tic6x-* | tic80-* | tile-* \
+ 	| tron-* \
+ 	| v850-* | v850e-* | vax-* \
+ 	| we32k-* \
+ 	| x86-* | x86_64-* | xc16x-* | xps100-* | xscale-* | xscalee[bl]-* \
+ 	| xstormy16-* | xtensa*-* \
+ 	| ymp-* \
+-	| z8k-*)
++	| z8k-* | z80-*)
+ 		;;
+ 	# Recognize the basic CPU types without company name, with glob match.
+ 	xtensa*)
+@@ -439,6 +447,10 @@
+ 		basic_machine=m68k-apollo
+ 		os=-bsd
+ 		;;
++	aros)
++		basic_machine=i386-pc
++		os=-aros
++		;;
+ 	aux)
+ 		basic_machine=m68k-apple
+ 		os=-aux
+@@ -459,6 +471,10 @@
+ 		basic_machine=c90-cray
+ 		os=-unicos
+ 		;;
++        cegcc)
++		basic_machine=arm-unknown
++		os=-cegcc
++		;;
+ 	convex-c1)
+ 		basic_machine=c1-convex
+ 		os=-bsd
+@@ -526,6 +542,10 @@
+ 		basic_machine=m88k-motorola
+ 		os=-sysv3
+ 		;;
++	dicos)
++		basic_machine=i686-pc
++		os=-dicos
++		;;
+ 	djgpp)
+ 		basic_machine=i586-pc
+ 		os=-msdosdjgpp
+@@ -1128,6 +1148,10 @@
+ 		basic_machine=z8k-unknown
+ 		os=-sim
+ 		;;
++	z80-*-coff)
++		basic_machine=z80-unknown
++		os=-sim
++		;;
+ 	none)
+ 		basic_machine=none-none
+ 		os=-none
+@@ -1166,7 +1190,7 @@
+ 	we32k)
+ 		basic_machine=we32k-att
+ 		;;
+-	sh[1234] | sh[24]a | sh[34]eb | sh[1234]le | sh[23]ele)
++	sh[1234] | sh[24]a | sh[24]aeb | sh[34]eb | sh[1234]le | sh[23]ele)
+ 		basic_machine=sh-unknown
+ 		;;
+ 	sparc | sparcv8 | sparcv9 | sparcv9b | sparcv9v)
+@@ -1238,8 +1262,9 @@
+ 	-gnu* | -bsd* | -mach* | -minix* | -genix* | -ultrix* | -irix* \
+ 	      | -*vms* | -sco* | -esix* | -isc* | -aix* | -sunos | -sunos[34]*\
+ 	      | -hpux* | -unos* | -osf* | -luna* | -dgux* | -solaris* | -sym* \
++	      | -kopensolaris* \
+ 	      | -amigaos* | -amigados* | -msdos* | -newsos* | -unicos* | -aof* \
+-	      | -aos* \
++	      | -aos* | -aros* \
+ 	      | -nindy* | -vxsim* | -vxworks* | -ebmon* | -hms* | -mvs* \
+ 	      | -clix* | -riscos* | -uniplus* | -iris* | -rtu* | -xenix* \
+ 	      | -hiux* | -386bsd* | -knetbsd* | -mirbsd* | -netbsd* \
+@@ -1248,7 +1273,7 @@
+ 	      | -bosx* | -nextstep* | -cxux* | -aout* | -elf* | -oabi* \
+ 	      | -ptx* | -coff* | -ecoff* | -winnt* | -domain* | -vsta* \
+ 	      | -udi* | -eabi* | -lites* | -ieee* | -go32* | -aux* \
+-	      | -chorusos* | -chorusrdb* \
++	      | -chorusos* | -chorusrdb* | -cegcc* \
+ 	      | -cygwin* | -pe* | -psos* | -moss* | -proelf* | -rtems* \
+ 	      | -mingw32* | -linux-gnu* | -linux-newlib* | -linux-uclibc* \
+ 	      | -uxpv* | -beos* | -mpeix* | -udk* \
+@@ -1388,6 +1413,9 @@
+ 	-zvmoe)
+ 		os=-zvmoe
+ 		;;
++	-dicos*)
++		os=-dicos
++		;;
+ 	-none)
+ 		;;
+ 	*)
+--- gtk2-engines-murrine-0.90.3.orig/debian/copyright
++++ gtk2-engines-murrine-0.90.3/debian/copyright
+@@ -0,0 +1,40 @@
++This package was debianized by Yves-Alexis Perez <corsac@corsac.net> on
++Thu, 25 Jan 2007 18:36:55 +0100
++
++It is based on gtk2-engines-xfce package by Martin Loschwitz 
++<madkiss@madkiss.org> 
++
++You can fetch this package from http://cimi.netsons.org/pages/murrine.php
++
++Upstream Author is Andrea Cimitan <andrea.cimitan@gmail.com>
++Murrine is based on work from various projects:
++
++Clearlooks development team:
++  Richard Stellingwerff - remenic@gmail.com
++  Daniel Borgmann       - daniel.borgmann@gmail.com
++
++Rezlooks modifications:
++  Doug Whiteley         - dougwhiteley@gmail.com
++  
++Candido modifications:
++  Andrea Cimitan        - andrea.cimitan@gmail.com
++
++© 2006-2009 Andrea Cimitan
++
++Licensing:
++
++   This package is free software; you can redistribute it and/or modify
++   it under the terms of the GNU General Public License as published by
++   the Free Software Foundation; version 2 or later.
++
++   This package is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   GNU General Public License for more details.
++
++   You should have received a copy of the GNU General Public License
++   along with this package; if not, write to the Free Software
++   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
++
++On Debian systems, the complete text of the GNU General Public 
++License can be found in `/usr/share/common-licenses/GPL'.
+--- gtk2-engines-murrine-0.90.3.orig/debian/watch
++++ gtk2-engines-murrine-0.90.3/debian/watch
+@@ -0,0 +1,3 @@
++version=3
++http://ftp.gnome.org/pub/GNOME/sources/murrine/([\d\.]+)/ \
++	murrine-([\d\.]+)\.tar\.gz
+--- gtk2-engines-murrine-0.90.3.orig/debian/control
++++ gtk2-engines-murrine-0.90.3/debian/control
+@@ -0,0 +1,18 @@
++Source: gtk2-engines-murrine
++Section: x11
++Priority: optional
++Maintainer: Ubuntu Core Developers <ubuntu-devel-discuss@lists.ubuntu.com>
++XSBC-Original-Maintainer: Yves-Alexis Perez <corsac@corsac.net>
++Vcs-Bzr: https://code.launchpad.net/~ubuntu-desktop/gtk2-engines-murrine/ubuntu
++Build-Depends: debhelper (>= 4.1.26), libgtk2.0-dev (>= 2.12.0), intltool, quilt
++Standards-Version: 3.8.1
++
++Package: gtk2-engines-murrine
++Architecture: any
++Depends: ${misc:Depends}, ${shlibs:Depends}
++Description: cairo-based gtk+-2.0 theme engine
++ "Murrine" is an Italian word meaning the glass artworks done by Venicians 
++ glass blowers. The Engine is cairo-based, and it's very fast compared to 
++ clearlooks-cairo and ubuntulooks.
++ .
++ This package includes the Murrine engine.
+--- gtk2-engines-murrine-0.90.3.orig/debian/rules
++++ gtk2-engines-murrine-0.90.3/debian/rules
+@@ -0,0 +1,90 @@
++#!/usr/bin/make -f
++
++DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
++DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
++
++ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
++	CFLAGS += -O0
++else
++	CFLAGS += -O2
++endif
++
++patch: patch-stamp
++patch-stamp:
++	dh_testdir
++	QUILT_PATCHES=debian/patches quilt push -a || test $$? = 2
++	touch patch-stamp
++
++unpatch:
++	dh_testdir
++	QUILT_PATCHES=debian/patches quilt pop -a -R || test $$? = 2
++	rm -rf .pc patch-stamp
++
++configure: configure-stamp
++configure-stamp: patch-stamp
++	
++	dh_testdir
++	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --enable-animation
++	touch configure-stamp
++
++build: build-stamp
++
++build-stamp:  configure-stamp
++
++	dh_testdir
++	$(MAKE)
++	touch build-stamp
++
++clean: unpatch
++	
++	dh_testdir
++	dh_testroot
++	rm -f configure-stamp build-stamp 
++
++	[ ! -f Makefile ] || $(MAKE) distclean
++	
++	-test -r /usr/share/misc/config.sub && \
++	  cp -f /usr/share/misc/config.sub config.sub
++	-test -r /usr/share/misc/config.guess && \
++	  cp -f /usr/share/misc/config.guess config.guess
++
++	dh_clean
++
++install: build
++	
++	dh_testdir
++	dh_testroot
++	dh_clean -k
++
++	$(MAKE) install DESTDIR=`pwd`/debian/gtk2-engines-murrine
++
++	#Don't ship .la files:
++	rm -f `pwd`/debian/gtk2-engines-murrine/usr/lib/gtk-2.0/2.10.0/engines/libmurrine.a
++	rm -f `pwd`/debian/gtk2-engines-murrine/usr/lib/gtk-2.0/2.10.0/engines/libmurrine.la
++
++binary-indep: build install
++
++binary-arch: build install
++	
++	dh_testdir
++	dh_testroot
++	
++	dh_installdocs
++	dh_installchangelogs ChangeLog
++	
++	dh_gtkmodules
++
++	dh_strip
++	dh_compress
++
++	dh_fixperms
++	dh_installdeb
++	
++	dh_shlibdeps
++	dh_gencontrol
++	
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install 
+--- gtk2-engines-murrine-0.90.3.orig/debian/changelog
++++ gtk2-engines-murrine-0.90.3/debian/changelog
+@@ -0,0 +1,70 @@
++gtk2-engines-murrine (0.90.3-1ubuntu2) karmic-proposed; urgency=low
++
++  * murrine fix for bug LP: #460710
++    - add ./debian/patches
++    - cherry-pick GIT commits:
++    -  debian/patches/01-I-don-t-know-why-I-had-x_step-2-here-maybe-to-avoid-.patch
++       GIT commit 1c36c51a94716a34567d21390908616cdf89f832
++    -  debian/patches/02-Fix-a-potential-endless-loop-in-draw_progressbar_fil.patch
++       GIT commint beaeda3e777f9e91a2f17d61584a38ee043b7866
++    - debian/patches/series: added.
++    - debian/rules: augmented to deal with quilt patches.
++      I could have consolidated them, but this makes it easier to cross-check.
++    - debian/control: added quilt as a build-depends.
++
++ -- C de-Avillez <hggdh2@ubuntu.com>  Mon, 02 Nov 2009 13:27:35 -0600
++
++gtk2-engines-murrine (0.90.3-1ubuntu1) jaunty; urgency=low
++
++  * Merge with debian version to fix FTBFS from syncing (LP: #357543)
++    Remaining changes:
++    + debian/control:
++      - keep debhelper 4 b-d as 7.0.50 is not in jaunty
++      - keep libgtk2.0-dev >= 2.12.0
++      - don't recommend murrine-themes as we don't want to change seeded
++        packages so close to jaunty gate
++    + debian/rules: use old one with debhelper 4 as 7.0.50 is needed
++      by the new debian version of this file
++    + debian/compat: still 4
++
++ -- Didier Roche <didrocks@ubuntu.com>  Wed, 08 Apr 2009 15:33:28 +0200
++
++gtk2-engines-murrine (0.90.3-1) unstable; urgency=low
++
++  * New upstream release.
++  * debian/control:
++    - add build-dep on intltool.
++  * Cleanup the source git folder of spurious build files and thus build
++    schema.xml.                                                 closes: #520515
++
++ -- Yves-Alexis Perez <corsac@debian.org>  Sat, 04 Apr 2009 15:36:12 +0200
++
++gtk2-engines-murrine (0.90.2-1) unstable; urgency=low
++
++  * New upstream release.
++  * debian/watch updated to point to GNOME sources.
++  * debian/control:
++    - update standards version to 3.8.1.
++    - update debhelper build-dep to 7.
++  * debian/compat bumped to 7.
++  * debian/rules:
++    - LDFLAGS+=-Wl,-z,defs -Wl,--as-needed to LDFLAGS.
++    - switch to debhelper 7 with tiny rules. 
++
++ -- Yves-Alexis Perez <corsac@debian.org>  Wed, 18 Mar 2009 22:57:23 +0100
++
++gtk2-engines-murrine (0.53.1-1) unstable; urgency=low
++
++  * New upstream release.
++  * debian/control: correct description since there is no theme included with
++    it.                                                        closes: #428874
++  * debian/patches: add a patch from Steve Langasek to use the correct free()
++    function and avoid a segfault in gimp.                     closes: #447008
++
++ -- Yves-Alexis Perez <corsac@corsac.net>  Wed, 17 Oct 2007 19:28:00 +0200
++
++gtk2-engines-murrine (0.52-1) unstable; urgency=low
++
++  * Initial Release. 											closes: #411354
++
++ -- Yves-Alexis Perez <corsac@corsac.net>  Mon, 14 May 2007 23:25:21 +0200
+--- gtk2-engines-murrine-0.90.3.orig/debian/compat
++++ gtk2-engines-murrine-0.90.3/debian/compat
+@@ -0,0 +1 @@
++4
+--- gtk2-engines-murrine-0.90.3.orig/debian/patches/series
++++ gtk2-engines-murrine-0.90.3/debian/patches/series
+@@ -0,0 +1,2 @@
++01-I-don-t-know-why-I-had-x_step-2-here-maybe-to-avoid-.patch
++02-Fix-a-potential-endless-loop-in-draw_progressbar_fil.patch
+--- gtk2-engines-murrine-0.90.3.orig/debian/patches/02-Fix-a-potential-endless-loop-in-draw_progressbar_fil.patch
++++ gtk2-engines-murrine-0.90.3/debian/patches/02-Fix-a-potential-endless-loop-in-draw_progressbar_fil.patch
+@@ -0,0 +1,48 @@
++From beaeda3e777f9e91a2f17d61584a38ee043b7866 Mon Sep 17 00:00:00 2001
++From: Andrea Cimitan <andrea.cimitan@gmail.com>
++Date: Sun, 1 Nov 2009 02:02:57 +0100
++Subject: [PATCH] Fix a potential endless loop in draw_progressbar_fill and draw_menuitem. #600176
++
++---
++ src/murrine_draw.c      |    4 ++--
++ src/murrine_draw_rgba.c |    2 +-
++ 2 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/src/murrine_draw.c b/src/murrine_draw.c
++index 0b2daff..44c0540 100644
++--- a/src/murrine_draw.c
+++++ b/src/murrine_draw.c
++@@ -657,7 +657,7 @@ murrine_draw_progressbar_fill (cairo_t *cr,
++ 		case 1:
++ 		{
++ 			/* Draw strokes */
++-			while (tile_pos <= width+x_step)
+++			while (stroke_width > 0 && tile_pos <= width+x_step)
++ 			{
++ 				cairo_move_to (cr, stroke_width/2-x_step, 0);
++ 				cairo_line_to (cr, stroke_width-x_step, 0);
++@@ -1407,7 +1407,7 @@ murrine_draw_menuitem (cairo_t *cr,
++ 
++ 			cairo_save (cr);
++ 			/* Draw strokes */
++-			while (tile_pos <= width+x_step)
+++			while (stroke_width > 0 && tile_pos <= width+x_step)
++ 			{
++ 				cairo_move_to (cr, stroke_width/2-x_step, 0);
++ 				cairo_line_to (cr, stroke_width-x_step, 0);
++diff --git a/src/murrine_draw_rgba.c b/src/murrine_draw_rgba.c
++index 154c1ce..7d7ded9 100644
++--- a/src/murrine_draw_rgba.c
+++++ b/src/murrine_draw_rgba.c
++@@ -542,7 +542,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
++ 			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
++ 
++ 			/* Draw strokes */
++-			while (tile_pos <= width+x_step)
+++			while (stroke_width > 0 && tile_pos <= width+x_step)
++ 			{
++ 				cairo_move_to (cr, stroke_width/2-x_step, 0);
++ 				cairo_line_to (cr, stroke_width-x_step, 0);
++-- 
++1.6.3.3
++
+--- gtk2-engines-murrine-0.90.3.orig/debian/patches/01-I-don-t-know-why-I-had-x_step-2-here-maybe-to-avoid-.patch
++++ gtk2-engines-murrine-0.90.3/debian/patches/01-I-don-t-know-why-I-had-x_step-2-here-maybe-to-avoid-.patch
+@@ -0,0 +1,54 @@
++From 1c36c51a94716a34567d21390908616cdf89f832 Mon Sep 17 00:00:00 2001
++From: Andrea Cimitan <andrea.cimitan@gmail.com>
++Date: Sat, 31 Oct 2009 00:42:53 +0100
++Subject: [PATCH] I don't know why I had x_step-2 here, maybe to avoid drawing the last stroke
++
++---
++ src/murrine_draw.c      |    5 +++--
++ src/murrine_draw_rgba.c |    2 +-
++ 2 files changed, 4 insertions(+), 3 deletions(-)
++
++diff --git a/src/murrine_draw.c b/src/murrine_draw.c
++index e4e4f10..0b2daff 100644
++--- a/src/murrine_draw.c
+++++ b/src/murrine_draw.c
++@@ -657,7 +657,7 @@ murrine_draw_progressbar_fill (cairo_t *cr,
++ 		case 1:
++ 		{
++ 			/* Draw strokes */
++-			while (tile_pos <= width+x_step-2)
+++			while (tile_pos <= width+x_step)
++ 			{
++ 				cairo_move_to (cr, stroke_width/2-x_step, 0);
++ 				cairo_line_to (cr, stroke_width-x_step, 0);
++@@ -1407,12 +1407,13 @@ murrine_draw_menuitem (cairo_t *cr,
++ 
++ 			cairo_save (cr);
++ 			/* Draw strokes */
++-			while (tile_pos <= width+x_step-2)
+++			while (tile_pos <= width+x_step)
++ 			{
++ 				cairo_move_to (cr, stroke_width/2-x_step, 0);
++ 				cairo_line_to (cr, stroke_width-x_step, 0);
++ 				cairo_line_to (cr, stroke_width/2-x_step, height);
++ 				cairo_line_to (cr, -x_step, height);
+++
++ 				cairo_translate (cr, stroke_width, 0);
++ 				tile_pos += stroke_width;
++ 			}
++diff --git a/src/murrine_draw_rgba.c b/src/murrine_draw_rgba.c
++index 96f788e..154c1ce 100644
++--- a/src/murrine_draw_rgba.c
+++++ b/src/murrine_draw_rgba.c
++@@ -542,7 +542,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
++ 			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
++ 
++ 			/* Draw strokes */
++-			while (tile_pos <= width+x_step-2)
+++			while (tile_pos <= width+x_step)
++ 			{
++ 				cairo_move_to (cr, stroke_width/2-x_step, 0);
++ 				cairo_line_to (cr, stroke_width-x_step, 0);
++-- 
++1.6.3.3
++

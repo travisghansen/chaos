@@ -15,11 +15,7 @@ setup() {
 }
 
 fetch_src() {
-	if [ -z "${REVISION}" ];then
-		svn checkout svn://svn.handbrake.fr/HandBrake/trunk "${SRC_DIR}"
-	else
-		svn checkout -r ${REVISION} svn://svn.handbrake.fr/HandBrake/trunk "${SRC_DIR}"
-	fi
+	svn checkout -r ${REVISION} svn://svn.handbrake.fr/HandBrake/trunk "${SRC_DIR}"
 }
 
 fetch_contrib() {
@@ -44,7 +40,7 @@ set_trunk_revision() {
 }
 
 main() {
-	echo "Staring tarball build..."
+	echo "Starting tarball build..."
 	
 	setup
 

@@ -1,0 +1,116 @@
+#!/bin/sh
+#
+# Wrapper script for gcaldaemon
+#
+# Author: Marc Schiffbauer <marc@schiffbauer.net>
+#
+#
+
+CMD="$1"
+GCALDIR="/usr/share/gcaldaemon"
+JAVA="java -Xmx512m"
+CP="-cp $(ls -1 $GCALDIR/lib/*.jar| tr '\n' ':'|sed 's/:$//')"
+GCALCFG="$HOME/.gcaldaemon/gcal-daemon.cfg"
+LOGCFG="$HOME/.gcaldaemon/logger-config.cfg"
+
+case "$CMD" in
+	help|-h|-help|--help|"")
+		cat<<-EOF
+
+		  This is the gentoo gcaldaemon wrapper program.
+		  Use this to configure or start GCALDaemon.
+
+		  Syntax: $(basename $0) <command>
+
+		  Available commands:
+		
+		    config 		: open the configuration editor
+		    start 		: start the daemon
+		    stop 		: stop the daemon
+		    sync-now 		: force immediate sync now
+		    password-encoder 	: tool to encode your google password
+
+		EOF
+	;;
+	conf|config)
+		echo "Using config file $GCALCFG ..."
+		mkdir -m 0750 -p "$(dirname "$GCALCFG")"
+		# create default config if none exists
+		test -e "$GCALCFG" || cat >"$GCALCFG" <<-EOF
+			work.dir=$(dirname "$GCALCFG")/work
+			log.config=$LOGCFG
+			cache.timeout=3 min
+			ical.backup.timeout=7 day
+			feed.event.length=45 min
+			feed.cache.timeout=1 hour
+
+			EOF
+		test -e "$LOGCFG" || cat >"$LOGCFG" <<-EOF
+		################################################
+		#     CONFIGURATION OF GCALDAEMON'S LOGGER     #
+		################################################
+
+		# List of the log appenders
+		# You can remove the 'console' appender in daemon mode
+		log4j.rootLogger=INFO, file, console
+
+		# File appender
+		log4j.appender.file.Directory=$(dirname "$GCALCFG")/log
+		log4j.appender.file=org.gcaldaemon.logger.FileChannelAppender
+		log4j.appender.file.LogFileName=gcal-daemon
+		log4j.appender.file.ArchivedMask=yyyy-MM-dd-z-HH-mm-ss
+		log4j.appender.file.Encoding=UTF-8
+		log4j.appender.file.MaxFiles=30
+		log4j.appender.file.LogTimeout=7 day
+		log4j.appender.file.MaxSize=100 MByte
+		log4j.appender.file.layout=org.apache.log4j.PatternLayout
+		log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} | %-5p | %-14c{1} | %m%n
+
+		# Console appender
+		log4j.appender.console=org.apache.log4j.ConsoleAppender
+		log4j.appender.console.layout=org.apache.log4j.PatternLayout
+		log4j.appender.console.layout.ConversionPattern=%-5p | %m%n
+
+		# Disable a lot of needless HTTP transport messages
+		log4j.category.org.apache.commons.httpclient=ERROR
+
+		# Valid log levels: DEBUG, INFO, WARN, ERROR or FATAL
+		log4j.category.org.gcaldaemon=INFO
+		EOF
+		# create default logger config if none exists
+
+		$JAVA $CP org.gcaldaemon.standalone.Main "$GCALCFG" configeditor
+		exit $?
+	;;
+	start)
+		echo "Starting up gcaldaemon with configfile $GCALCFG ... "
+		$JAVA $CP org.gcaldaemon.standalone.Main "$GCALCFG" >/dev/null 2>&1 &
+		exit $?
+	;;
+	stop)
+		GCAL_PID="$(ps xu|grep org.gcaldaemon.standalone.Main|grep -v grep|awk '{ print $2; }')"
+		if [ "$GCAL_PID" ]; then
+			echo "Stopping gcaldaemon with PID $GCAL_PID ..."
+			kill $GCAL_PID
+		else
+			echo "not running"
+			exit 1
+		fi
+	;;
+	sync-now)
+		echo "Running gcaldaemon once with config $GCALCFG ..."
+		$JAVA $CP org.gcaldaemon.standalone.Main "$GCALCFG" runonce
+		exit $?
+	;;
+	password-encoder)
+		$JAVA -cp $GCALDIR/lib/gcal-daemon.jar org.gcaldaemon.core.PasswordEncoder
+		exit $?
+	;;
+	*)
+		echo "unknown command: $CMD"
+		exit 1
+	;;
+esac
+
+exit 0
+# END
