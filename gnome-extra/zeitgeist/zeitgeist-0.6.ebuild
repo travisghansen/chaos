@@ -13,18 +13,23 @@ SRC_URI="http://launchpad.net/${PN}/$(get_version_component_range 1-2)/${PV}/+do
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-IUSE="+datahub"
+IUSE="gtk"
 
 DEPEND="media-libs/raptor
 	dev-python/rdflib
 	dev-python/pyxdg
 	dev-python/dbus-python
 	dev-python/pygobject
-	datahub? ( gnome-extra/zeitgeist-datahub )"
+	gtk? ( gnome-extra/zeitgeist-datahub )"
 RDEPEND="${DEPEND}"
 
 src_install() {
 	emake install DESTDIR="${D}" || die "Failed to install"
 	# installed by zeitgeist-datahub now
 	rm "${D}/usr/share/man/man1/zeitgeist-datahub.1"
+}
+
+pkg_postinst() {
+	einfo "You probably want to insatll a few extra apps"
+	einfo "\tzeitgeist-extensions"
 }

@@ -16,7 +16,7 @@ KEYWORDS="~x86 ~amd64"
 IUSE="vala"
 
 DEPEND="x11-libs/gtk+
-	gnome-extra/zeitgeist"
+	dev-libs/libzeitgeist"
 RDEPEND="${DEPEND}"
 
 src_configure() {
