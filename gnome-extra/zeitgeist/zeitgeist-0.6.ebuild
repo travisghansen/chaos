@@ -16,7 +16,7 @@ KEYWORDS="~x86 ~amd64"
 IUSE="gtk"
 
 DEPEND="media-libs/raptor
-	dev-python/rdflib
+	dev-python/rdflib[sqlite]
 	dev-python/pyxdg
 	dev-python/dbus-python
 	dev-python/pygobject
@@ -31,5 +31,5 @@ src_install() {
 
 pkg_postinst() {
 	einfo "You probably want to insatll a few extra apps"
-	einfo "\tzeitgeist-extensions"
+	einfo "\tgnome-extra/zeitgeist-extensions"
 }
