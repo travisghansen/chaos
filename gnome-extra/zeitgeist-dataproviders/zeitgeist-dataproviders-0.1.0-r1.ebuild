@@ -14,28 +14,35 @@ SRC_URI="http://distfiles.one-gear.com/distfiles/${P}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-IUSE="gedit totem vim"
+IUSE="eog gedit tomboy totem vim xulrunner"
 
 DEPEND="gnome-extra/zeitgeist
+	eog? ( media-gfx/eog[python] )
 	totem?	( media-video/totem
 			  dev-libs/libzeitgeist
+			)
+	xulrunner? ( net-libs/xulrunner
+				 dev-libs/libzeitgeist
+			   )
+	tomboy? ( 	app-misc/tomboy
+				dev-dotnet/gtk-sharp
+				dev-dotnet/zeitgeist-sharp
 			)
 	gedit? ( app-editors/gedit )
 	vim? ( app-editors/vim[python] )"
 RDEPEND="${DEPEND}"
 
-PLUGINS="gedit totem vim"
+PLUGINS="eog gedit tomboy totem vim xulrunner"
+
+src_prepare() {
+	sed -i 's:vim72:vimfiles:' vim/Makefile.*
+}
 
 src_configure() {
 	VALAC=/usr/bin/valac-0.10 econf
 }
 
 src_compile() {
-
-	if use vim;then
-		# uses hardcoded 7.2 path instead of reading header or whatever
-		die "vim is not supported at this time"
-	fi
 
 	for PLUGIN in ${PLUGINS};do
 		if use ${PLUGIN};then
@@ -48,7 +55,7 @@ src_compile() {
 }
 
 src_install() {
-	
+
 	for PLUGIN in ${PLUGINS};do
 		if use ${PLUGIN};then
 			set_plugin_dir "${PLUGIN}";
@@ -66,6 +73,9 @@ set_plugin_dir() {
 		"totem" )
 			PLUGIN_DIR="${S}/totem-libzg";;
 	
+		"xulrunner" )
+			PLUGIN_DIR="${S}/firefox-libzg";;
+
 		* )
 			PLUGIN_DIR="${S}/${plugin}";;
 
