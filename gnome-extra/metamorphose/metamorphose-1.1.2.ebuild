@@ -22,11 +22,10 @@ src_compile() {
 }
 
 src_install() {
-	
 
 	emake makedirs DESTDIR="${D}" || die "Failed compiling"
 	emake build DESTDIR="${D}" || die "Failed compiling"
 
 	emake install DESTDIR="${D}" || die "Failed installing"
-	
+
 }

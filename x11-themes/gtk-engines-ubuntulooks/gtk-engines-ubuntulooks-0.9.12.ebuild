@@ -24,7 +24,7 @@ src_unpack() {
 }
 
 src_compile() {
-	econf 
+	econf
 	emake || die "Compilation failed"
 }
 

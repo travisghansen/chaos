@@ -4,7 +4,7 @@
 # this is pretty rough at the moment. it needs a look by someone who actually
 # knows how to write ebuilds. But it's a start - it Works For Me :)
 
-NEED_PYTHON=2.3
+PYTHON_DEPEND=*
 
 inherit distutils
 

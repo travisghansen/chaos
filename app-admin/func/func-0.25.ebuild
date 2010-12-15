@@ -13,7 +13,7 @@
 # - split overlord and minion setups (is this actually useful?)
 #   \-> on minion could delete func/overlord directory and func scripts
 # - provide config step to for cert request on the minion?
-NEED_PYTHON=2.3
+PYTHON_DEPEND=*
 
 inherit distutils
 

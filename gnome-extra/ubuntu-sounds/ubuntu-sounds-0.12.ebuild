@@ -22,7 +22,7 @@ src_compile() {
 
 src_install() {
 
-	dodir /usr/share/sounds/	
+	dodir /usr/share/sounds/
 	cp -d -R ${S}/* ${D}/usr/share/sounds/
-	
+
 }
