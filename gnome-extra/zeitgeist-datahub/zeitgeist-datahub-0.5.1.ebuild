@@ -15,16 +15,19 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE="vala"
 
+VALA_SLOT="0.10"
+
 DEPEND="x11-libs/gtk+
-	dev-libs/libzeitgeist"
+	dev-libs/libzeitgeist
+	vala? ( dev-lang/vala:${VALA_SLOT} )"
 RDEPEND="${DEPEND}"
 
 src_configure() {
+	local myconf
 	if use vala;then
-		VALAC=/usr/bin/valac-0.10 econf
-	else
-		econf
+		myconf="VALAC=$(type -p valac-${VALA_SLOT})"
 	fi
+	econf ${myconf}
 }
 
 src_install() {

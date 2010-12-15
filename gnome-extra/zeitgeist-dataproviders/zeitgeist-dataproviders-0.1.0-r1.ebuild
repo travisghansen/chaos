@@ -6,7 +6,7 @@ EAPI=3
 
 inherit eutils versionator
 
-DESCRIPTION="Zeitgeist is a service which logs the users's activities and events"
+DESCRIPTION="Data providers to the zeitgeist service"
 HOMEPAGE="https://launchpad.net/zeitgeist-dataproviders"
 #SRC_URI="http://launchpad.net/${PN}/$(get_version_component_range 1-2)/${PV}/+download/${P}.tar.gz"
 SRC_URI="http://distfiles.one-gear.com/distfiles/${P}.tar.gz"
@@ -15,6 +15,8 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE="eog gedit tomboy totem vim xulrunner"
+
+VALA_SLOT="0.10"
 
 DEPEND="gnome-extra/zeitgeist
 	eog? ( media-gfx/eog[python] )
@@ -29,7 +31,8 @@ DEPEND="gnome-extra/zeitgeist
 				dev-dotnet/zeitgeist-sharp
 			)
 	gedit? ( app-editors/gedit )
-	vim? ( app-editors/vim[python] )"
+	vim? ( app-editors/vim[python] )
+	dev-lang/vala:${VALA_SLOT}"
 RDEPEND="${DEPEND}"
 
 PLUGINS="eog gedit tomboy totem vim xulrunner"
@@ -39,7 +42,9 @@ src_prepare() {
 }
 
 src_configure() {
-	VALAC=/usr/bin/valac-0.10 econf
+	local myconf
+	myconf="VALAC=$(type -p valac-${VALA_SLOT})"
+	econf ${myconf}
 }
 
 src_compile() {
@@ -64,6 +69,12 @@ src_install() {
 		fi
 	done
 
+}
+
+pkg_postinst() {
+	ewarn "Information is also availabe for google chromium available here"
+	ewarn "http://code.google.com/p/webupd8/downloads/list"
+	ewarn "http://www.webupd8.org/2010/12/zeitgeist-extension-for-chrome-to-use.html"
 }
 
 set_plugin_dir() {

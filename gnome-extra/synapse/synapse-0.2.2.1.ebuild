@@ -15,6 +15,8 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE=""
 
+VALA_SLOT="0.10"
+
 DEPEND="=dev-lang/vala-0.10*
 	>=dev-libs/glib-2.22.0
 	>=dev-libs/libgee-0.5.2
@@ -26,11 +28,14 @@ DEPEND="=dev-lang/vala-0.10*
 	dev-libs/json-glib
 	gnome-extra/zeitgeist
 	gnome-extra/zeitgeist-extensions[fts]
-	dev-libs/libzeitgeist"
+	dev-libs/libzeitgeist
+	dev-lang/vala:${VALA_SLOT}"
 RDEPEND="${DEPEND}"
 
 src_configure() {
-	VALAC=/usr/bin/valac-0.10 econf
+	local myconf
+	myconf="VALAC=$(type -p valac-${VALA_SLOT})"
+	econf ${myconf}
 }
 
 src_install() {
@@ -38,13 +43,13 @@ src_install() {
 }
 
 pkg_preinst() {
-    gnome2_icon_savelist
+	gnome2_icon_savelist
 }
 
 pkg_postinst() {
-    gnome2_icon_cache_update
+	gnome2_icon_cache_update
 }
 
 pkg_postrm() {
-    gnome2_icon_cache_update
+	gnome2_icon_cache_update
 }
