@@ -23,7 +23,7 @@ src_install() {
 	einfo "X11 implementation is ${X11_IMPLEM}."
 
 	dodir /usr/share/cursors/${X11_IMPLEM}/${MY_P}/cursors/
-	cp -d  ${MY_P}/cursors/* \
+	cp -d -R ${MY_P}/cursors/* \
 		${D}/usr/share/cursors/${X11_IMPLEM}/${MY_P}/cursors/ || die
 	if [ -n "${THEME_FILE}" ];then
 		einfo "Installing theme file.."
