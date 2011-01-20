@@ -29,14 +29,14 @@ RDEPEND="${DEPEND}
 	alarm? ( media-sound/mpg123
 			 media-sound/pulseaudio
 		   )
-	alert? ( || ( gnome-extra/zenity ) ( kde-base/kdialog ) )
+	alert? ( || ( ( gnome-extra/zenity ) ( kde-base/kdialog ) ) )
 	gtk? ( dev-python/pygtk )
 	lock? ( dev-python/pygtk )
 	session? ( sys-apps/iproute2
 			   || ( media-gfx/scrot media-gfx/imagemagick )
 			 )
 	system? ( sys-apps/hal )
-	webcam? ( ( media-video/mplayer ) )"
+	webcam? ( || ( ( media-video/mplayer[encode,jpeg,v4l2] ) ( media-tv/xawtv ) ) )"
 
 S=${WORKDIR}/${PN}
 
