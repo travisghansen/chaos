@@ -17,7 +17,7 @@ EBZR_REPO_URI="lp:zeitgeist-dataproviders"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
-IUSE="eog gedit telepathy tomboy totem vim xulrunner"
+IUSE="eog gedit telepathy tomboy totem vim xchat xulrunner"
 
 VALA_SLOT="0.10"
 
@@ -35,10 +35,13 @@ DEPEND="gnome-extra/zeitgeist
 			)
 	gedit? ( app-editors/gedit )
 	vim? ( app-editors/vim[python] )
+	xchat?  ( || ( net-irc/xchat net-irc/xchat-gnome )
+				dev-libs/libzeitgeist
+			)
 	dev-lang/vala:${VALA_SLOT}"
 RDEPEND="${DEPEND}"
 
-PLUGINS="eog gedit telepathy tomboy totem vim xulrunner"
+PLUGINS="eog gedit telepathy tomboy totem vim xchat xulrunner"
 
 src_prepare() {
 	sed -i 's:vim72:vimfiles:' vim/Makefile.*

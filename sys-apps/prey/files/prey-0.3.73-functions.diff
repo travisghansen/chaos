@@ -1,0 +1,16 @@
+--- core/functions-old	2010-07-15 15:56:48.790010864 +1200
++++ core/functions	2010-07-15 16:00:13.593011492 +1200
+@@ -148,11 +148,11 @@
+ ####################################################################
+ 
+ get_current_delay(){
+-	crontab -l | grep prey | sed "s/^..\([0-9]*\).*/\1/"
++	sed "s/^..\([0-9]*\).*/\1/" /etc/cron.d/prey.cron
+ }
+ 
+ update_execution_delay(){
+-	(crontab -l | grep -v prey; echo "*/$1 * * * * $base_path/prey.sh &> /dev/null") | crontab -
++	echo "*/$1 * * * * /usr/bin/prey.sh &> /dev/null" > /etc/cron.d/prey.cron
+ }
+ 
+ ####################################################################
