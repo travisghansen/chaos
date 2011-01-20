@@ -32,6 +32,7 @@ RDEPEND="${DEPEND}
 	alert? ( || ( ( gnome-extra/zenity ) ( kde-base/kdialog ) ) )
 	gtk? ( dev-python/pygtk )
 	lock? ( dev-python/pygtk )
+	network? ( net-analyzer/traceroute )
 	session? ( sys-apps/iproute2
 			   || ( media-gfx/scrot media-gfx/imagemagick )
 			 )
