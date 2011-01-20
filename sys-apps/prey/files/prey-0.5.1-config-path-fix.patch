@@ -1,0 +1,29 @@
+--- platform/linux/prey-config.py.orig	2011-01-19 20:22:23.340000053 -0700
++++ platform/linux/prey-config.py	2011-01-19 20:26:04.094000051 -0700
+@@ -42,7 +42,7 @@
+ ################################################
+ 
+ PREY_PATH = '/usr/share/prey'
+-CONFIG_FILE = PREY_PATH + '/config'
++CONFIG_FILE = '/etc/prey/prey.conf'
+ CONTROL_PANEL_URL = 'http://control.preyproject.com'
+ CONTROL_PANEL_URL_SSL = 'https://control.preyproject.com'
+ GUEST_ACCOUNT_NAME = 'guest_account'
+@@ -293,7 +293,7 @@
+ 			return True
+ 
+ 	def is_config_writable(self):
+-		command = 'if [ ! -w "'+PREY_PATH+'/config" ]; then echo 1; fi'
++		command = 'if [ ! -w "'+CONFIG_FILE+'" ]; then echo 1; fi'
+ 		no_access = os.popen(command).read().strip()
+ 		if no_access == '1':
+ 			self.show_alert(_("Unauthorized"), _("You don't have access to manage Prey's configuration. Sorry."), True)
+@@ -452,7 +452,7 @@
+ 		self.show_alert(_("Success"), _("Configuration saved! Your device is now setup and being tracked by Prey. Happy hunting!"), True)
+ 
+ 	def run_prey(self):
+-		os.system(PREY_PATH + '/prey.sh > /var/log/prey.log &')
++		os.system(PREY_PATH + '/prey.sh &> /var/log/prey.log &')
+ 
+ 	################################################
+ 	# control panel api

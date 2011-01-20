@@ -14,60 +14,62 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE="gtk"
-IUSE_LINGUAS="it sv es"
-for iuse_linguas in ${IUSE_LINGUAS}; do
-	IUSE="${IUSE} linguas_${iuse_linguas}"
-done
-IUSE_MODULES="+alarm +alert +geo +lock +network +secure +session +system webcam"
+IUSE_MODULES="alarm +alert +geo +lock +network +secure +session +system webcam"
 IUSE="${IUSE} ${IUSE_MODULES}"
 
 DEPEND=""
 #TODO: some of these deps may be dependent on USE
 RDEPEND="${DEPEND}
-	|| ( net-misc/curl net-misc/wget )
-	|| ( media-gfx/imagemagick media-gfx/scrot )
-	webcam? ( media-tv/xawtv )
-	dev-perl/IO-Socket-SSL
-	dev-perl/Net-SSLeay
-	gtk? ( dev-python/pygtk )
-	lock? ( dev-python/pygtk )
-	system? ( sys-apps/hal )
 	app-shells/bash
 	virtual/cron
-"
+	|| ( net-misc/curl net-misc/wget )
+	dev-perl/IO-Socket-SSL
+	dev-perl/Net-SSLeay
+	sys-apps/net-tools
+	alarm? ( media-sound/mpg123
+			 media-sound/pulseaudio
+		   )
+	alert? ( || ( gnome-extra/zenity ) ( kde-base/kdialog ) )
+	gtk? ( dev-python/pygtk )
+	lock? ( dev-python/pygtk )
+	session? ( sys-apps/iproute2
+			   || ( media-gfx/scrot media-gfx/imagemagick )
+			 )
+	system? ( sys-apps/hal )
+	webcam? ( ( media-video/mplayer ) )"
 
 S=${WORKDIR}/${PN}
 
 src_prepare() {
-	epatch ${FILESDIR}/${P}-functions.diff
+	epatch ${FILESDIR}/${P}-functions.patch
+	epatch ${FILESDIR}/${P}-config-path-fix.patch
+	epatch ${FILESDIR}/${P}-mplayer-support.patch
 }
+
 src_compile() {
 	:
 }
+
 src_install() {
 	# Remove config app if -gtk
 	use gtk || rm -f platform/linux/prey-config.py
 
-	# clear out unneeded language files
-	for lang in ${IUSE_LINGUAS}; do
-		use "linguas_${lang}" || rm -f lang/${lang} modules/*/lang/${lang}
-	done
-
-
 	# Core files
-	insinto /usr/share/prey
-	doins -r core lang pixmaps platform version
+	dodir /usr/share/prey
+	cp -a core lang pixmaps platform version prey.sh "${D}/usr/share/prey"
 
-	# Main script
-	dobin prey.sh
-	dosed 's,readonly base_path=`dirname "$0"`,readonly base_path="/usr/share/prey",' /usr/bin/prey.sh
+	# fix the path
+	dosed 's,readonly base_path=`dirname "$0"`,readonly base_path="/usr/share/prey",' /usr/share/prey/prey.sh
 
 	# Put the configuration file into /etc, strict perms, symlink
 	insinto /etc/prey
 	mv config prey.conf
+	mv config.default prey.conf.sample
 	doins prey.conf
+	doins prey.conf.sample
 	fperms 700 /etc/prey
 	fperms 600 /etc/prey/prey.conf
+	fperms 600 /etc/prey/prey.conf.sample
 	dosym /etc/prey/prey.conf /usr/share/prey/config
 
 	# Add cron.d script
@@ -75,30 +77,36 @@ src_install() {
 	doins "${FILESDIR}/prey.cron"
 	fperms 600 /etc/cron.d/prey.cron
 
-	dodoc README
-
 	# modules
 	cd modules
 	for mod in *
 	do
 		use ${mod} || continue
 
-		# move config, if present, to /etc/prey
-		if [ -f $mod/config ]
-		then
+		# Rest of the module in its expected location
+		insinto /usr/share/prey/modules
+		doins -r "$mod"
+		fperms 500 "/usr/share/prey/modules/${mod}/core/run"
+
+		# if present symlink module config to /etc/prey
+		if [ -f "$mod/config" ];then
 			mv "$mod/config" "mod-$mod.conf"
 			insinto "/etc/prey"
 			doins "mod-$mod.conf"
 			fperms 600 "/etc/prey/mod-$mod.conf"
 			dosym "/etc/prey/mod-$mod.conf" "/usr/share/prey/modules/$mod/config"
+			if [ "${mod}" == "lock" ];then
+				fperms 555 \
+				  "/usr/share/prey/modules/lock/platform/linux/prey-lock"
+			fi
 		fi
 
-		# Rest of the module in its expected location
-		insinto /usr/share/prey/modules
-		doins -r "$mod"
 	done
 
+	dodoc "${S}/README" "${S}/LICENSE"
+
 }
+
 pkg_postinst () {
 	einfo "To run prey, modify core and module configuration in /etc/prey,"
 	einfo "then uncomment the line in /etc/cron.d/prey.cron"

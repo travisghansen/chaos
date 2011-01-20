@@ -1,0 +1,22 @@
+--- core/functions.orig	2011-01-18 08:31:56.035000097 -0700
++++ core/functions	2011-01-18 08:34:38.155000093 -0700
+@@ -166,8 +166,7 @@
+ ####################################################################
+ 
+ get_current_delay(){
+-	# crontab -l | grep prey | sed "s/^..\([0-9]*\).*/\1/"
+-	crontab -l | grep prey | head -1 | sed 's/ \/.*//'
++	sed "s/^..\([0-9]*\).*/\1/" /etc/cron.d/prey.cron
+ }
+ 
+ get_delay_for(){
+@@ -193,8 +192,7 @@
+ }
+ 
+ update_execution_delay(){
+-	local full_path=`full_path "$base_path"`
+-	(crontab -l | grep -v prey; echo "${new_delay}" "${full_path}/prey.sh > /var/log/prey.log") | crontab -
++	echo "*/$1 * * * * /usr/bin/prey.sh &> /dev/null" > /etc/cron.d/prey.cron
+ }
+ 
+ 
