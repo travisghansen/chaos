@@ -45,6 +45,7 @@ src_prepare() {
 	epatch ${FILESDIR}/${P}-functions.patch
 	epatch ${FILESDIR}/${P}-config-path-fix.patch
 	epatch ${FILESDIR}/${P}-mplayer-support.patch
+	epatch ${FILESDIR}/${P}-email-system-info.patch
 }
 
 src_compile() {
