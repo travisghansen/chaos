@@ -1,0 +1,19 @@
+--- makefile.linux.orig	2011-02-04 22:23:06.316000069 -0700
++++ makefile.linux	2011-02-05 14:55:43.935000096 -0700
+@@ -22,12 +22,10 @@
+ 	rm -f tmp/*
+ 
+ install: out/libdriveio.so.0 out/libmakemkv.so.1 out/makemkv
+-	rm -f /usr/lib/libdriveio.so.0
+-	rm -f /usr/lib/libmakemkv.so.1
+-	rm -f /usr/bin/makemkv
+-	install -t /usr/lib out/libdriveio.so.0 out/libmakemkv.so.1
+-	ldconfig
+-	install -t /usr/bin out/makemkv
++	install -d ${DESTDIR}/usr/lib
++	install -d ${DESTDIR}/usr/bin
++	install -t ${DESTDIR}/usr/lib out/libdriveio.so.0 out/libmakemkv.so.1
++	install -t ${DESTDIR}/usr/bin out/makemkv
+ 
+ out/%: out/%.full
+ 	objcopy --strip-all --strip-debug --strip-unneeded --discard-all $< $@ 
