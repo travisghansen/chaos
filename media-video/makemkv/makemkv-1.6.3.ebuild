@@ -33,10 +33,6 @@ src_prepare() {
 	done
 }
 
-src_configure() {
-	einfo "nothing to do here"
-}
-
 src_compile() {
 	for DIR in oss;do
 		cd "${WORKDIR}/${PN}_v${PV}_${DIR}"
@@ -49,4 +45,16 @@ src_install() {
 		cd "${WORKDIR}/${PN}_v${PV}_${DIR}"
 		emake -f makefile.linux DESTDIR="${D}" install || die "failed installing ${PN}"
 	done
+}
+
+pkg_postinst() {
+
+	# T-ChaMQ7DlS4k0WQxCKrUwi9OBstri23ztuRNHkY3vcFZ9F259EGIJAMqnIhSauJ3rX7
+
+	elog "While MakeMKV is in beta mode, upstream has provided a license"
+	elog "to use if you do not want to purchase one."
+	elog ""
+	elog "See this forum thread for more information, including the key:"
+	elog "http://www.makemkv.com/forum2/viewtopic.php?f=5&t=1053"
+
 }

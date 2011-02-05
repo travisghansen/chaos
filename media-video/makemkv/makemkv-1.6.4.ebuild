@@ -18,6 +18,7 @@ KEYWORDS="~x86 ~amd64"
 #IUSE=""
 RDEPEND="x11-libs/qt-core:4
 	x11-libs/qt-gui:4
+	x11-libs/qt-dbus:4
 	dev-libs/openssl
 	media-libs/mesa
 	sys-libs/zlib
