@@ -6,10 +6,13 @@ EAPI="2"
 
 inherit eutils multilib
 
+BASE_URL="http://distfiles.one-gear.com/distfiles/"
+#BASE_URL="http://www.makemkv.com/download/"
+
 DESCRIPTION="Blu-ray ripper"
 HOMEPAGE="http://www.makemkv.com/"
-SRC_URI="http://www.makemkv.com/download/makemkv_v${PV}_bin.tar.gz
-http://www.makemkv.com/download/makemkv_v${PV}_oss.tar.gz"
+SRC_URI="${BASE_URL}makemkv_v${PV}_bin.tar.gz
+ ${BASE_URL}makemkv_v${PV}_oss.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 
