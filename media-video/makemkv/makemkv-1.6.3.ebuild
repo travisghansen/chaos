@@ -59,5 +59,7 @@ pkg_postinst() {
 	elog ""
 	elog "See this forum thread for more information, including the key:"
 	elog "http://www.makemkv.com/forum2/viewtopic.php?f=5&t=1053"
+	elog "If your drive is not working properly make sure"
+	elog "your kernel has BLK_DEV_SR_VENDOR \"Vendor Specific Extensions\""
 
 }
