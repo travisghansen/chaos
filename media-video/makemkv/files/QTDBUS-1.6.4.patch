@@ -1,0 +1,11 @@
+--- makefile.linux.orig	2011-02-09 11:34:29.566000102 -0700
++++ makefile.linux	2011-02-09 11:34:53.744000080 -0700
+@@ -54,7 +54,7 @@
+ 	$(MAKEMKVGUI_SRC) $(MAKEMKVGUI_SRC_LINUX) $(MAKEMKVGUI_GEN) $(SSTRING_SRC) $(LIBDRIVEIO_SRC_PUB) \
+ 	-DHAVE_BUILDINFO_H -Itmp \
+ 	-I/usr/include/qt4 -I/usr/lib/qt4/include -L/usr/lib/qt4 -L/usr/lib/qt4/lib -lc -lstdc++ -lQtGui -lQtCore \
+-	-lpthread -lz -lrt
++	-lpthread -lz -lrt -lQtDBus
+ 
+ tmp/gen_buildinfo.h:
+ 	mkdir -p tmp

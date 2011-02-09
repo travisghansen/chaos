@@ -30,9 +30,16 @@ RDEPEND="x11-libs/qt-core:4
 DEPEND="$RDEPEND"
 
 src_prepare() {
+
+
 	for DIR in oss bin;do
 		cd "${WORKDIR}/${PN}_v${PV}_${DIR}"
 		epatch "${FILESDIR}/DESTDIR-${PV}-${DIR}.patch"
+
+		if [ "${DIR}" == "oss" ];then
+			epatch "${FILESDIR}/QTDBUS-${PV}.patch"
+		fi
+
 		sed -i "s:/usr/lib:/usr/$(get_libdir):" makefile.linux
 	done
 }
