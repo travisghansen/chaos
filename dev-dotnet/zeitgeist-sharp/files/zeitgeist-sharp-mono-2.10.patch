@@ -1,0 +1,30 @@
+--- Zeitgeist/Datamodel/Event.cs.orig	2011-03-20 21:30:57.912000143 -0600
++++ Zeitgeist/Datamodel/Event.cs	2011-03-20 21:59:08.572000145 -0600
+@@ -44,6 +44,7 @@
+ 		/// </summary>
+ 		public Event()
+ 		{
++			this.Subjects = null;
+ 			Subjects = new List<Subject>();
+ 			Payload =new byte[]{};
+ 			Actor = string.Empty;
+@@ -187,7 +188,7 @@
+ 		/// <param name="payload">
+ 		/// The payload associated with the RawEvent <see cref="T:System.Byte[]"/>
+ 		/// </param>
+-		public RawEvent(string[] metadata, string[][] subjects, byte[] payload)
++		public RawEvent(string[] metadata, string[][] subjects, byte[] payload) : this()
+ 		{
+ 			this.metadata = metadata;
+ 			this.subjects = subjects;
+--- Zeitgeist/Datamodel/DataSource.cs.orig	2011-03-20 21:59:37.280000144 -0600
++++ Zeitgeist/Datamodel/DataSource.cs	2011-03-20 22:00:02.983000143 -0600
+@@ -227,7 +227,7 @@
+ 		/// <param name="enabled">
+ 		/// Is the RawDataSource enabled <see cref="System.Boolean"/>
+ 		/// </param>
+-		public RawDataSource(string uid, string name, string desc, RawEvent[] events, bool running, UInt64 Lastseen, bool enabled)
++		public RawDataSource(string uid, string name, string desc, RawEvent[] events, bool running, UInt64 Lastseen, bool enabled) : this()
+ 		{
+ 			this.UniqueId = uid;
+ 			this.Name = name;
