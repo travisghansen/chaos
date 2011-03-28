@@ -1,0 +1,26 @@
+--- sickbeard/databases/mainDB.py.orig	2011-03-26 22:27:09.789565453 -0600
++++ sickbeard/databases/mainDB.py	2011-03-26 22:28:27.368595581 -0600
+@@ -131,13 +131,13 @@
+     def execute(self):
+ 
+         numTries = 0
+-        while not ek.ek(os.path.isfile, ek.ek(os.path.join, sickbeard.PROG_DIR, 'sickbeard.db.v0')):
+-            if not ek.ek(os.path.isfile, ek.ek(os.path.join, sickbeard.PROG_DIR, 'sickbeard.db')):
++        while not ek.ek(os.path.isfile, ek.ek(os.path.join, sickbeard.DATA_DIR, 'sickbeard.db.v0')):
++            if not ek.ek(os.path.isfile, ek.ek(os.path.join, sickbeard.DATA_DIR, 'sickbeard.db')):
+                 break
+ 
+             try:
+                 logger.log(u"Attempting to back up your sickbeard.db file before migration...")
+-                shutil.copy(ek.ek(os.path.join, sickbeard.PROG_DIR, 'sickbeard.db'), ek.ek(os.path.join, sickbeard.PROG_DIR, 'sickbeard.db.v0'))
++                shutil.copy(ek.ek(os.path.join, sickbeard.DATA_DIR, 'sickbeard.db'), ek.ek(os.path.join, sickbeard.DATA_DIR, 'sickbeard.db.v0'))
+                 logger.log(u"Done backup, proceeding with migration.")
+                 break
+             except Exception, e:
+@@ -376,4 +376,4 @@
+         sickbeard.save_config()
+         
+         self.incDBVersion()
+-        
+\ No newline at end of file
++        
