@@ -19,7 +19,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE="eog gedit telepathy tomboy totem vim xchat xulrunner"
 
-VALA_SLOT="0.10"
+VALA_SLOT="0.12"
 
 DEPEND="gnome-extra/zeitgeist
 	eog? ( media-gfx/eog[python] )
@@ -49,9 +49,7 @@ src_prepare() {
 }
 
 src_configure() {
-	local myconf
-	myconf="VALAC=$(type -p valac-${VALA_SLOT})"
-	econf ${myconf}
+	econf VALAC=$(type -p valac-${VALA_SLOT})
 }
 
 src_compile() {
