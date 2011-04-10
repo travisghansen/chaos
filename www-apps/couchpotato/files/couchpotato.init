@@ -1,0 +1,40 @@
+#!/sbin/runscript
+# Copyright 1999-2007 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+
+opts="start stop"
+
+APP_PATH="/opt/couchpotato/CouchPotato.py"
+PID_FILE="/var/run/couchpotato/couchpotato.pid"
+
+depend() {
+    need net
+}
+
+start() {
+	ebegin "Starting couchpotato"
+	chown -R ${COUCHPOTATO_USER}:${COUCHPOTATO_GROUP} $(dirname "${PID_FILE}")
+	chown -R ${COUCHPOTATO_USER}:${COUCHPOTATO_GROUP} $(dirname "${APP_PATH}")
+	#start-stop-daemon --quiet --background --start \
+	start-stop-daemon --quiet --start \
+	--pidfile "${PID_FILE}" \
+	--user ${COUCHPOTATO_USER} --group ${COUCHPOTATO_GROUP} \
+        --exec /usr/bin/python2 -- \
+	"${APP_PATH}" -d --pidfile="${PID_FILE}"
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping couchpotato"
+	PID=$(cat "${PID_FILE}")
+	kill -15 ${PID}
+	sleep 10
+	kill -9 ${PID}
+
+	#start-stop-daemon --quiet --signal 15 --pidfile "${PID_FILE}"
+	#--user ${COUCHPOTATO_USER} --group ${COUCHPOTATO_GROUP}
+	eend $?
+}
+#vim:set et:
