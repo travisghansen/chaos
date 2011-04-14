@@ -30,23 +30,20 @@ pkg_setup() {
 
 }
 
-src_prepare() {
-
-	#epatch "${FILESDIR}/all.patch"
-	epatch "${FILESDIR}/options.patch"
-	epatch "${FILESDIR}/db.patch"
-	epatch "${FILESDIR}/main_db.patch"
-
-}
-
 src_install() {
 	keepdir "/var/lib/sickbeard"
+	dodir "/var/run/sickbeard"
+	dodir "/etc/sickbeard"
 	fowners sickbeard:sickbeard /var/lib/sickbeard
+	fowners sickbeard:sickbeard /var/run/sickbeard
+	fowners sickbeard:sickbeard /etc/sickbeard
+
+	#Init scripts
+	newconfd "${FILESDIR}/${PN}.conf" "${PN}"
+	newinitd "${FILESDIR}/${PN}.init" "${PN}"
 
 	dodir "/usr/share/sickbeard"
 	cp -R * "${D}/usr/share/sickbeard/"
-}
 
-pkg_postinst() {
-	elog "This is a test"
+	newbin ${FILESDIR}/${PN}.sh ${PN}
 }
