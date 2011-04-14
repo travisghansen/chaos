@@ -21,13 +21,14 @@ DEPEND=">=dev-python/cheetah-2.1.0
 	>=dev-lang/python-2.4"
 RDEPEND="${DEPEND}"
 
+
+HOMEDIR="${ROOT}var/lib/${PN}"
 S="${WORKDIR}/Sick-Beard"
 DOCS="COPYING.txt readme.md"
 
 pkg_setup() {
 	enewgroup sickbeard
-	enewuser  sickbeard -1 -1 -1 "sickbeard"
-
+	enewuser  sickbeard -1 -1 "${HOMEDIR}" "sickbeard"
 }
 
 src_install() {
