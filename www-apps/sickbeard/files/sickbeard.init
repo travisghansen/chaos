@@ -22,7 +22,7 @@ start() {
         --exec ${DAEMON} -- ${APP_PATH} --daemon --port="${PORT-8081}" \
 	--datadir="${DATA_DIR-/var/lib/sickbeard}" \
 	--config="${CONFIG_FILE-/etc/sickbeard/config.ini}" \
-	--pidfile="${PID_FILE}" --nolaunch
+	--pidfile="${PID_FILE}" --nolaunch &> /dev/null
 	eend $?
 }
 

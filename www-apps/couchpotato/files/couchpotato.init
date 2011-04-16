@@ -22,7 +22,7 @@ start() {
 	--pidfile "${PID_FILE}" \
 	--user ${COUCHPOTATO_USER} --group ${COUCHPOTATO_GROUP} \
         --exec /usr/bin/python2 -- \
-	"${APP_PATH}" -d --pidfile="${PID_FILE}"
+	"${APP_PATH}" -d --pidfile="${PID_FILE}" &> /dev/null
 	eend $?
 }
 
