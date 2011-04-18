@@ -17,10 +17,9 @@ start() {
 	ebegin "Starting couchpotato"
 	chown -R ${COUCHPOTATO_USER}:${COUCHPOTATO_GROUP} $(dirname "${PID_FILE}")
 	chown -R ${COUCHPOTATO_USER}:${COUCHPOTATO_GROUP} $(dirname "${APP_PATH}")
-	#start-stop-daemon --quiet --background --start \
 	start-stop-daemon --quiet --start \
 	--pidfile "${PID_FILE}" \
-	--user ${COUCHPOTATO_USER} --group ${COUCHPOTATO_GROUP} \
+	-c ${COUCHPOTATO_USER}:${COUCHPOTATO_GROUP} \
         --exec /usr/bin/python2 -- \
 	"${APP_PATH}" -d --pidfile="${PID_FILE}" &> /dev/null
 	eend $?
@@ -33,8 +32,6 @@ stop() {
 	sleep 10
 	kill -9 ${PID}
 
-	#start-stop-daemon --quiet --signal 15 --pidfile "${PID_FILE}"
-	#--user ${COUCHPOTATO_USER} --group ${COUCHPOTATO_GROUP}
 	eend $?
 }
 #vim:set et:
