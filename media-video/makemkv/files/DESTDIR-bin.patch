@@ -1,0 +1,23 @@
+--- makefile.linux.orig	2011-04-29 02:07:53.451089391 -0600
++++ makefile.linux	2011-04-29 02:09:45.017089462 -0600
+@@ -32,13 +32,10 @@
+ 	@/bin/bash src/ask_eula.sh src/eula_en_linux.txt
+ 	@echo accepted > $@
+ 
+-install: tmp/eula_accepted bin/$(ARCH)/makemkvcon
+-	rm -f /usr/bin/makemkvcon
+-	rm -f /usr/bin/cddump
+-	rm -f /usr/share/MakeMKV/*.mo.gz
+-	install -d /usr/share/MakeMKV
+-	install -t /usr/bin bin/$(ARCH)/makemkvcon
+-	install -m 644 -t /usr/share/MakeMKV src/share/makemkv_deu.mo.gz
+-	install -m 644 -t /usr/share/MakeMKV src/share/makemkv_jpn.mo.gz
+-	install -m 644 -t /usr/share/MakeMKV src/share/makemkv_spa.mo.gz
+-	install -m 644 -t /usr/share/MakeMKV src/share/makemkv_ptb.mo.gz
++install: bin/$(ARCH)/makemkvcon
++	install -d ${DESTDIR}/usr/share/MakeMKV
++	install -t ${DESTDIR}/usr/bin bin/$(ARCH)/makemkvcon
++	install -m 644 -t ${DESTDIR}/usr/share/MakeMKV src/share/makemkv_deu.mo.gz
++	install -m 644 -t ${DESTDIR}/usr/share/MakeMKV src/share/makemkv_jpn.mo.gz
++	install -m 644 -t ${DESTDIR}/usr/share/MakeMKV src/share/makemkv_spa.mo.gz
++	install -m 644 -t ${DESTDIR}/usr/share/MakeMKV src/share/makemkv_ptb.mo.gz

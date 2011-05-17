@@ -16,6 +16,6 @@ KEYWORDS="~x86 ~amd64"
 IUSE=""
 
 DEPEND="dev-python/pygtk
-	gnome-extra/zeitgeist"
+	app-misc/zeitgeist"
 RDEPEND="${DEPEND}"
 

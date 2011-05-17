@@ -1,0 +1,71 @@
+
+include makefile.common
+
+GCC=gcc
+RCC=rcc
+MOC=$(strip $(shell which moc-qt4))
+ifeq ($(MOC),)
+MOC=moc
+endif
+
+CXXOPTS=-Os -D_GNU_SOURCE -D_linux_
+
+BUILDINFO_ARCH_NAME=$(shell $(GCC) -dumpmachine)
+BUILDINFO_BUILD_DATE=$(shell date)
+
+
+all: out/libdriveio.so.0 out/libmakemkv.so.1 out/makemkv
+	@echo "type \"sudo make -f makefile.linux install\" to install"
+
+clean:
+	mkdir -p out
+	mkdir -p tmp
+	rm -f out/*
+	rm -f tmp/*
+
+install: out/libdriveio.so.0 out/libmakemkv.so.1 out/makemkv
+	install -d ${DESTDIR}/usr/lib
+	install -d ${DESTDIR}/usr/bin
+	install -t ${DESTDIR}/usr/lib out/libdriveio.so.0 out/libmakemkv.so.1
+	install -t ${DESTDIR}/usr/bin out/makemkv
+
+out/%: out/%.full
+	objcopy --strip-all --strip-debug --strip-unneeded --discard-all $< $@ 
+
+out/libdriveio.so.0.full:
+	mkdir -p out
+	$(GCC) $(CXXOPTS) -D_REENTRANT -shared -Wl,-z,defs -o$@ $(LIBDRIVEIO_INC) $(LIBDRIVEIO_SRC) \
+	-fPIC -Xlinker -dy -Xlinker --version-script=libdriveio/src/libdriveio.vers \
+	-Xlinker -soname=libdriveio.so.0 -lc -lstdc++
+
+out/libmakemkv.so.1.full: tmp/gen_buildinfo.h
+	mkdir -p out
+	$(GCC) $(CXXOPTS) -D_REENTRANT -shared -Wl,-z,defs -o$@ $(LIBEBML_INC) $(LIBMATROSKA_INC) \
+	$(LIBMAKEMKV_INC) $(SSTRING_INC) $(MAKEMKVGUI_INC) $(LIBABI_INC) $(LIBFFCODEC_INC) \
+	$(LIBEBML_SRC) $(LIBMATROSKA_SRC) $(LIBMAKEMKV_SRC) $(GLIBC_SRC) $(SSTRING_SRC) \
+	$(LIBABI_SRC) $(LIBABI_SRC_LINUX) $(LIBFFCODEC_SRC) \
+	-DHAVE_BUILDINFO_H -Itmp \
+	-fPIC -Xlinker -dy -Xlinker --version-script=libmakemkv/src/libmakemkv.vers \
+	-Xlinker -soname=libmakemkv.so.1 -lc -lstdc++ -lcrypto -lz
+
+out/makemkv.full: $(MAKEMKVGUI_GEN) tmp/gen_buildinfo.h
+	mkdir -p out
+	$(GCC) $(CXXOPTS) -o$@ $(MAKEMKVGUI_INC) $(LIBMAKEMKV_INC) $(SSTRING_INC) $(LIBDRIVEIO_INC) \
+	$(MAKEMKVGUI_SRC) $(MAKEMKVGUI_SRC_LINUX) $(MAKEMKVGUI_GEN) $(SSTRING_SRC) $(LIBDRIVEIO_SRC_PUB) \
+	-DHAVE_BUILDINFO_H -Itmp \
+	-I/usr/include/qt4 -I/usr/lib/qt4/include -L/usr/lib/qt4 -L/usr/lib/qt4/lib -lc -lstdc++ \
+	-lQtGui -lQtCore -lQtDBus -lpthread -lz -lrt
+
+tmp/gen_buildinfo.h:
+	mkdir -p tmp
+	echo "#define BUILDINFO_ARCH_NAME \"$(BUILDINFO_ARCH_NAME)\"" >> $@
+	echo "#define BUILDINFO_BUILD_DATE \"$(BUILDINFO_BUILD_DATE)\"" >> $@
+
+tmp/moc_%.cpp : makemkvgui/src/%.h
+	mkdir -p tmp
+	$(MOC) -o $@ $<
+
+tmp/qt_rsrc.cpp : makemkvgui/src/qt_rsrc.qrc
+	mkdir -p tmp
+	$(RCC) -name rsrc -o $@ $<
+

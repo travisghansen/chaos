@@ -18,7 +18,7 @@ KEYWORDS="~x86 ~amd64"
 IUSE="css doc gtk"
 RDEPEND="sys-libs/zlib
 	css? ( media-libs/libdvdcss )
-	gtk? (	>=x11-libs/gtk+-2.8
+	gtk? (	>=x11-libs/gtk+-2.8:2
 			dev-libs/glib
 			dev-libs/dbus-glib
 			x11-libs/libnotify

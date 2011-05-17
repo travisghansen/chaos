@@ -1,0 +1,11 @@
+--- firefox-libzg/extension/install.rdf.orig	2011-04-29 13:53:13.763119211 -0600
++++ firefox-libzg/extension/install.rdf	2011-04-29 13:53:42.894119231 -0600
+@@ -14,7 +14,7 @@
+       <Description>
+         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+         <em:minVersion>3.5</em:minVersion>
+-        <em:maxVersion>3.6.*</em:maxVersion>
++        <em:maxVersion>4.*</em:maxVersion>
+       </Description>
+     </em:targetApplication>
+    

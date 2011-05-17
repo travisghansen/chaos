@@ -29,8 +29,8 @@ DEPEND=">=dev-libs/glib-2.22.0
 	x11-libs/cairo
 	x11-libs/gdk-pixbuf:2
 	x11-libs/pango
-	zeitgeist?	( gnome-extra/zeitgeist
-				  gnome-extra/zeitgeist-extensions[fts]
+	zeitgeist?	( app-misc/zeitgeist
+				  app-misc/zeitgeist-extensions[fts]
 				  dev-libs/libzeitgeist
 				)
 	dev-lang/vala:${VALA_SLOT}"

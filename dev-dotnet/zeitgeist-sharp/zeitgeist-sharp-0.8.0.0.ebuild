@@ -17,14 +17,11 @@ KEYWORDS="~x86 ~amd64"
 IUSE=""
 
 DEPEND="dev-lang/mono
-	dev-dotnet/ndesk-dbus
-	dev-dotnet/ndesk-dbus-glib
+	app-misc/zeitgeist
+	dev-dotnet/dbus-sharp
+	dev-dotnet/dbus-sharp-glib
 	dev-dotnet/glib-sharp"
 RDEPEND="${DEPEND}"
-
-src_prepare(){
-	epatch "${FILESDIR}/${PN}-mono-2.10.patch"
-}
 
 src_install() {
 	emake install DESTDIR="${D}" || die "Failed installing"
