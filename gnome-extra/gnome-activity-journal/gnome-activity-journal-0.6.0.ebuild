@@ -4,7 +4,7 @@
 
 EAPI=3
 
-inherit distutils versionator
+inherit distutils versionator gnome2
 
 DESCRIPTION="Zeitgeist is a service which logs the users's activities and events"
 HOMEPAGE="https://launchpad.net/${PN}"
@@ -19,3 +19,26 @@ DEPEND="dev-python/pygtk
 	app-misc/zeitgeist"
 RDEPEND="${DEPEND}"
 
+src_configure() {
+	:
+}
+
+src_compile() {
+	distutils_src_compile
+}
+
+src_install() {
+	distutils_src_install
+}
+
+pkg_preinst() {
+	gnome2_icon_savelist
+}
+
+pkg_postinst() {
+	gnome2_icon_cache_update
+}
+
+pkg_postrm() {
+	gnome2_icon_cache_update
+}
