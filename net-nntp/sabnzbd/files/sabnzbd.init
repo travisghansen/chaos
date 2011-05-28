@@ -3,7 +3,6 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-
 opts="start stop"
 
 depend() {
@@ -12,43 +11,12 @@ depend() {
 
 start() {
 	ebegin "Starting SABnzbd"
-	if ! check_config ; then
-		eend 1
-		return 1
-	fi
-	export SABNZBD_CONFIG
-	start-stop-daemon --quiet --background --start -c ${SABNZBD_USER}:${SABNZBD_GROUP} \
-        --exec /usr/bin/SABnzbd -- \
-        -s ${SABNZBD_HOSTNAME}:${SABNZBD_PORT} -d &> /dev/null
+	start-stop-daemon --start --quiet --user "${SAB_USER}" --pidfile "${SAB_PID}" -d "${SAB_PATH}" --exec python "${SAB_PY}" -- -d -f "${SAB_CFG}" --pid /var/run/sabnzbd/
 	eend $?
 }
 
 stop() {
 	ebegin "Stopping SABnzbd"
-	if [[ -n $SABNZBD_APIKEY ]];then
-		URL="http://${SABNZBD_HOSTNAME}:${SABNZBD_PORT}/shutdown?session=$SABNZBD_APIKEY"
-	else
-		URL="http://${SABNZBD_HOSTNAME}:${SABNZBD_PORT}/shutdown"
-	fi
-	ewarn "Remote stop url is : $URL"
-	if [ -x /usr/bin/wget ] ; then
-		/usr/bin/wget  --http-user="$SABNZBD_HTTPUSER" --http-password="$SABNZBD_PASSWORD" -q --delete-after "${URL}"
-	elif [ -x /usr/bin/curl ] ; then
-		/usr/bin/curl --silent "${URL}" > /dev/null 2> /dev/null
-	fi
-	ewarn "Waiting for shutdown"
-	sleep 10
-	start-stop-daemon --quiet --stop --name SABnzbd.py
+	start-stop-daemon --stop --retry 30 --pidfile "${SAB_PID}"
 	eend $?
 }
-
-check_config() {
-	if [ ! -e ${SABNZBD_CONFIG} ] ; then
-		eerror "ERROR: can't find ${SABNZBD_CONFIG}."
-		return 1
-	else
-		return 0
-	fi
-}
-
-#vim:set et:
