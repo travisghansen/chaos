@@ -4,7 +4,7 @@
 
 EAPI=3
 
-inherit versionator eutils gnome2-utils
+inherit eutils gnome2-utils versionator
 
 DESCRIPTION="A GNOME launcher"
 HOMEPAGE="https://launchpad.net/synapse-project"
@@ -12,7 +12,7 @@ SRC_URI="http://launchpad.net/${PN}-project/$(get_version_component_range 1-2)/$
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE="zeitgeist"
 
 VALA_SLOT="0.12"
@@ -41,11 +41,8 @@ src_prepare() {
 }
 
 src_configure() {
-	local myconf
-	myconf="--disable-indicator VALAC=$(type -p valac-${VALA_SLOT})"
-	econf \
-		$(use_enable zeitgeist) \
-		${myconf}
+	econf --disable-indicator VALAC=$(type -p valac-${VALA_SLOT}) \
+		$(use_enable zeitgeist)
 }
 
 src_install() {

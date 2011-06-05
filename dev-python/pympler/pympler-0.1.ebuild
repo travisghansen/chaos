@@ -8,15 +8,14 @@ MY_P="Pympler"
 
 inherit distutils
 
-DESCRIPTION="Pympler is a development tool to measure, monitor and analyze the
-memory behavior of Python objects in a running Python application."
+DESCRIPTION="Python memory analyzer"
 HOMEPAGE="http://code.google.com/p/pympler/"
 SRC_URI="http://pypi.python.org/packages/source/P/${MY_P}/${MY_P}-${PV}.tar.gz"
 S="${WORKDIR}/${MY_P}-${PV}"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND=">=dev-lang/python-2.4"

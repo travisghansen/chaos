@@ -4,7 +4,7 @@
 
 EAPI=3
 
-inherit eutils autotools versionator
+inherit autotools eutils versionator
 
 DESCRIPTION="Data providers to the zeitgeist service"
 HOMEPAGE="https://launchpad.net/zeitgeist-dataproviders"
@@ -13,7 +13,7 @@ SRC_URI="http://distfiles.one-gear.com/distfiles/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE="eog gedit telepathy tomboy totem vim xchat xulrunner"
 
 VALA_SLOT="0.12"
@@ -39,9 +39,9 @@ PLUGINS="eog gedit telepathy tomboy totem vim xchat xulrunner"
 
 src_prepare() {
 	eautoreconf
-	epatch "${FILESDIR}/ffpatch.patch"
-	epatch "${FILESDIR}/ff4.patch"
-	epatch "${FILESDIR}/ff4-2.patch"
+	epatch "${FILESDIR}"/ffpatch.patch
+	epatch "${FILESDIR}"/ff4.patch
+	epatch "${FILESDIR}"/ff4-2.patch
 	sed -i 's:vim72:vimfiles:' vim/Makefile.*
 	# not usable please see
 	# http://code.google.com/chrome/extensions/trunk/external_extensions.html
@@ -52,9 +52,7 @@ src_prepare() {
 }
 
 src_configure() {
-	local myconf
-	myconf="VALAC=$(type -p valac-${VALA_SLOT})"
-	econf ${myconf}
+	econf VALAC=$(type -p valac-${VALA_SLOT})
 }
 
 src_compile() {
@@ -92,10 +90,10 @@ set_plugin_dir() {
 
 	case "${plugin}" in
 		"totem" )
-			PLUGIN_DIR="${S}/totem-libzg";;
+			PLUGIN_DIR="${S}"/totem-libzg;;
 	
 		"xulrunner" )
-			PLUGIN_DIR="${S}/firefox-libzg";;
+			PLUGIN_DIR="${S}"/firefox-libzg;;
 
 		* )
 			PLUGIN_DIR="${S}/${plugin}";;

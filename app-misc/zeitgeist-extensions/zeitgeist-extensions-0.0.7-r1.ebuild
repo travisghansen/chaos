@@ -4,17 +4,16 @@
 
 EAPI=3
 
-inherit versionator eutils python
+inherit eutils python versionator
 
-DESCRIPTION="Extensions to the engine such as Teamgeist, Relevancy Providers and
-Machine Learning Algorithms"
+DESCRIPTION="Extensions to the zeitgeist engine"
 HOMEPAGE="https://launchpad.net/zeitgeist-extensions"
 #SRC_URI="http://launchpad.net/${PN}/$(get_version_component_range 1-2)/${PV}/+download/${P}.tar.gz"
 SRC_URI="http://launchpad.net/${PN}/trunk/${PV}/+download/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE="+fts geolocation profile"
 
 DEPEND="app-misc/zeitgeist
@@ -35,17 +34,17 @@ src_install() {
 #	fi
 
 	if use fts;then
-		insinto "${EXTENSION_DIR}"
-		doins "${S}/fts/fts.py"
+		insinto ${EXTENSION_DIR}
+		doins "${S}"/fts/fts.py
 	fi
 
 	if use geolocation;then
-		insinto "${EXTENSION_DIR}"
-		doins "${S}/geolocation/geolocation.py"
+		insinto ${EXTENSION_DIR}
+		doins "${S}"/geolocation/geolocation.py
 	fi
 
 	if use profile;then
-		insinto "${EXTENSION_DIR}"
-		doins "${S}/memory-profile/profile_memory.py"
+		insinto ${EXTENSION_DIR}
+		doins "${S}"/memory-profile/profile_memory.py
 	fi
 }

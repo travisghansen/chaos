@@ -7,12 +7,13 @@ EAPI="2"
 inherit eutils gnome.org versionator
 
 MY_PN="equinox"
-ENGINE_ARCHIVE="${MY_PN}-gtk-engine.tar.gz"
-THEME_ARCHIVE="${MY_PN}-themes.tar.gz"
+THEME_ARCHIVE="${MY_PN}-themes-${PV}.tar.gz"
 DESCRIPTION="A heavily modified version of the beautiful Aurora engine (1.4)"
 
 HOMEPAGE="http://gnome-look.org/content/show.php/Equinox+Gtk+Engine?content=121881"
-SRC_URI="http://gnome-look.org/CONTENT/content-files/121881-${MY_PN}-$(get_version_component_range 1-2).tar.bz2"
+SRC_URI="http://gnome-look.org/CONTENT/content-files/121881-${MY_PN}-$(get_version_component_range 1-2).tar.gz
+         http://gnome-look.org/CONTENT/content-files/140449-${THEME_ARCHIVE}
+		 http://gnome-look.org/CONTENT/content-files/140448-${MY_PN}-themes-1.30.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -27,32 +28,16 @@ DEPEND="${RDEPEND}
 
 S="${WORKDIR}/${MY_PN}-$(get_version_component_range 1-2)"
 
-src_unpack() {
-
-	unpack "${A}"
-	cd "${WORKDIR}"
-	unpack "./${ENGINE_ARCHIVE}"
-	mkdir ./themes
-	mv "${WORKDIR}/${THEME_ARCHIVE}" "${WORKDIR}/themes"
-	cd ./themes
-	unpack "./${MY_PN}-themes.tar.gz"
-
-#-rw-r--r-- 1 root root 357770 Jun  1 09:30 equinox-gtk-engine.tar.gz
-#-rw-r--r-- 1 root root 102623 Jun  1 09:30 equinox-themes.tar.gz
-
-}
-
 src_configure() {
 	econf --enable-animation
 }
 
 src_install() {
-
 	emake DESTDIR="${D}" install || die "emake install failed"
-	dodoc AUTHORS ChangeLog INSTALL NEWS README COPYING
-
 	if use themes;then
 		dodir /usr/share/themes
+		mkdir "${WORKDIR}/themes"
+		mv "${WORKDIR}/Equinox"* "${WORKDIR}/themes"
 		cd "${WORKDIR}/themes"
 		for DIR in *;do
 			if [ -d "${DIR}" ];then
@@ -60,4 +45,5 @@ src_install() {
 			fi
 		done
 	fi
+
 }

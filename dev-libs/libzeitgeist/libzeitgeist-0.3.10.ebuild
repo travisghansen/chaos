@@ -4,15 +4,15 @@
 
 EAPI=3
 
-inherit versionator eutils
+inherit autotools eutils versionator
 
-DESCRIPTION="Zeitgeist is a service which logs the users's activities and events"
+DESCRIPTION="Zeitgeist service which logs the users's activities and events"
 HOMEPAGE="https://launchpad.net/libzeitgeist"
 SRC_URI="http://launchpad.net/${PN}/$(get_version_component_range 1-2)/${PV}/+download/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="media-libs/raptor
@@ -31,6 +31,7 @@ src_prepare() {
 
 src_configure() {
 	eautoreconf
+	econf
 }
 
 src_install() {

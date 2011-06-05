@@ -4,18 +4,19 @@
 
 EAPI=3
 
-inherit distutils versionator gnome2
+inherit distutils gnome2-utils versionator
 
-DESCRIPTION="Zeitgeist is a service which logs the users's activities and events"
-HOMEPAGE="https://launchpad.net/${PN}"
+DESCRIPTION="Easily view data logged by zeitgeist"
+HOMEPAGE="http://launchpad.net/gnome-activity-journal"
 SRC_URI="http://launchpad.net/${PN}/$(get_version_component_range 1-2)/${PV}/+download/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="dev-python/pygtk
+	dev-python/python-distutils-extra
 	app-misc/zeitgeist"
 RDEPEND="${DEPEND}"
 

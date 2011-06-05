@@ -4,27 +4,24 @@
 
 inherit eutils
 
-DESCRIPTION="Ubuntu Mono Icon theme"
+DESCRIPTION="Humanity icon theme from ubuntu"
 HOMEPAGE="http://www.ubuntu.com/"
-SRC_URI="http://archive.ubuntu.com/ubuntu/pool/main/${PN:0:1}/${PN}/${PN}_${PV}.tar.gz"
+SRC_URI="http://archive.ubuntu.com/ubuntu/pool/main/h/${PN}/${PN}_${PV}.tar.gz"
 
 LICENSE="CCPL-Attribution-ShareAlike-2.5"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc ppc64 ~sparc ~x86"
 
 RDEPEND="x11-themes/gnome-icon-theme
-	x11-themes/hicolor-icon-theme
-	x11-themes/humanity-icon-theme"
+	x11-themes/hicolor-icon-theme"
 
 DEPEND="${RDEPEND}"
 
-THEMES="LoginIcons  ubuntu-mono-dark  ubuntu-mono-light"
-
-S="${WORKDIR}/${PN}"
+S="${WORKDIR}/release"
 
 src_install() {
 	dodir /usr/share/icons
-	for THEME in ${THEMES}; do
-		cp -d -R "${THEME}" "${D}/usr/share/icons/"
+	for THEME in Humanity Humanity-Dark ; do
+		cp -R "${THEME}" "${D}"/usr/share/icons/
 	done
 }
