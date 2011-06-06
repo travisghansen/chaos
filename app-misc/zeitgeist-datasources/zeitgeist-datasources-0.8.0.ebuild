@@ -109,6 +109,9 @@ pkg_postinst() {
 		ewarn "and click the \"Load unpacked extension...\" button"
 		ewarn "then browse to..."
 		ewarn "\t/usr/$(get_libdir)/chromium-browser/resources/zeitgeist_plugin/"
+		ewarn ""
+		ewarn "More info available here"
+		ewarn "http://code.google.com/chrome/extensions/packaging.html"
 	fi
 }
 

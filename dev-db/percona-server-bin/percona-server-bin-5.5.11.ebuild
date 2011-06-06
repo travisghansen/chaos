@@ -31,7 +31,8 @@ DEPEND="userland_GNU? ( sys-process/procps )
         >=sys-apps/sed-4
         >=sys-apps/texinfo-4.7-r1
         >=sys-libs/readline-4.1
-        >=sys-libs/zlib-1.2.3"
+        >=sys-libs/zlib-1.2.3
+		dev-libs/libaio"
 
 RDEPEND="${DEPEND}
 		virtual/mysql"
