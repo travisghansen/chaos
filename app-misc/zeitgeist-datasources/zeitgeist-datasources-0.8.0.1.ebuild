@@ -8,8 +8,7 @@ inherit autotools eutils versionator
 
 DESCRIPTION="Data providers to the zeitgeist service"
 HOMEPAGE="https://launchpad.net/zeitgeist-datasources"
-SRC_URI="http://launchpad.net/${PN}/$(get_version_component_range 1-2)/${PV}/+download/${P}.tar.gz"
-#SRC_URI="http://distfiles.one-gear.com/distfiles/${P}.tar.gz"
+SRC_URI="http://launchpad.net/${PN}/$(get_version_component_range 1-2)/$(get_version_component_range 1-3)/+download/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -55,7 +54,7 @@ RDEPEND="${DEPEND}"
 PLUGINS="chromium eog gedit telepathy tomboy totem vim xchat xchat-gnome xulrunner"
 
 src_prepare() {
-	epatch "${FILESDIR}"/remove-firefox-36.patch
+	#epatch "${FILESDIR}"/remove-firefox-36.patch
 	sed -i 's:vim72:vimfiles:' vim/Makefile.*
 	# not usable please see
 	# http://code.google.com/chrome/extensions/trunk/external_extensions.html
