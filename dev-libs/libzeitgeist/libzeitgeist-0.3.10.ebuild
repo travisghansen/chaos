@@ -27,10 +27,10 @@ RDEPEND="${DEPEND}"
 src_prepare() {
 	sed -i -e "s:doc/libzeitgeist:doc/${PF}:" \
 		Makefile.am || die
+	eautoreconf
 }
 
 src_configure() {
-	eautoreconf
 	econf
 }
 
