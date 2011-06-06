@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <herd>desktop-misc</herd>
+  <maintainer>
+    <email>signals@gentoo.org</email>
+    <name>Kevin McCarthy</name>
+  </maintainer>
+  <use>
+    <flag name="chromium">Enable www-clien/chromium plugin</flag>
+  </use>
+  <use>
+    <flag name="eog">Enable media-gfx/eog plugin</flag>
+  </use>
+  <use>
+    <flag name="gedit">Enable app-editors/gedit plugin</flag>
+  </use>
+  <use>
+    <flag name="telepathy">Enable net-im/telepathy-mission-control plugin</flag>
+  </use>
+  <use>
+    <flag name="tomboy">Enable app-misc/tomboy plugin</flag>
+  </use>
+  <use>
+    <flag name="totem">Enable media-video/totem plugin</flag>
+  </use>
+  <use>
+    <flag name="vim">Enable app-editors/vim plugin</flag>
+  </use>
+  <use>
+    <flag name="xchat">Enable net-irc/xchat plugin</flag>
+  </use>
+  <use>
+    <flag name="xchat-gnome">Enable net-irc/xchat-gnome plugin</flag>
+  </use>
+  <use>
+    <flag name="xulrunner">Enable firefox/xulrunner plugin</flag>
+  </use>
+</pkgmetadata>

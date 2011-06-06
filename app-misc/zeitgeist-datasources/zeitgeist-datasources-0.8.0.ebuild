@@ -29,10 +29,15 @@ DEPEND="app-misc/zeitgeist
 	xulrunner? ( >=net-libs/xulrunner-2.0
 				 dev-libs/libzeitgeist
 			   )
-	tomboy? ( 	app-misc/tomboy
-				dev-dotnet/gtk-sharp
-				dev-dotnet/zeitgeist-sharp
+	tomboy? ( app-misc/tomboy
+			  dev-dotnet/gtk-sharp
+			  dev-dotnet/zeitgeist-sharp
+			  dev-python/dbus-python
 			)
+	telepathy? ( dev-python/telepathy-python
+				 dev-python/dbus-python
+				 dev-python/pygobject
+			   )
 	gedit? ( app-editors/gedit )
 	vim? ( app-editors/vim[python] )
 	dev-lang/vala:${VALA_SLOT}
