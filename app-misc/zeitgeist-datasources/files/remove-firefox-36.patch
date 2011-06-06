@@ -1,0 +1,49 @@
+--- configure.ac.orig	2011-06-05 17:30:59.551091388 -0600
++++ configure.ac	2011-06-05 17:31:57.572518468 -0600
+@@ -65,7 +65,7 @@
+ AC_MSG_NOTICE([Requested to enable all plugins: ${all_plugins}])
+ 
+ # The full list of plugins
+-allowed_plugins="bzr chrome eog geany gedit vim emacs tomboy telepathy xchat rhythmbox firefox-40-libzg totem-libzg firefox-36-libzg"
++allowed_plugins="bzr chrome eog geany gedit vim emacs tomboy telepathy xchat rhythmbox firefox-40-libzg totem-libzg"
+ # currently disabled = "epiphany"
+ 
+ # npapi-plugin has a template Makefile.am, but don't use it directly
+@@ -148,22 +148,6 @@
+ 			AC_SUBST(XUL_IDLDIR)
+                         AC_DEFINE(MOZ_NO_MOZALLOC, ["For Mozilla Firefox 4"])
+ 		;;
+-		firefox-36-libzg)
+-			if test "${HAVE_LIBZG}" != "yes" ; then
+-				plugin_error_or_ignore "libzeitgeist not found"
+-				continue
+-			fi
+-			PKG_CHECK_MODULES(LIBXUL_1_9_2, [libxul >= 1.9.2 libxul < 2.0],
+-				[HAVE_LIBXUL=yes], [HAVE_LIBXUL=no])
+-			if test "${HAVE_LIBXUL}" != "yes" ; then
+-				plugin_error_or_ignore "libxul 1.92 for firefox-36-libzg not found"
+-				continue
+-			fi
+-			XPIDL_BIN="`$PKG_CONFIG --variable=sdkdir libxul`/bin/xpidl"
+-			AC_SUBST(XPIDL_BIN)
+-			XUL_IDLDIR="`$PKG_CONFIG --variable=idldir libxul`"
+-			AC_SUBST(XUL_IDLDIR)
+-		;;
+ 		geany)
+ 			if test "${HAVE_LIBZG}" != "yes" ; then
+ 				plugin_error_or_ignore "libzeitgeist not found"
+@@ -309,14 +293,6 @@
+                                         		])
+                                         		continue 2
+                                         	;;
+-						firefox-36-libzg)
+-                                        		AC_CONFIG_FILES([
+-                                        			firefox-36-libzg/Makefile
+-                                        			firefox-36-libzg/extension/Makefile
+-                                        			firefox-36-libzg/extension/components/Makefile
+-                                        		])
+-                                        		continue 2
+-                                        	;;
+                                         	geany)
+                                         		AC_CONFIG_FILES([geany/Makefile])
+                                         		continue 2

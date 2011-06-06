@@ -4,47 +4,48 @@
 
 EAPI=3
 
-inherit eutils versionator
+inherit eutils versionator autotools bzr
 
 DESCRIPTION="Data providers to the zeitgeist service"
 HOMEPAGE="https://launchpad.net/zeitgeist-dataproviders"
 #SRC_URI="http://launchpad.net/${PN}/$(get_version_component_range 1-2)/${PV}/+download/${P}.tar.gz"
-SRC_URI="http://distfiles.one-gear.com/distfiles/${P}.tar.gz"
+#SRC_URI="http://distfiles.one-gear.com/distfiles/${P}.tar.gz"
+
+EBZR_REPO_URI="lp:zeitgeist-dataproviders"
+#EBZR_BOOTSTRAP="autogen.sh"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
-IUSE="eog gedit tomboy totem vim xulrunner"
+KEYWORDS=""
+IUSE="eog telepathy tomboy vim xchat xulrunner"
 
 VALA_SLOT="0.12"
 
 DEPEND="app-misc/zeitgeist
 	eog? ( media-gfx/eog[python] )
-	totem?	( media-video/totem
-			  dev-libs/libzeitgeist
-			)
-	xulrunner? ( net-libs/xulrunner
+	xulrunner? ( <net-libs/xulrunner-2.0
 				 dev-libs/libzeitgeist
 			   )
 	tomboy? ( 	app-misc/tomboy
 				dev-dotnet/gtk-sharp
 				dev-dotnet/zeitgeist-sharp
 			)
-	gedit? ( app-editors/gedit )
 	vim? ( app-editors/vim[python] )
+	xchat?  ( || ( net-irc/xchat net-irc/xchat-gnome )
+				dev-libs/libzeitgeist
+			)
 	dev-lang/vala:${VALA_SLOT}"
 RDEPEND="${DEPEND}"
 
-PLUGINS="eog gedit tomboy totem vim xulrunner"
+PLUGINS="eog gedit telepathy tomboy totem vim xchat xulrunner"
 
 src_prepare() {
 	sed -i 's:vim72:vimfiles:' vim/Makefile.*
+	eautoreconf
 }
 
 src_configure() {
-	local myconf
-	myconf="VALAC=$(type -p valac-${VALA_SLOT})"
-	econf ${myconf}
+	econf VALAC=$(type -p valac-${VALA_SLOT})
 }
 
 src_compile() {
@@ -81,9 +82,6 @@ set_plugin_dir() {
 	local plugin="$1"
 
 	case "${plugin}" in
-		"totem" )
-			PLUGIN_DIR="${S}/totem-libzg";;
-	
 		"xulrunner" )
 			PLUGIN_DIR="${S}/firefox-libzg";;
 
