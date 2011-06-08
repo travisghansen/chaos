@@ -10,7 +10,7 @@ inherit eutils mono
 
 DESCRIPTION="SparkleShare is a file sharing and collaboration tool inspired by Dropbox"
 HOMEPAGE="http://www.sparkleshare.org"
-SRC_URI="http://github.com/downloads/hbons/SparkleShare/sparkleshare-0.2-rc1.tar.gz"
+SRC_URI="http://github.com/downloads/hbons/SparkleShare/${P}.tar.gz"
 
 LICENSE="GPL-3"
 KEYWORDS="~x86 ~amd64"
@@ -34,7 +34,7 @@ RDEPEND="${DEPEND}
 		>=gnome-base/gvfs-1.3
 		dev-util/intltool"
 
-S="${WORKDIR}/sparkleshare-0.2-rc1"
+#S="${WORKDIR}/sparkleshare-0.2-rc1"
 
 src_install() {
 	emake install DESTDIR=${D} || die "error installing"

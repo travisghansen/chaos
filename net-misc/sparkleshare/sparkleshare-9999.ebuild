@@ -9,6 +9,7 @@ WANT_AUTOMAKE="1.11"
 inherit autotools base eutils mono
 
 EGIT_REPO_URI="git://github.com/hbons/SparkleShare.git"
+#EGIT_REPO_URI="git://github.com/travisghansen/SparkleShare.git"
 EGIT_BOOTSTRAP="autogen.sh"
 
 if [[ ${PV} == "9999" ]] ; then
