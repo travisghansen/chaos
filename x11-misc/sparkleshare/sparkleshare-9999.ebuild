@@ -36,10 +36,11 @@ DEPEND=">=dev-lang/mono-2.2
 		>=dev-dotnet/webkit-sharp-0.3
 		nautilus? ( dev-python/nautilus-python )"
 RDEPEND="${DEPEND}
-		>=dev-vcs/git-1.7
-		net-misc/openssh
-		>=gnome-base/gvfs-1.3
-		dev-util/intltool"
+		 >=dev-vcs/git-1.7
+		 net-misc/openssh
+		 >=gnome-base/gvfs-1.3
+		 dev-util/intltool
+		 x11-misc/xdg-utils"
 
 src_compile() {
 	emake || die "make failed"
