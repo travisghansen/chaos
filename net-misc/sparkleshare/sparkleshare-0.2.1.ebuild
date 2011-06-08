@@ -4,16 +4,14 @@
 
 EAPI=3
 
-WANT_AUTOMAKE="1.11"
-
 inherit eutils mono
 
-DESCRIPTION="SparkleShare is a file sharing and collaboration tool inspired by Dropbox"
+DESCRIPTION="File sharing and collaboration tool inspired by Dropbox"
 HOMEPAGE="http://www.sparkleshare.org"
 SRC_URI="http://github.com/downloads/hbons/SparkleShare/${P}.tar.gz"
 
 LICENSE="GPL-3"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 SLOT="0"
 IUSE="nautilus"
 
@@ -32,7 +30,8 @@ RDEPEND="${DEPEND}
 		>=dev-vcs/git-1.7
 		net-misc/openssh
 		>=gnome-base/gvfs-1.3
-		dev-util/intltool"
+		dev-util/intltool
+		nautilus? ( x11-misc/xdg-utils )"
 
 #S="${WORKDIR}/sparkleshare-0.2-rc1"
 
