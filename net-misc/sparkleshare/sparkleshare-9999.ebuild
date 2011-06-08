@@ -42,6 +42,12 @@ RDEPEND="${DEPEND}
 		 dev-util/intltool
 		 x11-misc/xdg-utils"
 
+src_configure() {
+	ewarn "fix configure to properly enable/disable the nautilus extension"
+	ewarn "also documentation"
+	base_src_configure
+}
+
 src_compile() {
 	emake || die "make failed"
 }
