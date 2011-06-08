@@ -21,7 +21,7 @@ HOMEPAGE="http://www.sparkleshare.org"
 SRC_URI=""
 
 LICENSE="GPL-3"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="-*"
 SLOT="0"
 IUSE="nautilus"
 
