@@ -7,8 +7,8 @@ inherit eutils versionator
 
 MY_PKG="Percona-Server"
 MAJOR_MINOR=$(get_version_component_range 1-2)
-RELEASE="20.2"
-BUILD_NUMBER="116"
+RELEASE="20.3"
+BUILD_NUMBER="118"
 
 use x86 && M_ARCH="i686"
 use amd64 && M_ARCH="x86_64"
@@ -64,6 +64,9 @@ src_install() {
 	#Init scripts
 	newconfd "${FILESDIR}/${PN}.conf" "percona"
 	newinitd "${FILESDIR}/${PN}.init" "percona"
+	dodir /etc/profile.d
+	insinto /etc/profile.d
+	doins "${FILESDIR}"/percona-bin-path.sh
 }
 
 pkg_postinst() {
@@ -78,6 +81,16 @@ pkg_postinst() {
 	einfo "[client]
 socket = /var/run/percona/mysqld.sock
 ..."
+	einfo ""
+	einfo "an sh file has been installed to /etc/profile.d/percona-bin-path.sh"
+	einfo "making the percona binary path takes precedence over standard mysql"
+	einfo "if this is not desired simply comment the line out in the file"
+	einfo ""
+	einfo "you could also place the same logic into your .bashrc"
+	einfo "please run 'soure /etc/profile' to reload your current shell"
+
+	ewarn "You *must* copy /etc/percona/my.cnf.sample to"
+	ewarn "/etc/percona/my.cnf and then edit as desired"
 }
 
 pkg_config() {
@@ -115,7 +128,10 @@ pkg_config() {
 	help_tables="${TMPDIR}/fill_help_tables.sql"
 
 	pushd "${TMPDIR}" &>/dev/null
-	${ROOT}/opt/percona/bin/mysql_install_db --basedir=/opt/percona --datadir=/var/lib/percona --user mysql >"${TMPDIR}"/mysql_install_db.log 2>&1
+	${ROOT}/opt/percona/bin/mysql_install_db --basedir=/opt/percona \
+	--datadir=/var/lib/percona --user mysql \
+	--defaults-file=${ROOT}/etc/percona/my.cnf.sample \
+	>"${TMPDIR}"/mysql_install_db.log 2>&1
 	#${ROOT}opt/percona/bin/mysql_install_db --basedir=/opt/percona --datadir=/var/lib/percona --user mysql
 	if [ $? -ne 0 ]; then
 		grep -B5 -A999 -i "ERROR" "${TMPDIR}"/mysql_install_db.log 1>&2
@@ -153,6 +169,7 @@ pkg_config() {
 	local socket="${ROOT}/var/run/percona/mysqld${RANDOM}.sock"
 	local pidfile="${ROOT}/var/run/percona/mysqld${RANDOM}.pid"
 	local mysqld="${ROOT}/opt/percona/bin/mysqld \
+		--defaults-file=${ROOT}/etc/percona/my.cnf.sample
 		${options} \
 		--user=mysql \
 		--basedir=${ROOT}/opt/percona \

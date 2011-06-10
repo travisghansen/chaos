@@ -80,8 +80,8 @@ tmpdir 						= /tmp/
 # if needed, uncomment them, start the server and issue 
 # #tail -f /tmp/mysqld.sql /tmp/mysqld.trace
 # this will show you *exactly* what's happening in your server ;)
-
-log						= /tmp/mysqld-percona.sql
+general-log
+general-log-file			= /tmp/mysqld-percona.sql
 #gdb
 #debug						= d:t:i:o,/tmp/mysqld.trace
 #one-thread
