@@ -1,0 +1,18 @@
+app-misc/zeitgeist
+app-misc/zeitgeist-datasources
+app-misc/zeitgeist-extension
+
+dev-dotnet/zeitgeist-sharp
+dev-libs/libzeitgeist
+
+dev-python/pympler
+dev-python/python-geoclue
+dev-python/sqlparse
+
+gnome-extra/activity-log-manager
+gnome-extra/gnome-activity-journal
+gnome-extra/sezen <--perhaps someday, not really ready at this point
+gnone-extra/synapse
+gnome-extra/zeitgeist-datahub
+
+media-plugins/banshee-zeitgeist <--should work with media-plugins/banshee-community-extensions to get this integrated properly there
