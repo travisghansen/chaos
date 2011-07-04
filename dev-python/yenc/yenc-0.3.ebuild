@@ -2,6 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI=3
+PYTHON_DEPEND=2
+
 inherit distutils
 
 DESCRIPTION="A fairly simple module, it provide only raw yEnc
