@@ -12,6 +12,7 @@ SRC_URI="http://github.com/downloads/hbons/SparkleShare/${P}.tar.gz"
 
 LICENSE="GPL-3"
 KEYWORDS="~amd64 ~x86"
+RESTRICT="mirror"
 SLOT="0"
 IUSE="nautilus"
 
