@@ -32,11 +32,9 @@ pkg_setup() {
 
 src_install() {
 	emake install DESTDIR="${D}" || die "Failed to install"
-	# installed by zeitgeist-datahub now
-	rm "${D}/usr/share/man/man1/zeitgeist-datahub.1"
 }
 
 pkg_postinst() {
 	einfo "You probably want to insatll a few extra apps"
-	einfo "\tapp-misc/zeitgeist-extensions"
+	einfo "\tapp-misc/zeitgeist-datasources"
 }
