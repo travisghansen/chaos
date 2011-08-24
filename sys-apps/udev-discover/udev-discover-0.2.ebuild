@@ -4,6 +4,7 @@
 
 EAPI=3
 PYTHON_DEPEND="2"
+PYTHON_MODNAME="udevdiscover"
 
 inherit distutils gnome2 versionator
 
@@ -18,9 +19,8 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="dev-python/gconf-python
-	dev-python/pygobject
+	dev-python/pygobject:2[introspection]
 	dev-python/python-gudev
-	dev-python/pygtk
 	x11-libs/gtk+:3[introspection]
 	gnome-base/gconf[introspection]
 	x11-libs/gdk-pixbuf[introspection]"
@@ -47,9 +47,11 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
+	distutils_pkg_postinst
 	gnome2_pkg_postinst
 }
 
 pkg_postrm() {
+	distutils_pkg_postrm
 	gnome2_pkg_postrm
 }
