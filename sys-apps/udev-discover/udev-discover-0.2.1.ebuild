@@ -11,7 +11,7 @@ inherit distutils gnome2 versionator
 DESCRIPTION="A helping tool for udev testers, coders, hackers and consumers"
 HOMEPAGE="https://launchpad.net/udev-discover"
 #SRC_URI="http://launchpad.net/${PN}/$(get_version_component_range 1-2)/${PV}/+download/${P}.tar.gz"
-SRC_URI="http://launchpad.net/${PN}/$(get_version_component_range 1-2)/0.2.0/+download/${P}.tar.gz"
+SRC_URI="http://launchpad.net/${PN}/$(get_version_component_range 1-2)/0.2.1/+download/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -28,6 +28,7 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
 	sed -i "s:@PREFIX@:/usr:" udev-discover.in
+	sed -i "s:/usr/local:/usr:" setup.cfg
 }
 
 src_configure() {
