@@ -23,7 +23,7 @@ MY_APP="${PN#xmpppy-}"
 MY_FILE="${MY_APP}.py"
 
 src_unpack() { : ; }
-src_prepare() { 
+src_prepare() {
 	mkdir "${S}"
 	cp "${FILESDIR}/${MY_FILE}" "${S}" || die $1
 	cd "${S}"
@@ -42,7 +42,6 @@ src_install() {
 		insinto "/etc/${MY_APP}"
 		newins "${FILESDIR}/${PN}-config" "${MY_APP}"
 	fi
-		
 }
 
 pkg_postinst() {

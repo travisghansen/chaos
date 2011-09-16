@@ -1,7 +1,10 @@
---- xsend.py	2006-10-06 06:30:42.000000000 -0600
-+++ xsend.py.new	2010-01-28 16:23:35.653977297 -0700
-@@ -3,18 +3,50 @@
- import sys,os,xmpp,time
+--- xsend.py	2011-09-16 10:47:50.792976201 -0600
++++ xsend.py.new	2011-09-16 11:08:08.853272216 -0600
+@@ -1,26 +1,64 @@
+ #!/usr/bin/python
+ # $Id: xsend.py,v 1.8 2006/10/06 12:30:42 normanr Exp $
+-import sys,os,xmpp,time
++import sys,os,xmpp,time,binascii
  
  if len(sys.argv) < 2:
 -    print "Syntax: xsend JID text"
@@ -55,3 +58,29 @@
  for mandatory in ['jid','password']:
      if mandatory not in jidparams.keys():
          open(os.environ['HOME']+'/.xsend','w').write('#Uncomment fields before use and type in correct credentials.\n#JID=romeo@montague.net/resource (/resource is optional)\n#PASSWORD=juliet\n')
+         print 'Please point ~/.xsend config file to valid JID for sending messages.'
+         sys.exit(0)
+ 
++if jidparams['jid'].find("/") != -1:
++    # prevent concurrent collisions
++    jidparams['jid'] = jidparams['jid'] + '-random-' + binascii.hexlify(os.urandom(10))
++
++#print jidparams['jid']
++
+ jid=xmpp.protocol.JID(jidparams['jid'])
+ cl=xmpp.Client(jid.getDomain(),debug=[])
+ 
+@@ -36,9 +74,10 @@
+ print 'authenticated using',auth
+ 
+ #cl.SendInitPresence(requestRoster=0)   # you may need to uncomment this for old server
+-id=cl.send(xmpp.protocol.Message(tojid,text))
+-print 'sent message with id',id
++for ijid in tojid.split(","):
++    id=cl.send(xmpp.protocol.Message(ijid,text))
++    print 'sent message with id',id
+ 
+-time.sleep(1)   # some older servers will not send the message if you disconnect immediately after sending
++#time.sleep(1)   # some older servers will not send the message if you disconnect immediately after sending
+ 
+ #cl.disconnect()
