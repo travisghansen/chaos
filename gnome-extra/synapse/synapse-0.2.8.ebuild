@@ -13,7 +13,7 @@ SRC_URI="http://launchpad.net/${PN}-project/$(get_version_component_range 1-2)/$
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="zeitgeist"
+IUSE="+rest zeitgeist"
 
 VALA_SLOT="0.12"
 
@@ -25,6 +25,7 @@ DEPEND=">=dev-libs/glib-2.22.0
 	dev-libs/libunique:1
 	dev-libs/dbus-glib
 	dev-libs/json-glib
+	rest? ( net-libs/rest )
 	sys-apps/dbus
 	x11-libs/cairo
 	x11-libs/gdk-pixbuf:2
@@ -42,7 +43,7 @@ src_prepare() {
 
 src_configure() {
 	econf --disable-indicator VALAC=$(type -p valac-${VALA_SLOT}) \
-		$(use_enable zeitgeist)
+		$(use_enable zeitgeist) $(use_enable rest librest)
 }
 
 src_install() {
@@ -55,6 +56,7 @@ pkg_preinst() {
 
 pkg_postinst() {
 	gnome2_icon_cache_update
+	einfo "You may be interested in app-text/pastebinit for pastebin support"
 }
 
 pkg_postrm() {
