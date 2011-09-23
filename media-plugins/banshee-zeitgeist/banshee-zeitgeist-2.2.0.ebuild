@@ -27,14 +27,20 @@ src_configure() {
 
 	cd "${S}"
 
-	econf \
-	--disable-alarmclock --disable-ampache --disable-appindicator \
-	--disable-awn --disable-clutterflow --disable-coverwallpaper \
-	--disable-jamendo --disable-lastfmfingerprint --disable-lcd --disable-lirc \
-	--disable-liveradio --disable-lyrics --disable-magnatune --disable-mirage \
-	--disable-openvp --disable-radiostationfetcher --disable-randombylastfm \
-	--disable-soundmenu --disable-streamrecorder --disable-telepathy \
-	--disable-ubuntuonemusicstore --disable-karaoke
+	local myconf="--enable-gnome
+        --disable-static
+        --enable-release
+        --disable-maintainer-mode
+        --with-gconf-schema-file-dir=/etc/gconf/schemas
+        --with-vendor-build-id=Gentoo/${PN}/${PVR}
+        --disable-scrollkeeper
+        --disable-clutterflow --disable-appindicator --disable-openvp
+        --enable-zeitgeistdataprovider
+        --enable-ampache --enable-karaoke --enable-jamendo
+        --enable-randombylastfm --enable-albumartwriter
+        --enable-duplicatesongdetector"
+
+	econf ${myconf}
 
 }
 
