@@ -13,7 +13,7 @@ SRC_URI="http://launchpad.net/${PN}/$(get_version_component_range 1-2)/$(get_ver
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="chromium eog gedit telepathy tomboy totem vim xchat xchat-gnome xulrunner"
+IUSE="chromium eog firefox gedit telepathy tomboy totem vim xchat xchat-gnome"
 
 VALA_SLOT="0.12"
 
@@ -25,9 +25,9 @@ DEPEND="app-misc/zeitgeist
 	totem?	( media-video/totem
 			  dev-libs/libzeitgeist
 			)
-	xulrunner? ( >=net-libs/xulrunner-2.0
-				 dev-libs/libzeitgeist
-			   )
+	firefox? ( || ( ( >=www-client/firefox-4.0 ) ( >=www-client/firefox-bin-4.0 ) )
+			   dev-libs/libzeitgeist
+			 )
 	tomboy? ( app-misc/tomboy
 			  dev-dotnet/gtk-sharp
 			  dev-dotnet/zeitgeist-sharp
@@ -51,10 +51,13 @@ RDEPEND="${DEPEND}"
 # missing bzr emacs geany rhythmbox
 # if you're reading his maybe you
 # test those and enable
-PLUGINS="chromium eog gedit telepathy tomboy totem vim xchat xchat-gnome xulrunner"
+PLUGINS="chromium eog gedit telepathy tomboy totem vim xchat xchat-gnome"
 
 src_prepare() {
-	#epatch "${FILESDIR}"/remove-firefox-36.patch
+	# remove bad 3.6/4.0 ff support
+	# https://bugs.launchpad.net/zeitgeist-datasources/+bug/800169
+	epatch "${FILESDIR}"/remove-firefox.patch
+
 	sed -i 's:vim72:vimfiles:' vim/Makefile.*
 	# not usable please see
 	# http://code.google.com/chrome/extensions/trunk/external_extensions.html
@@ -92,11 +95,21 @@ src_install() {
 					insinto /usr/$(get_libdir)/xchat-gnome/plugins
 					doins .libs/zeitgeist_dataprovider.so
 					;;
+				"firefox" )
+
+					;;
 				* )
 					emake install DESTDIR="${D}" || die "Failed installing ${PLUGIN} plugin";;
 			esac
 		fi
 	done
+
+	if use firefox ; then
+		# see install.rdf to determine the extension id
+		insinto \
+			"/usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+		doins ${FILESDIR}/xpcom-firefox@zeitgeist-project.com.xpi
+	fi
 
 }
 
@@ -124,9 +137,6 @@ set_plugin_dir() {
 		"totem" )
 			PLUGIN_DIR="${S}"/totem-libzg;;
 	
-		"xulrunner" )
-			PLUGIN_DIR="${S}"/firefox-40-libzg;;
-
 		"xchat-gnome" )
 			PLUGIN_DIR="${S}"/xchat;;
 
