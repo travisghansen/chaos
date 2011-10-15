@@ -21,7 +21,7 @@ DEPEND="app-misc/zeitgeist
 	chromium? ( dev-libs/libzeitgeist
 			  www-client/chromium
 			)
-	eog? ( media-gfx/eog[python] )
+	eog? ( || ( ( <=media-gfx/eog-3[python] ) ( media-gfx/eog ) ) )
 	totem?	( media-video/totem
 			  dev-libs/libzeitgeist
 			)
