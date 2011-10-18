@@ -7,8 +7,8 @@ inherit eutils multilib
 
 MY_PN="gstreamer-vaapi"
 DESCRIPTION="GStreamer VA-API plugins"
-HOMEPAGE="http://www.splitted-desktop.com/~gbeauchesne/${MY_PN}/"
-SRC_URI="http://www.splitted-desktop.com/~gbeauchesne/${MY_PN}/${MY_PN}-${PV}.tar.gz"
+HOMEPAGE="http://gitorious.org/vaapi/gstreamer-vaapi"
+SRC_URI="http://distfiles.one-gear.com/distfiles/${MY_PN}-${PV}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
