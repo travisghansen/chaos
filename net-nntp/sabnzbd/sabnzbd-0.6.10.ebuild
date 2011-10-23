@@ -91,7 +91,7 @@ src_install() {
 	#Add themes & code into /usr/share
 	dodir /usr/share/${P}
 	insinto /usr/share/${P}
-	for i in cherrypy interfaces sabnzbd email locale po tools util;do
+	for i in cherrypy gntp interfaces sabnzbd email locale po tools util;do
 		doins -r $i || die "installing $i directory"
 	done
 

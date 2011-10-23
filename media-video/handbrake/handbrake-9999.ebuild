@@ -29,6 +29,7 @@ RDEPEND="sys-libs/zlib
 DEPEND="=sys-devel/automake-1.10*
 	=sys-devel/automake-1.4*
 	=sys-devel/automake-1.9*
+	=sys-devel/automake-1.11*
 	dev-lang/yasm
 	>=dev-lang/python-2.4.6
 	|| ( >=net-misc/wget-1.11.4 >=net-misc/curl-7.19.4 ) 
