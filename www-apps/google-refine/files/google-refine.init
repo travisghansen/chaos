@@ -1,0 +1,30 @@
+#!/sbin/runscript
+# Copyright 1999-2007 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+PID_FILE="/var/run/google-refine/google-refine.pid"
+DAEMON="/opt/google-refine/refine"
+
+depend() {
+    need net
+}
+
+start() {
+	ebegin "Starting google-refine"
+	start-stop-daemon --start --quiet -b \
+	--pidfile "${PID_FILE}" -m \
+	--user google-refine --group google-refine \
+	--exec ${DAEMON} -- -p "${PORT-"3333"}" \
+	-d "${DATA_DIR-"/var/lib/google-refine"}" -v ${DEBUG_LEVEL-"info"} \
+	-i "${INTERFACE-"127.0.0.1"}"  &> /var/log/google-refine/output.log
+	# results in a java failure currently
+	#-m "${MAX_MEMORY-"1024"}"
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping google-refine"
+	start-stop-daemon --quiet --stop -R 20 --pidfile "${PID_FILE}"
+	eend $?
+}
