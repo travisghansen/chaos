@@ -9,33 +9,33 @@ WANT_AUTOMAKE="1.11"
 
 inherit base eutils mono python
 
-
-if [[ ${PV} == "9999" ]] ; then
-	EGIT_REPO_URI="git://github.com/hbons/SparkleShare.git"
-	EGIT_BOOTSTRAP="autogen.sh"
-	inherit git
-fi
-
 DESCRIPTION="SparkleShare is a file sharing and collaboration tool inspired by Dropbox"
 HOMEPAGE="http://www.sparkleshare.org"
-SRC_URI=""
+SRC_URI="http://github.com/downloads/hbons/SparkleShare/${P}.tar.gz"
 
 LICENSE="GPL-3"
-KEYWORDS="-*"
+KEYWORDS="~amd64 ~x86"
+RESTRICT="mirror"
 SLOT="0"
 IUSE="nautilus"
 
-#MY_PV="${PV/_beta/-beta}"
-#MY_P="${PN}-${MY_PV}"
-
-#SRC_URI="http://www.sparkleshare.org/${MY_P}.tar.gz"
+DOCS=("README" "NEWS" "AUTHORS")
 
 DEPEND=">=dev-lang/mono-2.2
 		>=dev-dotnet/gtk-sharp-2.12.7
 		>=dev-dotnet/ndesk-dbus-0.6
 		>=dev-dotnet/ndesk-dbus-glib-0.4.1
 		>=dev-dotnet/webkit-sharp-0.3
-		nautilus? ( dev-python/nautilus-python )"
+		nautilus? ( || ( ( >=dev-python/nautilus-python-1.1
+						   >=gnome-base/nautilus-3.2.0[introspection]
+						   >=dev-libs/gobject-introspection-1.30.0-r1
+						   x11-libs/gtk+:3[introspection]
+						 )
+						 ( <dev-python/nautilus-python-1.1
+						   <=gnome-base/nautilus-3
+						 )
+				       )
+				  )"
 RDEPEND="${DEPEND}
 		 >=dev-vcs/git-1.7
 		 net-misc/openssh
@@ -44,8 +44,6 @@ RDEPEND="${DEPEND}
 		 x11-misc/xdg-utils"
 
 src_configure() {
-	ewarn "fix configure to properly enable/disable the nautilus extension"
-	ewarn "also documentation"
 	base_src_configure $(use_enable nautilus nautilus-extension)
 }
 
