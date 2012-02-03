@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND=">=app-misc/zeitgeist-0.8.0
+DEPEND=">=gnome-extra/zeitgeist-0.8.0
 	dev-python/pygtk"
 
 RDEPEND="${DEPEND}"
