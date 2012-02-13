@@ -8,12 +8,14 @@ inherit eutils git-2 multilib
 MY_PN="gstreamer-vaapi"
 DESCRIPTION="GStreamer VA-API plugins"
 HOMEPAGE="http://gitorious.org/vaapi/gstreamer-vaapi"
+
+EGIT_BRANCH="0.2-branch"
 EGIT_REPO_URI="git://gitorious.org/vaapi/gstreamer-vaapi.git"
 EGIT_BOOTSTRAP="autogen.sh"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="-*"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND=">=media-libs/gstreamer-0.10.0                                                     
@@ -28,6 +30,6 @@ src_configure() {
 
 src_install() {
 	emake DESTDIR="${D}" install || die
-	dodoc AUTHORS README COPYING NEWS  
+	dodoc AUTHORS README NEWS  
 	find "${D}"usr/$(get_libdir) -name '*.la' -delete
 }
