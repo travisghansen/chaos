@@ -1,1 +1,0 @@
-#*/20 * * * * /usr/share/prey/prey.sh &> /var/log/prey.log
