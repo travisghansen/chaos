@@ -7,12 +7,23 @@ PYTHON_DEPEND="2"
 
 WANT_AUTOMAKE="1.11"
 
-inherit base eutils mono python
+inherit base eutils gnome2-utils fdo-mime mono python
+
+if [[ ${PV} == *9999* ]] ; then
+	EGIT_REPO_URI="git://github.com/hbons/SparkleShare.git"
+	EGIT_BOOTSTRAP="autogen.sh"
+	inherit git-2
+fi
+
+if [[ ${PV} == *9999* ]]; then
+	RELEASE_URI=""
+else
+	RELEASE_URI="http://github.com/downloads/hbons/SparkleShare/${PN}-linux-${PV}.tar.gz"
+fi
 
 DESCRIPTION="SparkleShare is a file sharing and collaboration tool inspired by Dropbox"
 HOMEPAGE="http://www.sparkleshare.org"
-SRC_URI="http://github.com/downloads/hbons/SparkleShare/${P}.tar.gz"
-
+SRC_URI="${RELEASE_URI}"
 LICENSE="GPL-3"
 KEYWORDS="~amd64 ~x86"
 RESTRICT="mirror"
@@ -26,6 +37,7 @@ DEPEND=">=dev-lang/mono-2.2
 		>=dev-dotnet/ndesk-dbus-0.6
 		>=dev-dotnet/ndesk-dbus-glib-0.4.1
 		>=dev-dotnet/webkit-sharp-0.3
+		>=dev-util/desktop-file-utils-0.20
 		nautilus? ( || ( ( >=dev-python/nautilus-python-1.1
 						   >=gnome-base/nautilus-3.2.0[introspection]
 						   >=dev-libs/gobject-introspection-1.30.0-r1
@@ -35,7 +47,8 @@ DEPEND=">=dev-lang/mono-2.2
 						   <=gnome-base/nautilus-3
 						 )
 				       )
-				  )"
+				  )
+		>=app-text/gnome-doc-utils-0.17.3"
 RDEPEND="${DEPEND}
 		 >=dev-vcs/git-1.7
 		 net-misc/openssh
@@ -48,13 +61,24 @@ src_configure() {
 }
 
 src_compile() {
-	emake || die "make failed"
+#	emake || die "make failed"
+	make
+}
+
+pkg_preinst() {
+	gnome2_icon_savelist
 }
 
 pkg_postinst() {
 	python_mod_optimize /usr/share/nautilus-python/extensions/
+    fdo-mime_desktop_database_update
+	fdo-mime_mime_database_update
+	gnome2_icon_cache_update
 }
 
 pkg_postrm() {
 	python_mod_cleanup /usr/share/nautilus-python/extensions/
+	fdo-mime_desktop_database_update
+	fdo-mime_mime_database_update
+	gnome2_icon_cache_update
 }

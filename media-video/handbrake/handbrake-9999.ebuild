@@ -24,8 +24,10 @@ RDEPEND="sys-libs/zlib
 			x11-libs/libnotify
 			media-libs/gstreamer
 			media-libs/gst-plugins-base
-			>=sys-fs/udev-147[extras]
-	)"
+			>=sys-fs/udev-181
+	)
+	dev-libs/fribidi
+	dev-util/intltool"
 DEPEND="=sys-devel/automake-1.10*
 	=sys-devel/automake-1.4*
 	=sys-devel/automake-1.9*
@@ -44,7 +46,7 @@ src_configure() {
 }
 
 src_compile() {
-	WANT_AUTOMAKE=1.9 emake -C build || die "failed compiling ${PN}"
+	WANT_AUTOMAKE=1.11 emake -C build || die "failed compiling ${PN}"
 }
 
 src_install() {
