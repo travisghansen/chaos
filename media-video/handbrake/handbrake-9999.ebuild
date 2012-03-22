@@ -24,7 +24,7 @@ RDEPEND="sys-libs/zlib
 			x11-libs/libnotify
 			media-libs/gstreamer
 			media-libs/gst-plugins-base
-			>=sys-fs/udev-181
+			|| ( >=sys-fs/udev-181 <sys-fs/udev-181[extras] )
 	)
 	dev-libs/fribidi
 	dev-util/intltool"
