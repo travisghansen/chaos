@@ -61,8 +61,8 @@ src_configure() {
 }
 
 src_compile() {
-#	emake || die "make failed"
-	make
+	emake -j1 || die "make failed"
+#	make
 }
 
 pkg_preinst() {
