@@ -1,0 +1,13 @@
+--- SparkleShare/Makefile.in.orig	2012-03-19 00:16:37.771932723 -0600
++++ SparkleShare/Makefile.in	2012-03-19 00:19:54.730697791 -0600
+@@ -786,8 +786,10 @@
+ 	fi;
+ 
+ install-data-hook:
++ifndef DESTDIR
+ 	update-desktop-database $(datadir)/applications
+ 	echo "Installed protocol handler sparkleshare://"
++endif
+ 
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.

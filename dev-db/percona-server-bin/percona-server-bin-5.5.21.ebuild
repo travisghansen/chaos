@@ -7,8 +7,8 @@ inherit eutils versionator
 
 MY_PKG="Percona-Server"
 MAJOR_MINOR=$(get_version_component_range 1-2)
-RELEASE="25.0"
-BUILD_NUMBER="227"
+RELEASE="25.1"
+BUILD_NUMBER="234"
 
 use x86 && M_ARCH="i686"
 use amd64 && M_ARCH="x86_64"

@@ -17,15 +17,16 @@ fi
 
 if [[ ${PV} == *9999* ]]; then
 	RELEASE_URI=""
+	KEYWORDS="-*"
 else
 	RELEASE_URI="http://github.com/downloads/hbons/SparkleShare/${PN}-linux-${PV}.tar.gz"
+	KEYWORDS="~amd64 ~x86"
 fi
 
 DESCRIPTION="SparkleShare is a file sharing and collaboration tool inspired by Dropbox"
 HOMEPAGE="http://www.sparkleshare.org"
 SRC_URI="${RELEASE_URI}"
 LICENSE="GPL-3"
-KEYWORDS="~amd64 ~x86"
 RESTRICT="mirror"
 SLOT="0"
 IUSE="nautilus"

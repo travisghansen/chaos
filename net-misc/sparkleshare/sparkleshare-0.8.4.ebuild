@@ -56,6 +56,8 @@ RDEPEND="${DEPEND}
 		 dev-util/intltool
 		 x11-misc/xdg-utils"
 
+PATCHES="${FILESDIR}/${P}-destdir.patch"
+
 src_configure() {
 	base_src_configure $(use_enable nautilus nautilus-extension)
 }
