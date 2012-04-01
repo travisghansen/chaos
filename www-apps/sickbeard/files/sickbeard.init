@@ -4,8 +4,6 @@
 # $Header: $
 
 
-opts="start stop"
-
 APP_PATH="/usr/share/sickbeard/SickBeard.py"
 PID_FILE="/var/run/sickbeard/sickbeard.pid"
 DAEMON="/usr/bin/python2"
