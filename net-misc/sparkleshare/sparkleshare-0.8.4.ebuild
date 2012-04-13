@@ -38,6 +38,7 @@ DEPEND=">=dev-lang/mono-2.2
 		>=dev-dotnet/ndesk-dbus-glib-0.4.1
 		>=dev-dotnet/webkit-sharp-0.3
 		>=dev-util/desktop-file-utils-0.20
+		dev-dotnet/notify-sharp
 		nautilus? ( || ( ( >=dev-python/nautilus-python-1.1
 						   >=gnome-base/nautilus-3.2.0[introspection]
 						   >=dev-libs/gobject-introspection-1.30.0-r1
