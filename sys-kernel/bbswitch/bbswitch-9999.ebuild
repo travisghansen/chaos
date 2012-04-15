@@ -33,6 +33,7 @@ MODULE_NAMES="bbswitch(kernel/drivers/acpi)"
 pkg_setup() {
 	linux-mod_pkg_setup
 	BUILD_TARGETS="default"
+	BUILD_PARAMS="KVERSION=${KV_FULL}"
 }
 
 src_install() {
