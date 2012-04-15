@@ -32,5 +32,6 @@ src_compile() {
 
 src_install() {
 	emake DESTDIR="${D}" install
+	dodir /etc/percona-toolkit
 	dodoc Changelog COPYING INSTALL README
 }
