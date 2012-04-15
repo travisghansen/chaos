@@ -17,11 +17,12 @@ IUSE=""
 # Be warned, *DEPEND are version-dependant
 # These are used for both runtime and compiletime
 DEPEND=">=dev-lang/perl-5.8
-	>=app-shells/bash-3"
+	>=app-shells/bash-3
+	virtual/perl-ExtUtils-MakeMaker"
 
 RDEPEND="${DEPEND}
-	dev-perl/DBD-mysql
-	dev-perl/DBI
+	>=dev-perl/DBD-mysql-3
+	>=dev-perl/DBI-1.46
 	virtual/perl-Time-HiRes"
 
 src_compile() {
