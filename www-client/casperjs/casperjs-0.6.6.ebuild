@@ -5,7 +5,7 @@
 EAPI=3
 PYTHON_DEPEND="2"
 
-inherit git-2
+inherit eutils git-2
 
 EGIT_REPO_URI="git://github.com/n1k0/casperjs.git"
 if [[ ${PV} != *9999* ]] ; then
@@ -26,6 +26,11 @@ SLOT="0"
 
 DEPEND="|| ( ( >=www-client/phantomjs-bin-1.5.0 ) ( >=www-client/phantomjs-1.5.0 ) )"
 RDEPEND="${DEPEND}"
+
+
+src_prepare(){
+	epatch "${FILESDIR}"/0.6.6-args-with-equals.patch
+}
 
 src_install(){
 	dodir "/opt/${PN}"
