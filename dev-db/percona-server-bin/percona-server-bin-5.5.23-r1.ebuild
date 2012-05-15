@@ -20,9 +20,9 @@ R_BUILD_NUMBER="240"
 C_MY_PKG="Percona-XtraDB-Cluster"
 C_RELEASE="23."
 C_BUILD_NUMBER="333"
-#http://www.percona.com/redir/downloads/Percona-XtraDB-Cluster/5.5.23-23.5/binary/linux/i686/Percona-XtraDB-Cluster-5.5.23-23..333.Linux.i686.tar.gz
 
-
+#https://bugs.launchpad.net/percona-xtradb-cluster/+bug/999495
+#for the silly 5 after release
 C_X86_URI="${BASE_URI}/${C_MY_PKG}/${PV}-${C_RELEASE}5/binary/linux/i686/${C_MY_PKG}-${PV}-${C_RELEASE}.${C_BUILD_NUMBER}.Linux.i686.tar.gz"
 C_X86_64_URI="${BASE_URI}/${C_MY_PKG}/${PV}-${C_RELEASE}5/binary/linux/x86_64/${C_MY_PKG}-${PV}-${C_RELEASE}.${C_BUILD_NUMBER}.Linux.x86_64.tar.gz"
 
@@ -91,6 +91,10 @@ src_install() {
 	dodir /etc/profile.d
 	insinto /etc/profile.d
 	doins "${FILESDIR}"/percona-bin-path.sh
+
+	#NASTY HACK
+	#https://bugs.launchpad.net/percona-xtradb-cluster/+bug/999492
+    dosym /lib/libncurses.so.5 /lib/libtinfo.so.5
 
 	use cluster && mv "${D}/etc/${SERVICE}/wsrep.cnf" \
 	                  "${D}/etc/${SERVICE}/wsrep.cnf.sample"
