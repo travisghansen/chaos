@@ -94,7 +94,7 @@ src_install() {
 
 	#NASTY HACK
 	#https://bugs.launchpad.net/percona-xtradb-cluster/+bug/999492
-    dosym /lib/libncurses.so.5 /lib/libtinfo.so.5
+	dosym /lib/libncurses.so.5 /lib/libtinfo.so.5
 
 	use cluster && mv "${D}/etc/${SERVICE}/wsrep.cnf" \
 	                  "${D}/etc/${SERVICE}/wsrep.cnf.sample"
