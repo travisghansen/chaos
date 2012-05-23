@@ -8,19 +8,27 @@ inherit distutils versionator eutils gnome2-utils
 
 DESCRIPTION="A screencasting program created with design in mind."
 HOMEPAGE="https://launchpad.net/kazam"
-#SRC_URI="http://launchpad.net/${PN}/$(get_version_component_range 1-2)/${PV}/+download/${P}.tar.gz"
-SRC_URI="http://distfiles.one-gear.com/distfiles/${P}.tar.gz"
+SRC_URI="http://launchpad.net/${PN}/stable/$(get_version_component_range 1-3)/+download/${P}.tar.gz"
+#SRC_URI="http://distfiles.one-gear.com/distfiles/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-IUSE=""
+IUSE="youtube"
 
-DEPEND="dev-python/pygtk
-	dev-python/librsvg-python
-	dev-libs/keybinder[python]
-	dev-python/python-xlib
-	media-video/ffmpeg[alsa,encode,X,x264]"
+DEPEND="x11-libs/gtk+:3[introspection]
+	dev-libs/gobject-introspection
+	dev-python/pyxdg
+	dev-python/pycurl
+	media-plugins/gst-plugins-vp8
+	media-plugins/gst-plugins-x264
+	media-sound/pulseaudio
+	youtube? ( >=dev-python/gdata-1.2.4 )
+	>=dev-python/gst-python-0.10"
+
+#appears to be depricatted in favor of GStreamer
+#media-video/ffmpeg[alsa,encode,pulseaudio,X,x264]
+
 RDEPEND="${DEPEND}"
 
 pkg_preinst() {
