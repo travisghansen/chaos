@@ -27,11 +27,6 @@ SLOT="0"
 DEPEND="|| ( ( >=www-client/phantomjs-bin-1.5.0 ) ( >=www-client/phantomjs-1.5.0 ) )"
 RDEPEND="${DEPEND}"
 
-
-src_prepare(){
-	epatch "${FILESDIR}"/0.6.6-args-with-equals.patch
-}
-
 src_install(){
 	dodir "/opt/${PN}"
 	cp -R "${S}"/* "${D}/opt/${PN}"
