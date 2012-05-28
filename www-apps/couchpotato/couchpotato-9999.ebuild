@@ -5,11 +5,12 @@
 EAPI="2"
 PYTHON_DEPEND="2"
 
-inherit git
+inherit eutils git-2
 
 DESCRIPTION="CouchPotato is an automatic NZB and torrent downloader"
 HOMEPAGE="http://couchpotatoapp.com/"
-EGIT_REPO_URI="https://github.com/RuudBurger/CouchPotato.git"
+#EGIT_REPO_URI="https://github.com/RuudBurger/CouchPotato.git"
+EGIT_REPO_URI="git://github.com/RuudBurger/CouchPotatoServer.git"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -19,24 +20,37 @@ IUSE=""
 DEPEND=">=dev-lang/python-2.4"
 RDEPEND="${DEPEND}"
 
-S="${WORKDIR}/CouchPotato"
+S="${WORKDIR}/CouchPotatoServer"
 DOCS="*.md"
 
 pkg_setup() {
 	enewgroup couchpotato
-	enewuser  couchpotato -1 -1 -1 "couchpotato"
-
+	enewuser  couchpotato -1 -1 /var/lib/couchpotato couchpotato
 }
 
 src_install() {
-#	keepdir "/var/lib/sickbeard"
-#	fowners sickbeard:sickbeard /var/lib/sickbeard
+	keepdir "/var/lib/couchpotato"
+	dodir "/var/run/couchpotato"
+	dodir "/etc/couchpotato"
+	fowners couchpotato:couchpotato /var/lib/couchpotato
+	fowners couchpotato:couchpotato /var/run/couchpotato
+	fowners couchpotato:couchpotato /etc/couchpotato
 
 	#Init scripts
 	newconfd "${FILESDIR}/${PN}.conf" "${PN}"
 	newinitd "${FILESDIR}/${PN}.init" "${PN}"
 
-	dodir "/opt/couchpotato"
-	cp -R * "${D}/opt/couchpotato/"
-	mkdir -p "${D}/var/run/couchpotato"
+	dodir "/usr/share/couchpotato"
+	cp -R * "${D}/usr/share/couchpotato/"
+	
+	cp ${FILESDIR}/settings.conf.sample "${D}/etc/couchpotato/"
+}
+
+pkg_postinst() {
+	einfo "You must copy /etc/couchpotato/settings.conf.sample"
+	einfo "to /etc/couchpotato/settings.conf and set the proper"
+	einfo "permissions on the file as well"
+	einfo ""
+	einfo "cp /etc/couchpotato/settings.conf.sample /etc/couchpotato/settings.conf"
+	einfo "chown couchpotato:couchpotato /etc/couchpotato/settings.conf"
 }

@@ -1,0 +1,4 @@
+[core]
+data_dir = /var/lib/couchpotato
+launch_browser = 0
+port = 5050
