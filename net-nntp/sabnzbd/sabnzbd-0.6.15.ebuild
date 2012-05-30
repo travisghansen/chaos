@@ -3,12 +3,13 @@
 # $Header: $
 
 # require python-2 (min version 2.5) with sqlite USE flag
+EAPI="3"
+
 PYTHON_DEPEND="2:2.5"
 PYTHON_USE_WITH="sqlite"
 
 inherit eutils multilib python
 
-EAPI="3"
 
 MY_P="$P"
 MY_P="${MY_P/sab/SAB}"
