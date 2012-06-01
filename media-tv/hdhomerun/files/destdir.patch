@@ -1,0 +1,22 @@
+--- src/Makefile.in.orig	2012-06-01 16:43:32.170133131 -0600
++++ src/Makefile.in	2012-06-01 16:55:11.926655014 -0600
+@@ -361,7 +361,7 @@
+ check: check-am
+ all-am: Makefile $(PROGRAMS)
+ installdirs:
+-	for dir in "$(DESTDIR)$(bindir)"; do \
++	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)"; do \
+ 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
+ 	done
+ install: install-am
+@@ -461,8 +461,8 @@
+ 	tags uninstall uninstall-am uninstall-binPROGRAMS
+ 
+ 
+-install-exec-local:
+-	$(INSTALL) ../../libhdhomerun/libhdhomerun.so $(libdir)
++install-exec-local: installdirs
++	$(INSTALL) ../../libhdhomerun/libhdhomerun.so $(DESTDIR)$(libdir)
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.
+ .NOEXPORT:

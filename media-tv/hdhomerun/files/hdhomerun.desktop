@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=HDHomeRun Config
+GenericName=TV Tuner Config
+Comment=Manage your HDHomeRun devices
+Exec=hdhomerun_config_gui
+TryExec=hdhomerun_config_gui
+Icon=hdhomerun
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;
