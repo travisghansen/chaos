@@ -47,9 +47,14 @@ src_install() {
 	cd ${WORKDIR}/libhdhomerun
 	dobin hdhomerun_config
 	
+	# manually install of not using gui 'make install'
 	if ! use gtk;then
 		dolib libhdhomerun.so
 	fi
+
+	# install these to work with dvbhdhomerun
+	insinto /usr/include
+	doins *.h
 }
 
 pkg_postinst() {
