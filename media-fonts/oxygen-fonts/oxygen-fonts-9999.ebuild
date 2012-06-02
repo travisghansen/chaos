@@ -14,9 +14,12 @@ SRC_URI=""
 LICENSE="OFL-1.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+#FONT_SUFFIX="ttf"
+#RESTRICT="strip binchecks"
 
 src_install() {
+	cd ${S}/version-0.2
 	insinto /usr/share/fonts/oxygen-fonts/
-	doins Fontlab-Old/*.vfb Monospace/* tools/* Oxygen-Bold/* Oxygen-Regular/*
+	doins Monospace/* Oxygen-Bold/* Oxygen-Regular/*
 	font_src_install
 }
