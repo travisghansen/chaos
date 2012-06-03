@@ -1,0 +1,31 @@
+#!/sbin/runscript
+# Copyright (c) 2007-2009 Roy Marples <roy@marples.name>
+# Released under the 2-clause BSD license.
+
+description="Start the dvbhdhomerun service to make dvb devices"
+
+depend()
+{
+	:
+}
+
+start() {
+	ebegin "Starting dvbhdhomerun"
+	/sbin/modprobe dvb_hdhomerun || eend $?
+	start-stop-daemon --start --quiet --exec /usr/bin/userhdhomerun -- -f -u hdhomerun -g video -l /var/log/dvbhdhomerun.log
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping dvbhdhomerun"
+	kill -HUP $(pidof /usr/bin/userhdhomerun) > /dev/null 2>&1
+	if [ $? -ne 0 ];then
+		eend 1
+	fi
+	if [ ${UNLOAD_MODULES} == "y" ]; then
+		for mod in dvb_hdhomerun dvb_hdhomerun_fe dvb_hdhomerun_core; do
+			/sbin/rmmod $mod > /dev/null 2>&1
+		done
+	fi
+	eend 0
+}
