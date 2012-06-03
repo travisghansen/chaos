@@ -6,7 +6,7 @@ description="Start the dvbhdhomerun service to make dvb devices"
 
 depend()
 {
-	:
+	before tvheadend
 }
 
 start() {

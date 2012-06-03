@@ -16,7 +16,8 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="virtual/linux-sources
-	sys-kernel/linux-headers"
+	sys-kernel/linux-headers
+	media-tv/hdhomerun"
 
 RDEPEND=""
 
