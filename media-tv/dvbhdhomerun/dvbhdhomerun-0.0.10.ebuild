@@ -36,6 +36,11 @@ pkg_setup() {
 	BUILD_PARAMS="KERNEL_DIR=/usr/src/linux-${KV_FULL}"
 }
 
+src_prepare() {
+	# fix path to hdhomerun.h 
+	sed -i "s:/usr/lib/libhdhomerun:/usr/include/libhdhomerun:" userhdhomerun/CMakeLists.txt || die "failed to sed"
+}
+
 src_compile() {
 	linux-mod_src_compile
 	cmake-utils_src_compile	

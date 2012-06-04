@@ -53,7 +53,7 @@ src_install() {
 	fi
 
 	# install these to work with dvbhdhomerun
-	insinto /usr/include
+	insinto /usr/include/libhdhomerun
 	doins *.h
 }
 
