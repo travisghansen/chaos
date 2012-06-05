@@ -23,13 +23,11 @@ RDEPEND=""
 
 MODULE_NAMES="dvb_hdhomerun(dvb:kernel) \
               dvb_hdhomerun_core(dvb:kernel) \
-			  dvb_hdhomerun_fe(dvb:kernel)"
+              dvb_hdhomerun_fe(dvb:kernel)"
 
 CMAKE_BUILD_DIR=${S}/userhdhomerun
 CMAKE_USE_DIR=${S}/userhdhomerun
 pkg_setup() {
-	enewuser hdhomerun -1 -1 -1 video
-	
 	linux-mod_pkg_setup
 
 	BUILD_TARGETS="dvb_hdhomerun"
