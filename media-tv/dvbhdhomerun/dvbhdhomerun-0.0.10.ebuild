@@ -21,9 +21,9 @@ DEPEND="virtual/linux-sources
 
 RDEPEND=""
 
-MODULE_NAMES="dvb_hdhomerun(dvb:kernel) \
-              dvb_hdhomerun_core(dvb:kernel) \
-              dvb_hdhomerun_fe(dvb:kernel)"
+MODULE_NAMES="dvb_hdhomerun(dvb/hdhomerun:kernel) \
+              dvb_hdhomerun_core(dvb/hdhomerun:kernel) \
+              dvb_hdhomerun_fe(dvb/frontends:kernel)"
 
 CMAKE_BUILD_DIR=${S}/userhdhomerun
 CMAKE_USE_DIR=${S}/userhdhomerun
