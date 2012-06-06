@@ -12,7 +12,8 @@ depend()
 start() {
 	ebegin "Starting dvbhdhomerun"
 	/sbin/modprobe dvb_hdhomerun || eend $?
-	start-stop-daemon --start --quiet --exec /usr/bin/userhdhomerun -- -f -u nobody -g video -l /var/log/dvbhdhomerun.log
+	#start-stop-daemon --start --quiet --exec /usr/bin/userhdhomerun -- -f -u root -g root -l /var/log/dvbhdhomerun.log
+	start-stop-daemon --quiet --start --background --stdout "${LOG_FILE-/dev/null}" --stderr "${LOG_FILE-/dev/null}" --exec /usr/bin/userhdhomerun
 	eend $?
 }
 
