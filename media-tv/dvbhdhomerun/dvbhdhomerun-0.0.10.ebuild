@@ -27,6 +27,10 @@ MODULE_NAMES="dvb_hdhomerun(dvb/hdhomerun:kernel) \
 
 CMAKE_BUILD_DIR=${S}/userhdhomerun
 CMAKE_USE_DIR=${S}/userhdhomerun
+
+# TODO: check the proper kernel config options are enabled
+# ie dvb_core and others?
+
 pkg_setup() {
 	linux-mod_pkg_setup
 
@@ -59,4 +63,12 @@ src_install() {
 
 	linux-mod_src_install
 	cmake-utils_src_install	
+}
+
+pkg_postinst() {
+	einfo "it is *highly* recommended to add"
+	einfo "\"rc_need='dvbhdhomerun'\" to any"
+	einfo "/etc/conf.d/* files which may depend"
+	einfo "on dvbhdhomerun such as tvheadend, mythtv"
+	einfo "etc"
 }

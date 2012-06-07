@@ -31,6 +31,7 @@ src_configure() {
 	econf \
 		--prefix=/usr \
 		--mandir=/usr/share/man/man1 \
+		--datadir=/usr/share/tvheadend \
 		$(use_enable avahi) \
 		--release \
 		|| die "Configure failed!"

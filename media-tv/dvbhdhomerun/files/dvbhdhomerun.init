@@ -13,6 +13,8 @@ start() {
 	ebegin "Starting dvbhdhomerun"
 	/sbin/modprobe dvb_hdhomerun || eend $?
 	#start-stop-daemon --start --quiet --exec /usr/bin/userhdhomerun -- -f -u root -g root -l /var/log/dvbhdhomerun.log
+	# for some reason -f is crashing on me and running in the foreground does not
+	# hacking in background as follows for the time being
 	start-stop-daemon --quiet --start --background --stdout "${LOG_FILE-/dev/null}" --stderr "${LOG_FILE-/dev/null}" --exec /usr/bin/userhdhomerun
 	eend $?
 }
