@@ -16,6 +16,9 @@ KEYWORDS="alpha amd64 ia64 ~ppc ~ppc64 sparc x86"
 
 IUSE="gtk"
 
+RDEPEND="gtk? ( x11-libs/gtk+:2 )"
+DEPEND="${RDEPEND}"
+
 S=${WORKDIR}/hdhomerun_config_gui
 
 src_prepare() {
