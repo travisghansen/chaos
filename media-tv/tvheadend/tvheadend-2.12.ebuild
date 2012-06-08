@@ -23,7 +23,7 @@ RDEPEND="${DEPEND}
 	xmltv? ( media-tv/xmltv )
 	avahi? ( net-dns/avahi )"
 
-S="${MY_PN}-${PV}"
+S="${WORKDIR}/${MY_PN}-${PV}"
 
 pkg_setup() {
 	enewuser tvheadend -1 -1 /dev/null video
