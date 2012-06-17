@@ -5,7 +5,7 @@
 EAPI="2"
 PYTHON_DEPEND="2"
 
-inherit eutils git-2
+inherit eutils git-2 python
 
 DESCRIPTION="CouchPotato is an automatic NZB and torrent downloader"
 HOMEPAGE="http://couchpotatoapp.com/"
@@ -47,6 +47,7 @@ src_install() {
 }
 
 pkg_postinst() {
+	python_mod_optimize /usr/share/${PN}
 	einfo "You must copy /etc/couchpotato/settings.conf.sample"
 	einfo "to /etc/couchpotato/settings.conf and set the proper"
 	einfo "permissions on the file as well"
