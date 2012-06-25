@@ -9,11 +9,13 @@ inherit multilib eutils
 BASE_URI="http://www.percona.com/downloads/XtraBackup"
 MY_PN="XtraBackup"
 MY_P="${PN:0:-4}-${PV}"
+REVISION="446"
+MY_FILE="${MY_P}-${REVISION}.tar.gz"
 
 DESCRIPTION="OpenSource online (non-blockable) backup tool for InnoDB and XtraDB engines"
 HOMEPAGE="http://www.percona.com/software/percona-xtrabackup/"
-SRC_URI="amd64? ( ${BASE_URI}/${MY_PN}-${PV}/binary/Linux/x86_64/${MY_P}.tar.gz -> ${MY_P}.x86_64.tar.gz )
-         x86? ( ${BASE_URI}/${MY_PN}-${PV}/binary/Linux/i686/${MY_P}.tar.gz -> ${MY_P}.i686.tar.gz )"
+SRC_URI="amd64? ( ${BASE_URI}/${MY_PN}-${PV}/binary/Linux/x86_64/${MY_FILE} -> ${MY_P}.x86_64.tar.gz )
+         x86? ( ${BASE_URI}/${MY_PN}-${PV}/binary/Linux/i686/${MY_FILE} -> ${MY_P}.i686.tar.gz )"
 
 LICENSE="GPL-2 public-domain"
 SLOT="0"
