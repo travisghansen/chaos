@@ -7,8 +7,8 @@ MY_P="phantomjs"
 
 DESCRIPTION="headless WebKit with JavaScript API"
 HOMEPAGE="http://www.phantomjs.org/"
-SRC_URI="x86? ( http://${MY_P}.googlecode.com/files/${MY_P}-${PV}-linux-x86-dynamic.tar.gz )
-		 amd64? ( http://${MY_P}.googlecode.com/files/${MY_P}-${PV}-linux-x86_64-dynamic.tar.gz  ) "
+SRC_URI="x86? ( http://${MY_P}.googlecode.com/files/${MY_P}-${PV}-linux-i686-dynamic.tar.bz2 )
+		 amd64? ( http://${MY_P}.googlecode.com/files/${MY_P}-${PV}-linux-x86_64-dynamic.tar.bz2  )"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -21,7 +21,7 @@ RDEPEND="!www-client/phantomjs
 	>=dev-libs/expat-2.0.1-r3"
 DEPEND="${RDEPEND}"
 RESTRICT="mirror"
-S="${MY_P}"
+S="${A:0:-8}"
 
 src_install() {
 	dodir "/opt/${MY_P}"
