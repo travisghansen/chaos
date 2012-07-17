@@ -5,11 +5,11 @@
 EAPI=3
 PYTHON_DEPEND="2"
 
-inherit git-2
+inherit eutils git-2
 
 EGIT_REPO_URI="git://github.com/n1k0/casperjs.git"
 if [[ ${PV} != *9999* ]] ; then
-	EGIT_COMMIT="tags/${PV}"
+	EGIT_COMMIT="tags/$(echo ${PV//_/-} | tr '[:lower:]' '[:upper:]' )"
 fi
 
 if [[ ${PV} == *9999* ]]; then
