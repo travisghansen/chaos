@@ -15,7 +15,7 @@ KEYWORDS="alpha amd64 ia64 ~ppc ~ppc64 sparc x86"
 IUSE=""
 
 FONT_SUFFIX="otf"
-S="${WORKDIR}/Junction opentype"
+S="${WORKDIR}/Junction 02"
 FONT_S=${S}
 
 RESTRICT="strip binchecks"
