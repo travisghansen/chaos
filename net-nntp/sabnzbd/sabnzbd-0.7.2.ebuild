@@ -83,18 +83,18 @@ src_install() {
 	done
 
 	#Create & assign ownership of SABnzbd default directories
-	fowners -R root:${PN} ${DHOMEDIR}
-	fperms -R 770 ${DHOMEDIR}
+	fowners -R ${PN}:${PN} ${DHOMEDIR}
+	fperms -R ug+rwX,o= ${DHOMEDIR}
 
 	#Create & assign ownership of SABnzbd log directory
 	keepdir /var/log/${PN}
-	fowners -R root:${PN} /var/log/${PN}
-	fperms -R 770 /var/log/${PN}
+	fowners -R ${PN}:${PN} /var/log/${PN}
+	fperms -R ug+rwX,o= /var/log/${PN}
 
 	#Create & assign ownership of SABnzbd PID directory
 	keepdir /var/run/${PN}
-	fowners -R root:${PN} /var/run/${PN}
-	fperms -R 770 /var/run/${PN}
+	fowners -R ${PN}:${PN} /var/run/${PN}
+	fperms -R ug+rwX,o= /var/run/${PN}
 
 	#Add themes & code into /usr/share
 	dodir /usr/share/${PN}
@@ -106,8 +106,8 @@ src_install() {
 	doins SABnzbd.py || die "installing SABnzbd.py"
 
 	#Adjust permissions in python source directory for root:sabnzbd
-	fowners -R root:${PN} /usr/share/${PN}
-	fperms -R 770 /usr/share/${PN}
+	fowners -R root:root /usr/share/${PN}
+	fperms -R ug+rwX,o=rX /usr/share/${PN}
 }
 
 pkg_postinst() {
