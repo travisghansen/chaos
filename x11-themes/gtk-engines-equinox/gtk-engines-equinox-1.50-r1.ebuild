@@ -28,6 +28,10 @@ DEPEND="${RDEPEND}
 
 S="${WORKDIR}/${MY_PN}-$(get_version_component_range 1-2)"
 
+src_prepare() {
+	epatch ${FILESDIR}/${P}-glib-2.31.patch
+}
+
 src_configure() {
 	econf --enable-animation
 }

@@ -1,0 +1,11 @@
+--- src/animation.c.orig	2012-08-22 07:46:24.778088048 -0600
++++ src/animation.c	2012-08-22 07:47:02.369086372 -0600
+@@ -7,7 +7,7 @@
+ #include "animation.h"
+ 
+ #ifdef HAVE_ANIMATION
+-#include <glib/gtimer.h>
++#include <glib.h>
+ 
+ struct _AnimationInfo {
+ 	GTimer *timer;
