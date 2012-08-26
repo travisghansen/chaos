@@ -4,27 +4,22 @@
 
 inherit eutils
 
-DESCRIPTION="Light Themes"
+DESCRIPTION="Humanity icon theme from ubuntu"
 HOMEPAGE="http://www.ubuntu.com/"
-SRC_URI="http://archive.ubuntu.com/ubuntu/pool/main/${PN:0:1}/${PN}/${PN}_${PV}.tar.gz"
+SRC_URI="http://archive.ubuntu.com/ubuntu/pool/main/h/${PN}/${PN}_${PV}.tar.gz"
 
 LICENSE="CCPL-Attribution-ShareAlike-2.5"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc ppc64 ~sparc ~x86"
 
-RDEPEND=">=x11-themes/gtk-engines-murrine-0.90.3
-	x11-themes/ubuntu-mono
-	x11-themes/humanity-icon-theme"
+RDEPEND="x11-themes/gnome-icon-theme
+	x11-themes/hicolor-icon-theme"
 
 DEPEND="${RDEPEND}"
 
-S="${WORKDIR}/${PN}"
-
-THEMES="Ambiance Radiance Ambiance-CSD"
-
 src_install() {
-	dodir /usr/share/themes
-	for THEME in ${THEMES}; do
-		cp -d -R "${THEME}" "${D}/usr/share/themes/"
+	dodir /usr/share/icons
+	for THEME in Humanity Humanity-Dark ; do
+		cp -R "${THEME}" "${D}"/usr/share/icons/
 	done
 }

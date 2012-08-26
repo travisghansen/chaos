@@ -16,6 +16,7 @@ KEYWORDS="~x86 ~amd64"
 IUSE=""
 
 RDEPEND="dev-python/gconf-python
-	dev-python/pygobject"
+	dev-python/pygobject
+	dev-python/gnome-keyring-python"
 DEPEND="${RDEPEND}"
 
