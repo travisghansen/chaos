@@ -28,10 +28,9 @@ DEPEND="|| ( ( >=www-client/phantomjs-bin-1.5.0 ) ( >=www-client/phantomjs-1.5.0
 RDEPEND="${DEPEND}"
 
 src_install(){
-	dodir "/opt/${PN}"
-	cp -R "${S}"/* "${D}/opt/${PN}"
+	dodir "/usr/share/${PN}"
+	cp -R "${S}"/* "${D}/usr/share/${PN}"
 
 	chown -R root:root "${D}/opt/${PN}"
-	dosym /opt/${PN}/bin/casperjs /usr/bin/casperjs  
+	dosym /usr/share/${PN}/bin/casperjs /usr/bin/casperjs
 }
-

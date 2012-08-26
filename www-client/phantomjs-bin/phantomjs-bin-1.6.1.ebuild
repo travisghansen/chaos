@@ -16,9 +16,11 @@ KEYWORDS="~amd64 ~x86"
 #IUSE="examples python"
 
 RDEPEND="!www-client/phantomjs
+	app-arch/bzip2
 	>=media-libs/freetype-2.4.4
 	>=media-libs/fontconfig-2.8.0-r1
-	>=dev-libs/expat-2.0.1-r3"
+	>=dev-libs/expat-2.0.1-r3
+	sys-libs/zlib"
 DEPEND="${RDEPEND}"
 RESTRICT="mirror"
 S="${A:0:-8}"
@@ -28,5 +30,5 @@ src_install() {
 	cp -R "${S}"/* "${D}/opt/${MY_P}"
 
 	chown -R root:root "${D}/opt/${MY_P}"
-	dosym /opt/${MY_P}/bin/phantomjs /usr/bin/phantomjs
+	dosym /opt/${MY_P}/bin/phantomjs /opt/bin/phantomjs
 }
