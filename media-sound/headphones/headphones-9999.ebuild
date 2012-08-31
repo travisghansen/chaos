@@ -18,7 +18,7 @@ EGIT_REPO_URI="https://github.com/rembo10/headphones.git"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="-cherrypy +notify"
+IUSE="notify"
 
 RDEPEND=""
 DEPEND="${RDEPEND}
