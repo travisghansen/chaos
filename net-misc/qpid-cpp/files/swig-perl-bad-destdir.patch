@@ -1,0 +1,22 @@
+--- bindings/qpid/Makefile.in.orig	2012-08-30 08:36:59.581950683 -0600
++++ bindings/qpid/Makefile.in	2012-08-30 08:37:40.976948838 -0600
+@@ -666,7 +666,7 @@
+ 
+ @HAVE_PERL_DEVEL_TRUE@@HAVE_SWIG_TRUE@install-exec-local:
+ @HAVE_PERL_DEVEL_TRUE@@HAVE_SWIG_TRUE@	cd perl ; \
+-@HAVE_PERL_DEVEL_TRUE@@HAVE_SWIG_TRUE@		$(MAKE) pure_install DESTDIR=$(prefix) ; \
++@HAVE_PERL_DEVEL_TRUE@@HAVE_SWIG_TRUE@		$(MAKE) pure_install ; \
+ @HAVE_PERL_DEVEL_TRUE@@HAVE_SWIG_TRUE@	cd ..
+ 
+ @HAVE_PERL_DEVEL_TRUE@@HAVE_SWIG_TRUE@clean-local:
+--- bindings/qpid/Makefile.am.orig	2012-08-30 08:35:40.540954206 -0600
++++ bindings/qpid/Makefile.am	2012-08-30 08:36:51.568951041 -0600
+@@ -54,7 +54,7 @@
+ 
+ install-exec-local:
+ 	cd perl ; \
+-		$(MAKE) pure_install DESTDIR=$(prefix) ; \
++		$(MAKE) pure_install ; \
+ 	cd ..
+ 
+ clean-local:

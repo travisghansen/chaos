@@ -1,0 +1,64 @@
+#!/sbin/runscript
+# Copyright (c) 2007-2009 Roy Marples <roy@marples.name>
+# Released under the 2-clause BSD license.
+
+description="qpid AMQP messaging service"
+
+depend() {
+    need net
+}
+
+checkconfd() {
+
+    QPIDD_USER="${QPIDD_USER:-qpidd}"
+    QPIDD_GROUP="${QPIDD_GROUP:-qpidd}"
+	PIDDIR="${PIDDIR:-/var/run/qpidd}"
+
+	CONFIGFILE="${CONFIGFILE:-/etc/qpidd.conf}"
+	if [ ! -r "${CONFIGFILE}" ]; then
+		eerror "Unable to read configuration file: ${CONFIGFILE}"
+		return 1
+	fi
+
+    DATADIR="${DATADIR:-/var/lib/qpidd}"
+    if [ -n "${DATADIR}" ]; then
+	    QPIDD_OPTS="${QPIDD_OPTS} --data-dir ${DATADIR}"
+    else
+	    QPIDD_OPTS="${QPIDD_OPTS} --no-data-dir"
+    fi
+
+    LOGFILE="${LOGFILE:-/var/log/qpidd.log}"
+    if [ -n "${LOGFILE}" ]; then
+	    QPIDD_OPTS="${QPIDD_OPTS} --log-to-file ${LOGFILE}"
+        if [ ! -f "${LOGFILE}" ]; then
+            touch "${LOGFILE}"
+            chown ${QPIDD_USER}:${QPIDD_GROUP} "${LOGFILE}"
+            chmod 660 "${LOGFILE}"
+        fi
+    fi
+
+	QPIDD_OPTS="${QPIDD_OPTS} -d --pid-dir ${PIDDIR}"
+	QPIDD_OPTS="${QPIDD_OPTS} --config ${CONFIGFILE}"
+
+    PORT="${PORT:-5672}"
+	QPIDD_OPTS="${QPIDD_OPTS} -p ${PORT}"
+
+
+	QPIDD="/usr/sbin/qpidd"
+}
+
+start() {
+    checkconfd || return 1
+	ebegin "Starting ${SVCNAME}"
+	start-stop-daemon --quiet --start --user "${QPIDD_USER}:${QPIDD_GROUP}" \
+      --exec ${QPIDD} -- ${QPIDD_OPTS}
+    eend $?
+}
+
+stop() {
+    checkconfd || return 1
+	ebegin "Stopping ${SVCNAME}"
+	start-stop-daemon --quiet --stop --user "${QPIDD_USER}:${QPIDD_GROUP}" \
+      --exec ${QPIDD} -- -q --pid-dir ${PIDDIR}
+	eend $?
+}
