@@ -18,9 +18,10 @@ EGIT_REPO_URI="https://github.com/rembo10/headphones.git"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="notify"
+IUSE="ffmpeg lame notify"
 
-RDEPEND=""
+RDEPEND="ffmpeg? ( virtual/ffmpeg )
+	lame? ( media-sound/lame )"
 DEPEND="${RDEPEND}
 	notify? ( dev-python/notify-python )
 	dev-python/cheetah"
