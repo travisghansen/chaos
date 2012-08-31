@@ -58,7 +58,6 @@ start() {
 stop() {
     checkconfd || return 1
 	ebegin "Stopping ${SVCNAME}"
-	start-stop-daemon --quiet --stop --user "${QPIDD_USER}:${QPIDD_GROUP}" \
-      --exec ${QPIDD} -- -q --pid-dir ${PIDDIR}
+    ${QPIDD} -q --pid-dir ${PIDDIR}
 	eend $?
 }
