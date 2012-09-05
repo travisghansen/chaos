@@ -7,7 +7,7 @@ EAPI="4"
 inherit autotools eutils git-2
 
 DESCRIPTION="RabbitMQ C client"
-HOMEPAGE=="https://github.com/alanxz/rabbitmq-c"
+HOMEPAGE="https://github.com/alanxz/rabbitmq-c"
 SRC_URI=""
 EGIT_REPO_URI="git://github.com/alanxz/rabbitmq-c.git"
 
