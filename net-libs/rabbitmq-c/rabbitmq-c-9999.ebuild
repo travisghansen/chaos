@@ -11,10 +11,21 @@ HOMEPAGE="https://github.com/alanxz/rabbitmq-c"
 SRC_URI=""
 EGIT_REPO_URI="git://github.com/alanxz/rabbitmq-c.git"
 
+if [[ ${PV} != *9999* ]] ; then
+	EGIT_COMMIT="tags/$(echo ${PV//_/-} | tr '[:lower:]' '[:upper:]' )"
+fi
+
+if [[ ${PV} == *9999* ]]; then
+	KEYWORDS="~amd64 ~x86"
+	#KEYWORDS="-*"
+else
+	KEYWORDS="~amd64 ~x86"
+fi
+
+
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
-IUSE="doc tools"
+IUSE="doc static-libs tools"
 
 DEPEND=""
 RDEPEND="${DEPEND}"
@@ -23,9 +34,10 @@ DOCS=( "AUTHORS" "README.md" "THANKS" "TODO" )
 src_prepare() {
 	git submodule init
 	git submodule update
+	eautoreconf
 }
 
 src_configure() {
-	eautoreconf
-	econf $(use_enable tools) $(use_enable amd64 64-bit) $(use_enable doc docs)
+	econf $(use_enable tools) $(use_enable amd64 64-bit) \
+	  $(use_enable doc docs) $(use_enable static-libs static)
 }
