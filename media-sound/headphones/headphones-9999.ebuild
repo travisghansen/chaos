@@ -43,7 +43,7 @@ src_install() {
 	dodir /usr/share/${PN}
 	insinto /usr/share/${PN}
 
-	for hp_dir in cherrypy data lib mako headphones ; do
+	for hp_dir in bs4 cherrypy data html5lib lib mako headphones ; do
 		doins -r ${hp_dir} || die "failed to install ${hp_dir}"
 	done
 	doins Headphones.py || die "failed to install Headphones.py"
