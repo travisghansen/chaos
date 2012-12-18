@@ -12,8 +12,21 @@ depend() {
     need net
 }
 
+my_do_piddir() {
+	local piddir=$(dirname ${PID_FILE})
+	if [ ! -d ${piddir} ] ; then
+		ebegin "Making ${piddir}"
+		mkdir -p ${piddir}
+		eend $?
+		ebegin "Changing permissions of ${piddir}"
+		chown ${SICKBEARD_USER-sickbeard}:${SICKBEARD_GROUP-sickbeard} ${piddir}
+		eend $?
+	fi
+}
+
 start() {
 	ebegin "Starting sickbeard"
+    my_do_piddir
 	start-stop-daemon --quiet --start \
 	--pidfile "${PID_FILE}" \
 	-c ${SICKBEARD_USER-sickbeard}:${SICKBEARD_GROUP-sickbeard} \

@@ -7,6 +7,18 @@ depend() {
     need net
 }
 
+my_do_piddir() {
+	local piddir=$(dirname ${SAB_PID})
+	if [ ! -d ${piddir} ] ; then
+		ebegin "Making ${piddir}"
+		mkdir -p ${piddir}
+		eend $?
+		ebegin "Changing permissions of ${piddir}"
+		chown ${SAB_USER} ${piddir}
+		eend $?
+	fi
+}
+
 start() {
 	ebegin "Starting SABnzbd"
 	start-stop-daemon --start --quiet --user "${SAB_USER}" --pidfile "${SAB_PID}" -d "${SAB_PATH}" --exec python "${SAB_PY}" -- -d -f "${SAB_CFG}" --pid /var/run/sabnzbd/

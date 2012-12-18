@@ -12,8 +12,21 @@ depend() {
 	use sabnzbd
 }
 
+my_do_piddir() {
+	local piddir=$(dirname ${PID_FILE})
+	if [ ! -d ${piddir} ] ; then
+		ebegin "Making ${piddir}"
+		mkdir -p ${piddir}
+		eend $?
+		ebegin "Changing permissions of ${piddir}"
+		chown ${HP_USER-headphones}:${HP_GROUP-headphones} ${piddir}
+		eend $?
+	fi
+}
+
 start() {
 	ebegin "Starting Headphones"
+    my_do_piddir
 	start-stop-daemon --start --user "${HP_USER-headphones}:${HP_GROUP-headphones}" \
       --pidfile "${APP_PID}" -d "${HP_DATA-/var/lib/headphones}" \
       --exec "${DAEMON}" "${APP_PATH}" -- \

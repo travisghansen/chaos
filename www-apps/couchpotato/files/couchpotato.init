@@ -13,8 +13,21 @@ depend() {
     use sabnzbd
 }
 
+my_do_piddir() {
+	local piddir=$(dirname ${PID_FILE})
+	if [ ! -d ${piddir} ] ; then
+		ebegin "Making ${piddir}"
+		mkdir -p ${piddir}
+		eend $?
+		ebegin "Changing permissions of ${piddir}"
+		chown ${COUCHPOTATO_USER-couchpotato}:${COUCHPOTATO_GROUP-couchpotato} ${piddir}
+		eend $?
+	fi
+}
+
 start() {
 	ebegin "Starting couchpotato"
+    my_do_piddir
 	start-stop-daemon --quiet --start \
 	--pidfile "${PID_FILE}" \
 	-c ${COUCHPOTATO_USER-couchpotato}:${COUCHPOTATO_GROUP-couchpotato} \
