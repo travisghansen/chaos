@@ -9,8 +9,8 @@ PID_FILE="/var/run/couchpotato/couchpotato.pid"
 DAEMON="/usr/bin/python2"
 
 depend() {
-    need net
-    use sabnzbd
+	need net
+	use sabnzbd
 }
 
 my_do_piddir() {
@@ -27,12 +27,12 @@ my_do_piddir() {
 
 start() {
 	ebegin "Starting couchpotato"
-    my_do_piddir
+	my_do_piddir
 	start-stop-daemon --quiet --start \
 	--pidfile "${PID_FILE}" \
 	-c ${COUCHPOTATO_USER-couchpotato}:${COUCHPOTATO_GROUP-couchpotato} \
-        --exec ${DAEMON} -- "${APP_PATH}" --config_file /etc/couchpotato/settings.conf \
-        --daemon --pid_file="${PID_FILE}" &> /dev/null
+		--exec ${DAEMON} -- "${APP_PATH}" --config_file /etc/couchpotato/settings.conf \
+		--daemon --pid_file="${PID_FILE}" &> /dev/null
 	eend $?
 }
 

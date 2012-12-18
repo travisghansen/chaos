@@ -9,7 +9,8 @@ PID_FILE="/var/run/sickbeard/sickbeard.pid"
 DAEMON="/usr/bin/python2"
 
 depend() {
-    need net
+	need net
+	use sabnzbd
 }
 
 my_do_piddir() {
@@ -26,11 +27,11 @@ my_do_piddir() {
 
 start() {
 	ebegin "Starting sickbeard"
-    my_do_piddir
+	my_do_piddir
 	start-stop-daemon --quiet --start \
 	--pidfile "${PID_FILE}" \
 	-c ${SICKBEARD_USER-sickbeard}:${SICKBEARD_GROUP-sickbeard} \
-        --exec ${DAEMON} -- ${APP_PATH} --daemon --port="${PORT-8081}" \
+		--exec ${DAEMON} -- ${APP_PATH} --daemon --port="${PORT-8081}" \
 	--datadir="${DATA_DIR-/var/lib/sickbeard}" \
 	--config="${CONFIG_FILE-/etc/sickbeard/config.ini}" \
 	--pidfile="${PID_FILE}" --nolaunch &> /dev/null

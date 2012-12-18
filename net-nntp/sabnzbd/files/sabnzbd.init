@@ -4,7 +4,7 @@
 # $Header: $
 
 depend() {
-    need net
+	need net
 }
 
 my_do_piddir() {
@@ -21,6 +21,7 @@ my_do_piddir() {
 
 start() {
 	ebegin "Starting SABnzbd"
+	my_do_piddir
 	start-stop-daemon --start --quiet --user "${SAB_USER}" --pidfile "${SAB_PID}" -d "${SAB_PATH}" --exec python "${SAB_PY}" -- -d -f "${SAB_CFG}" --pid /var/run/sabnzbd/
 	eend $?
 }

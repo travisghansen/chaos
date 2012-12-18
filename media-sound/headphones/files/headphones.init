@@ -26,13 +26,13 @@ my_do_piddir() {
 
 start() {
 	ebegin "Starting Headphones"
-    my_do_piddir
+	my_do_piddir
 	start-stop-daemon --start --user "${HP_USER-headphones}:${HP_GROUP-headphones}" \
-      --pidfile "${APP_PID}" -d "${HP_DATA-/var/lib/headphones}" \
-      --exec "${DAEMON}" "${APP_PATH}" -- \
-      --datadir=${HP_DATA-/var/lib/headphones} --pidfile ${PID_FILE} --quiet -d \
-      --nolaunch --port "${HP_PORT-8181}" --config=${HP_CONFIG-/etc/headphones/config.ini} \
-      ${HP_OPTS}
+	  --pidfile "${APP_PID}" -d "${HP_DATA-/var/lib/headphones}" \
+	  --exec "${DAEMON}" "${APP_PATH}" -- \
+	  --datadir=${HP_DATA-/var/lib/headphones} --pidfile ${PID_FILE} --quiet -d \
+	  --nolaunch --port "${HP_PORT-8181}" --config=${HP_CONFIG-/etc/headphones/config.ini} \
+	  ${HP_OPTS}
 	eend $?
 }
 
