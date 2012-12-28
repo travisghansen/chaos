@@ -19,6 +19,6 @@ IUSE=""
 
 FONT_SUFFIX="otf"
 S="${WORKDIR}/${MY_P}_FontsOnly-${PV}"
-FONT_S=${S}
+FONT_S=${S}/OTF
 
 RESTRICT="strip binchecks"
