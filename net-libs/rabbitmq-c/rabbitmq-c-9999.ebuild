@@ -38,6 +38,11 @@ src_prepare() {
 }
 
 src_configure() {
-	econf $(use_enable tools) $(use_enable amd64 64-bit) \
-	  $(use_enable doc docs) $(use_enable static-libs static)
+	econf $(use_enable tools) $(use_enable doc docs) \
+		$(use_enable static-libs static)
+}
+
+src_install() {
+	default
+	prune_libtool_files
 }
