@@ -13,13 +13,13 @@ BASE_URI="http://www.percona.com/redir/downloads"
 
 #regular server builds
 R_MY_PKG="Percona-Server"
-R_RELEASE="29.1"
-R_BUILD_NUMBER="334"
+R_RELEASE="29.3"
+R_BUILD_NUMBER="388"
 
 #cluster server builds
 C_MY_PKG="Percona-XtraDB-Cluster"
 C_RELEASE="23.7"
-C_BUILD_NUMBER="369"
+C_BUILD_NUMBER="373"
 
 #https://bugs.launchpad.net/percona-xtradb-cluster/+bug/999495
 #for the silly 5 after release
@@ -51,7 +51,8 @@ DEPEND="userland_GNU? ( sys-process/procps )
         >=sys-apps/texinfo-4.7-r1
         >=sys-libs/readline-4.1
         >=sys-libs/zlib-1.2.3
-		dev-libs/libaio"
+		dev-libs/libaio
+		sys-libs/ncurses[tinfo]"
 
 RDEPEND="${DEPEND}
 		virtual/mysql"
@@ -94,7 +95,8 @@ src_install() {
 
 	#NASTY HACK
 	#https://bugs.launchpad.net/percona-xtradb-cluster/+bug/999492
-	dosym /lib/libncurses.so.5 /lib/libtinfo.so.5
+	#ncurses now had tinfo use flag
+	#dosym /lib/libncurses.so.5 /lib/libtinfo.so.5
 
 	use cluster && mv "${D}/etc/${SERVICE}/wsrep.cnf" \
 	                  "${D}/etc/${SERVICE}/wsrep.cnf.sample"
