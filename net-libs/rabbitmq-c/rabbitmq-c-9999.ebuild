@@ -4,45 +4,54 @@
 
 EAPI="4"
 
-inherit autotools eutils git-2
+inherit cmake-utils eutils multilib
 
 DESCRIPTION="RabbitMQ C client"
 HOMEPAGE="https://github.com/alanxz/rabbitmq-c"
-SRC_URI=""
-EGIT_REPO_URI="git://github.com/alanxz/rabbitmq-c.git"
-
-if [[ ${PV} != *9999* ]] ; then
-	EGIT_COMMIT="tags/$(echo ${PV//_/-} | tr '[:lower:]' '[:upper:]' )"
-fi
 
 if [[ ${PV} == *9999* ]]; then
-	#KEYWORDS="~amd64 ~x86"
+	inherit git-2
+	EGIT_REPO_URI="git://github.com/alanxz/rabbitmq-c.git"
 	KEYWORDS="-*"
 else
+	SRC_URI="https://github.com/alanxz/rabbitmq-c/archive/${PN}-v${PV}.zip"
 	KEYWORDS="~amd64 ~x86"
 fi
 
-
 LICENSE="MIT"
 SLOT="0"
-IUSE="doc static-libs tools"
+IUSE="examples static-libs tools"
 
 DEPEND=""
 RDEPEND="${DEPEND}"
 DOCS=( "AUTHORS" "README.md" "THANKS" "TODO" )
+PATCHES=( "${FILESDIR}/xmlto.patch" )
 
-src_prepare() {
-	git submodule init
-	git submodule update
-	eautoreconf
+src_unpack() {
+	if [[ ${PV} == *9999* ]]; then
+		git-2_src_unpack
+	else
+		unpack ${A}
+		mv ${PN}* ${P} || die
+	fi
 }
 
 src_configure() {
-	econf $(use_enable tools) $(use_enable doc docs) \
-		$(use_enable static-libs static)
+	mycmakeargs=(
+		-DCMAKE_SKIP_RPATH=ON
+		$(cmake-utils_use examples BUILD_EXAMPLES)
+		$(cmake-utils_use tools BUILD_TOOLS)
+		$(cmake-utils_use tools BUILD_TOOLS_DOCS)
+		$(cmake-utils_use static-libs BUILD_STATIC_LIBS)
+	)
+	cmake-utils_src_configure
 }
 
 src_install() {
-	default
-	prune_libtool_files
+	cmake-utils_src_install
+	if use examples; then
+		cd "${CMAKE_BUILD_DIR}"/examples
+		exeinto /usr/$(get_libdir)/${PN}/examples
+		doexe $(find ./ -executable -type f)
+	fi
 }

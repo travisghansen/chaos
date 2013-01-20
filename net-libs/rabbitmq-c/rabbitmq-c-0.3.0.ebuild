@@ -4,12 +4,19 @@
 
 EAPI="4"
 
-inherit cmake-utils eutils
+inherit cmake-utils eutils multilib
 
 DESCRIPTION="RabbitMQ C client"
 HOMEPAGE="https://github.com/alanxz/rabbitmq-c"
-SRC_URI="https://github.com/alanxz/rabbitmq-c/archive/${PN}-v${PV}.zip"
-KEYWORDS="~amd64 ~x86"
+
+if [[ ${PV} == *9999* ]]; then
+	inherit git-2
+	EGIT_REPO_URI="git://github.com/alanxz/rabbitmq-c.git"
+	KEYWORDS="-*"
+else
+	SRC_URI="https://github.com/alanxz/rabbitmq-c/archive/${PN}-v${PV}.zip"
+	KEYWORDS="~amd64 ~x86"
+fi
 
 LICENSE="MIT"
 SLOT="0"
@@ -21,12 +28,17 @@ DOCS=( "AUTHORS" "README.md" "THANKS" "TODO" )
 PATCHES=( "${FILESDIR}/xmlto.patch" )
 
 src_unpack() {
-	unpack ${A}
-	mv ${PN}* ${P} || die
+	if [[ ${PV} == *9999* ]]; then
+		git-2_src_unpack
+	else
+		unpack ${A}
+		mv ${PN}* ${P} || die
+	fi
 }
 
 src_configure() {
 	mycmakeargs=(
+		-DCMAKE_SKIP_RPATH=ON
 		$(cmake-utils_use examples BUILD_EXAMPLES)
 		$(cmake-utils_use tools BUILD_TOOLS)
 		$(cmake-utils_use tools BUILD_TOOLS_DOCS)
@@ -38,9 +50,8 @@ src_configure() {
 src_install() {
 	cmake-utils_src_install
 	if use examples; then
-		docompress -x /usr/share/doc/${PF}/examples
 		cd "${CMAKE_BUILD_DIR}"/examples
-		exeinto /usr/share/doc/${PF}/examples
+		exeinto /usr/$(get_libdir)/${PN}/examples
 		doexe $(find ./ -executable -type f)
 	fi
 }
