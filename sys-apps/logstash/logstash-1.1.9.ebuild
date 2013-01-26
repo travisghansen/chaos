@@ -6,7 +6,7 @@ inherit eutils
 
 DESCRIPTION="a tool for managing events and logs."
 HOMEPAGE="http://logstash.net/"
-SRC_URI="https://logstash.objects.dreamhost.com/release/${P}-monolithic.jar"
+SRC_URI="https://logstash.objects.dreamhost.com/release/${P}-flatjar.jar"
 LICENSE="Apache-2.0"
 
 SLOT="0"
@@ -30,7 +30,7 @@ src_install() {
 	keepdir "/var/log/${PN}"
 	dodir "/opt/${PN}/"
 	insinto "/opt/${PN}"
-	doins "${DISTDIR}/${P}-monolithic.jar"
+	doins "${DISTDIR}/${P}-flatjar.jar"
 
 	dosym "/opt/${PN}/${A}" "/opt/${PN}/${PN}.jar"
 	exeinto "/opt/bin"
