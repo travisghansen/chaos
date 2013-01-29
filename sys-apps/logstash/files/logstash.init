@@ -1,0 +1,74 @@
+#!/sbin/runscript
+
+name="logstash"
+description=""
+
+LOGSTASH_USER=${LS_USER:="root:root"}
+
+PIDFILE="/run/logstash/logstash.pid"
+
+JAVAMEM="256M"
+JAVA_OPTS="-Xmx$JAVAMEM -Xms$JAVAMEM"
+
+export JAVA_HOME
+export JAVA_OPTS
+
+: ${LOGFILE:="/var/log/logstash/logstash.log"}
+: ${AGENT_START="true"}
+: ${AGENT_OPTS:=" --config /etc/logstash/conf.d/*.conf --log ${LOGFILE} "}
+: ${WEB_START:="true"}
+: ${WEB_OPTS:=" --backend elasticsearch:///?local "}
+
+if [ -x "$JAVA_HOME/bin/java" ]; then
+	JAVA="$JAVA_HOME/bin/java"
+else
+	JAVA=java
+fi
+
+server_command="${JAVA}"
+
+depend() {
+	use net
+	after elasticsearch
+}
+
+start() {
+	local server_args
+	
+	if [ "X${AGENT_START}" != "Xtrue" -a "X${WEB_START}" != "Xtrue" ]; then
+		eerror "not starting agent or web"
+		return 1
+	fi
+
+	if [ "X${AGENT_START}" == "Xtrue" ]; then
+		server_args=" agent ${AGENT_OPTS}"
+	fi
+	
+	if [ "X${WEB_START}" == "Xtrue" ]; then
+		if [ -z "${server_args}" ]; then
+			server_args=" web ${WEB_OPTS} "
+		else
+			server_args=" ${server_args} -- web ${WEB_OPTS} "
+		fi
+	fi
+
+	ebegin "Starting ${SVCNAME}"
+	checkpath -d -o "${LOGSTASH_USER}" -m750 "$(dirname "${PIDFILE}")"
+	checkpath -d -o "${LOGSTASH_USER}" -m750 "$(dirname "${LOGFILE}")"
+	
+	start-stop-daemon --start \
+		--chdir "/tmp" \
+		--user="${LOGSTASH_USER}" \
+		--pidfile="${PIDFILE}" \
+		--make-pidfile \
+		--background \
+		--exec ${server_command} -- ${JAVA_OPTS} -jar /opt/logstash/logstash.jar ${server_args}
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping ${SVCNAME}"
+	start-stop-daemon --stop \
+		--pidfile=${PIDFILE} \
+	eend $?
+}
