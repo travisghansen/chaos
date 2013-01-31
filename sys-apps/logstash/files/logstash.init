@@ -13,9 +13,11 @@ JAVA_OPTS="-Xmx$JAVAMEM -Xms$JAVAMEM"
 export JAVA_HOME
 export JAVA_OPTS
 
+# http://www.logstash.net/docs/1.1.9/flags
+
 : ${LOGFILE:="/var/log/logstash/logstash.log"}
 : ${AGENT_START="true"}
-: ${AGENT_OPTS:=" --config /etc/logstash/conf.d/*.conf --log ${LOGFILE} "}
+: ${AGENT_OPTS:=" --config /etc/logstash/conf.d/*.conf --log ${LOGFILE} --pluginpath /etc/logstash/plugins "}
 : ${WEB_START:="true"}
 : ${WEB_OPTS:=" --backend elasticsearch:///?local "}
 

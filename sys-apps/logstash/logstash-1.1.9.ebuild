@@ -34,6 +34,8 @@ src_install() {
 	insinto /etc/${PN}/conf.d
 	doins "${FILESDIR}/agent.conf.sample"
 
+	keepdir "/etc/${PN}/patterns"
+	keepdir "/etc/${PN}/plugins"
 	keepdir "/var/lib/${PN}"
 	keepdir "/var/log/${PN}"
 	dodir "/opt/${PN}/"
