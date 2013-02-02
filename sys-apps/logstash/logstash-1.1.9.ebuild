@@ -17,18 +17,12 @@ SLOT="0"
 KEYWORDS="x86 amd64 lpha sparc"
 IUSE=""
 
-DEPEND=""
+DEPEND="dev-python/pyes
+	dev-python/urllib3
+	virtual/python-argparse"
 
 RDEPEND="virtual/jre"
 S="${WORKDIR}"
-
-#src_unpack() {
-#	:
-#}
-
-#src_configure() {
-#	:
-#}
 
 src_install() {
 	insinto /etc/${PN}/conf.d
@@ -45,6 +39,10 @@ src_install() {
 	dosym "/opt/${PN}/${A}" "/opt/${PN}/${PN}.jar"
 	exeinto "/opt/bin"
 	doexe ${FILESDIR}/logstash
+
+	# requires pyes
+	# https://logstash.jira.com/browse/LOGSTASH-211
+	dobin ${FILESDIR}/logstash_index_cleaner.py
 
 	#Init scripts
 	newconfd "${FILESDIR}/${PN}.conf" "${PN}"
