@@ -64,7 +64,7 @@ start() {
 		--pidfile="${PIDFILE}" \
 		--make-pidfile \
 		--background \
-		--exec ${server_command} -- ${JAVA_OPTS} -jar /opt/logstash/logstash.jar ${server_args}
+		--exec ${server_command} -- ${JAVA_OPTS} -cp /opt/logstash/ logstash.runner ${server_args}
 	eend $?
 }
 
