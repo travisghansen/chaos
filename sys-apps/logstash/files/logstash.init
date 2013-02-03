@@ -13,11 +13,12 @@ JAVA_OPTS="-Xmx$JAVAMEM -Xms$JAVAMEM"
 export JAVA_HOME
 export JAVA_OPTS
 
-# http://www.logstash.net/docs/1.1.9/flags
+GROK_PATTERNS_PATH="/opt/logstash/patterns:/etc/logstash/patterns:${GROK_PATTERNS_PATH}"
 
+# http://www.logstash.net/docs/1.1.9/flags
 : ${LOGFILE:="/var/log/logstash/logstash.log"}
 : ${AGENT_START="true"}
-: ${AGENT_OPTS:=" --config /etc/logstash/conf.d/*.conf --log ${LOGFILE} --pluginpath /etc/logstash/plugins "}
+: ${AGENT_OPTS:=" --config /etc/logstash/conf.d/*.conf --log ${LOGFILE} --pluginpath /etc/logstash/plugins --grok-patterns-path \"${GROK_PATTERNS_PATH}\" "}
 : ${WEB_START:="true"}
 : ${WEB_OPTS:=" --backend elasticsearch:///?local "}
 
