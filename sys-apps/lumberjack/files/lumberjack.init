@@ -1,0 +1,33 @@
+#!/sbin/runscript
+
+name="Lumberjack"
+description="Lumberjack log cutter"
+
+: ${server_pidfile:="/run/lumberjack/lumberjack.pid"}
+
+server_command="/usr/bin/lumberjack"
+server_command_args="${LUMBERJACK_OPTS}"
+
+depend() {
+	use net logstash
+}
+
+start() {
+	
+	ebegin "Starting Lumberjack"
+	checkpath -d -m 750 "$(dirname "${server_pidfile}")"
+	
+	start-stop-daemon --start \
+		--background --quiet \
+		--pidfile="${server_pidfile}" \
+		--make-pidfile \
+		--exec ${server_command} -- ${server_command_args}
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping Lumberjack"
+	start-stop-daemon --stop \
+		--pidfile=${server_pidfile}
+	eend $?
+}
