@@ -26,7 +26,7 @@ SLOT="0"
 
 DEPEND="dev-libs/openssl
 	dev-libs/jemalloc
-	net-libs/zeromq
+	=net-libs/zeromq-2*
 	sys-libs/zlib"
 
 #RDEPEND="${DEPEND}"
