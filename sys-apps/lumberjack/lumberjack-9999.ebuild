@@ -38,6 +38,16 @@ src_compile() {
 src_install(){
 	dobin build/bin/lumberjack
 
+	dodir /etc/${PN}/watch.d
+	insinto /etc/${PN}/watch.d
+	doins ${FILESDIR}/lumberjack.watch.sample
+
 	newinitd "${FILESDIR}/${PN}.init" "${PN}"
 	newconfd "${FILESDIR}/${PN}.conf" "${PN}"
+}
+
+pkg_postinst() {
+	elog "You may place *.watch files in /etc/${PN}/watch.d"
+	elog "each file may contain a list of files ( 1 file per line)"
+	elog "to be watched by ${PN}"
 }

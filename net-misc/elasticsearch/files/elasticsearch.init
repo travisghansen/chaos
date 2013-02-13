@@ -41,23 +41,29 @@ start() {
 	# elasticsearch -f -Des.config=/path/to/config/file
 	# elasticsearch -f -Des.network.host=10.0.0.4
 	
-    [ ! -f "${ES_INCLUDE}" ] && {
-        eerror "${ES_INCLUDE} must be copied into place"
-        return 1
-    }
+	[ ! -f "${ES_INCLUDE}" ] && {
+		eerror "${ES_INCLUDE} must be copied into place"
+		return 1
+	}
 
-    local conf
-    local conf_file
-    for conf in elasticsearch.yml logging.yml; do
-        conf_file="${ES_CONF_PATH}/${conf}"
-        if [ ! -f "${conf_file}" ]; then
-            eerror "${conf_file} must be copied into place"
-            return 1
-        fi
-    done
+	local conf
+	local conf_file
+	for conf in elasticsearch.yml logging.yml; do
+		conf_file="${ES_CONF_PATH}/${conf}"
+		if [ ! -f "${conf_file}" ]; then
+			eerror "${conf_file} must be copied into place"
+			return 1
+		fi
+	done
 
 	ebegin "Starting ${SVCNAME}"
-	
+
+	if [ -n "${ES_MAX_FD}" ]; then
+		ulimit -n ${ES_MAX_FD}
+		einfo "Max open filedescriptors  : ${ES_MAX_FD}"
+	fi
+
+
 	checkpath -d -o "${ES_USER}" -m750 "/var/lib/elasticsearch"
 	checkpath -d -o "${ES_USER}" -m750 "/var/log/elasticsearch"
 	checkpath -d -o "${ES_USER}" -m750 "$(dirname "${PIDFILE}")"

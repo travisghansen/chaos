@@ -7,6 +7,7 @@ description="Lumberjack log cutter"
 
 server_command="/usr/bin/lumberjack"
 server_command_args="${LUMBERJACK_OPTS}"
+watch_dir="/etc/lumberjack/watch.d"
 
 depend() {
 	use net logstash
@@ -16,12 +17,20 @@ start() {
 	
 	ebegin "Starting Lumberjack"
 	checkpath -d -m 750 "$(dirname "${server_pidfile}")"
-	
+
+	$(ls "${watch_dir}"/*.watch &>/dev/null) && {
+		for file in "${watch_dir}"/*.watch; do
+			while read line; do
+				files+=( "${line}" )
+			done < "${file}"
+		done
+	}
+
 	start-stop-daemon --start \
 		--background --quiet \
 		--pidfile="${server_pidfile}" \
 		--make-pidfile \
-		--exec ${server_command} -- ${server_command_args}
+		--exec ${server_command} -- ${server_command_args} "${files[@]}"
 	eend $?
 }
 
