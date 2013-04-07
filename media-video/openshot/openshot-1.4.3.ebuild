@@ -26,7 +26,7 @@ RDEPEND="
 	dev-python/pyxdg
 	dev-python/librsvg-python
 	dev-python/httplib2
-	>=media-libs/mlt-0.4.6-r1[dv?,ffmpeg,frei0r,gtk,melt,python,quicktime?,sdl,vorbis?,xml]
+	>=media-libs/mlt-0.4.6-r1[dv?,ffmpeg,frei0r,gtk,kdenlive,melt,python,quicktime?,sdl,vorbis?,xml]
 	media-sound/sox[encode,ffmpeg,flac?,ogg?,wavpack?]
 	>=media-video/ffmpeg-0.6[encode,faac?,ieee1394?,mp3?,sdl,theora?,vorbis?,vpx,x264?,xvid?]
 	dev-python/imaging
