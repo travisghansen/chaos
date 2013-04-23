@@ -13,8 +13,7 @@ SRC_URI="http://distfiles.one-gear.com/distfiles/${MY_PN}.unix-${PV}.zip"
 
 LICENSE="GPL-2"
 SLOT="0"
-#KEYWORDS="alpha amd64 ia64 ~ppc ~ppc64 sparc x86"
-KEYWORDS="~alpha ~amd64 ~ia64 ~ppc ~ppc64 ~sparc ~x86"
+KEYWORDS="alpha amd64 ia64 ~ppc ~ppc64 sparc x86"
 
 DEPEND=""
 RDEPEND="${DEPEND}
@@ -30,6 +29,8 @@ src_install() {
 	dodir /var/lib/unifi/work
 	keepdir /var/lib/unifi/data
 	cp -R "${S}"/* "${D}"/usr/$(get_libdir)/unifi
+	cp -R "${D}"/usr/$(get_libdir)/unifi/data/* "${D}"/var/lib/unifi/data
+	rm -rf "${D}"/usr/$(get_libdir)/unifi/data
 	dosym /var/lib/unifi/data /usr/$(get_libdir)/unifi/data
 	dosym /var/lib/unifi/work /usr/$(get_libdir)/unifi/work
 	dosym /var/log/unifi /usr/$(get_libdir)/unifi/logs
