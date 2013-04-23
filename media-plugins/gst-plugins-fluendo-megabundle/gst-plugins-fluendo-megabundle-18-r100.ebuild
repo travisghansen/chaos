@@ -10,7 +10,7 @@ SRC_URI="x86? ( fluendo-megabundle-${PV}.i386.tar.bz2 )
 	amd64? ( fluendo-megabundle-${PV}.x86_64.tar.bz2 )"
 
 LICENSE=""
-SLOT="0"
+SLOT="1.0"
 KEYWORDS="~amd64 ~x86 x86 amd64"
 IUSE=""
 
@@ -21,9 +21,9 @@ RESTRICT="fetch"
 S=$WORKDIR
 
 src_install() {
-	dodir /usr/$(get_libdir)/gstreamer-0.10
-	cp -d -R  ${S}/codecs/* \
-		${D}/usr/$(get_libdir)/gstreamer-0.10/ || die
+	dodir /usr/$(get_libdir)/gstreamer-${SLOT}
+	cp -d -R  ${S}/codecs/gstreamer-${SLOT}/* \
+		${D}/usr/$(get_libdir)/gstreamer-${SLOT}/ || die
 
 	dodoc LICENSE.txt README.txt
 }
