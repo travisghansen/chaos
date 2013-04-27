@@ -13,13 +13,12 @@ SRC_URI="http://distfiles.one-gear.com/distfiles/${MY_PN}.unix-${PV}.zip"
 
 LICENSE="GPL-2"
 SLOT="0"
-#KEYWORDS="alpha amd64 ia64 ~ppc ~ppc64 sparc x86"
-KEYWORDS="~alpha ~amd64 ~ia64 ~ppc ~ppc64 ~sparc ~x86"
+KEYWORDS="alpha amd64 ia64 ~ppc ~ppc64 sparc x86"
 
 DEPEND=""
 RDEPEND="${DEPEND}
 		  >=dev-db/mongodb-2.0.0
-		  virtual/jdk:1.6"
+		  virtual/jdk:1.7"
 IUSE=""
 
 S="${WORKDIR}/UniFi"
