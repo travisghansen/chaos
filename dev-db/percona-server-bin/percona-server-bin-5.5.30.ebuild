@@ -13,13 +13,15 @@ BASE_URI="http://www.percona.com/redir/downloads"
 
 #regular server builds
 R_MY_PKG="Percona-Server"
-R_RELEASE="29.3"
-R_BUILD_NUMBER="388"
+R_RELEASE="30.2"
+R_BUILD_NUMBER="500"
+#R_RB_SEPARATOR="."
 
 #cluster server builds
 C_MY_PKG="Percona-XtraDB-Cluster"
-C_RELEASE="23.7"
-C_BUILD_NUMBER="373"
+C_RELEASE="23.7.4"
+C_BUILD_NUMBER="405"
+#C_RB_SEPARATOR="-"
 
 #https://bugs.launchpad.net/percona-xtradb-cluster/+bug/999495
 #for the silly 5 after release
@@ -47,6 +49,7 @@ IUSE="cluster"
 # Be warned, *DEPEND are version-dependant
 # These are used for both runtime and compiletime
 DEPEND="userland_GNU? ( sys-process/procps )
+		>=dev-libs/openssl-1.0
         >=sys-apps/sed-4
         >=sys-apps/texinfo-4.7-r1
         >=sys-libs/readline-4.1
@@ -97,6 +100,10 @@ src_install() {
 	#https://bugs.launchpad.net/percona-xtradb-cluster/+bug/999492
 	#ncurses now had tinfo use flag
 	#dosym /lib/libncurses.so.5 /lib/libtinfo.so.5
+
+	#NASTY HACK
+	dosym /usr/$(get_libdir)/libssl.so.1.0.0 /usr/$(get_libdir)/libssl.so.10
+	dosym /usr/$(get_libdir)/libcrypto.so.1.0.0 /usr/$(get_libdir)/libcrypto.so.10
 
 	use cluster && mv "${D}/etc/${SERVICE}/wsrep.cnf" \
 	                  "${D}/etc/${SERVICE}/wsrep.cnf.sample"
