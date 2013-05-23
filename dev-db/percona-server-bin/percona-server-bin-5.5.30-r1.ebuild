@@ -49,6 +49,10 @@ IUSE="cluster"
 # Be warned, *DEPEND are version-dependant
 # These are used for both runtime and compiletime
 DEPEND="userland_GNU? ( sys-process/procps )
+		cluster? ( dev-db/xtrabackup-bin
+					sys-apps/iproute2
+					net-analyzer/openbsd-netcat
+					sys-apps/xinetd )
 		>=dev-libs/openssl-1.0
         >=sys-apps/sed-4
         >=sys-apps/texinfo-4.7-r1
@@ -70,6 +74,17 @@ fi
 src_prepare() {
 	rm -rf "${S}/mysql-test"
 	rm -rf "${S}/sql-bench"
+	if use cluster;then
+		# they use flags that do not work with netcat/netcat6
+		# nc -dl
+		sed -i \
+			-e "s|NC_BIN=nc|NC_BIN=nc.openbsd|" \
+			"${S}"/bin/wsrep_sst_xtrabackup || die "failed to filter wsrep_sst_xtrabackup"
+		
+		sed -i \
+			-e "s|/usr/bin/clustercheck|/opt/percona/bin/clustercheck|" \
+			"${S}"/xinetd.d/mysqlchk || die "failed to filter mysqlchk"
+	fi
 }
 
 src_install() {
@@ -105,8 +120,12 @@ src_install() {
 	dosym /usr/$(get_libdir)/libssl.so.1.0.0 /usr/$(get_libdir)/libssl.so.10
 	dosym /usr/$(get_libdir)/libcrypto.so.1.0.0 /usr/$(get_libdir)/libcrypto.so.10
 
-	use cluster && mv "${D}/etc/${SERVICE}/wsrep.cnf" \
-	                  "${D}/etc/${SERVICE}/wsrep.cnf.sample"
+	use cluster && {
+		mv "${D}/etc/${SERVICE}/wsrep.cnf" \
+	       "${D}/etc/${SERVICE}/wsrep.cnf.sample"
+		insinto /etc/xinetd.d/
+		doins "${S}"/xinetd.d/mysqlchk
+	}
 }
 
 pkg_postinst() {
@@ -141,6 +160,16 @@ socket = /var/run/percona/mysqld.sock
 		einfo "to /etc/${SERVICE}/wsrep.cnf and use:"
 		einfo "!include /etc/${SERVICE}/wsrep.cnf"
 		einfo "in your standard /etc/${SERVICE}/my.cnf"
+		einfo ""
+		einfo "/etc/xinetd.d/mysqlchk has been installed"
+		einfo "this is useful for monitoring/health checks with load balancing"
+		einfo "systems.  In or to make use of it you must add the following to"
+		einfo "/etc/services:"
+		einfo "mysqlchk        9200/tcp                # mysqlchk"
+		einfo ""
+		einfo "Additionally make sure xinetd is added to default runlevel etc"
+		einfo "as appropriate. More info is available here:"
+		einfo "https://github.com/olafz/percona-clustercheck"
 	fi
 
 }
