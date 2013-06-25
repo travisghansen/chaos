@@ -13,14 +13,14 @@ BASE_URI="http://www.percona.com/redir/downloads"
 
 #regular server builds
 R_MY_PKG="Percona-Server"
-R_RELEASE="30.2"
-R_BUILD_NUMBER="500"
+R_RELEASE="30.3"
+R_BUILD_NUMBER="520"
 #R_RB_SEPARATOR="."
 
 #cluster server builds
 C_MY_PKG="Percona-XtraDB-Cluster"
-C_RELEASE="23.7.4"
-C_BUILD_NUMBER="405"
+C_RELEASE="23.7.5"
+C_BUILD_NUMBER="438"
 #C_RB_SEPARATOR="-"
 
 #https://bugs.launchpad.net/percona-xtradb-cluster/+bug/999495
