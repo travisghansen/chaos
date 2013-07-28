@@ -3,7 +3,7 @@
 
 EAPI=2
 
-inherit eutils versionator
+inherit eutils systemd versionator
 
 use x86 && M_ARCH="i686"
 use amd64 && M_ARCH="x86_64"
@@ -126,6 +126,12 @@ src_install() {
 		insinto /etc/xinetd.d/
 		doins "${S}"/xinetd.d/mysqlchk
 	}
+
+	cp "${FILESDIR}/mysqld-post.sh" "${D}/opt/${SERVICE}/bin/mysqld-post"
+	chmod +x "${D}/opt/${SERVICE}/bin/mysqld-post"
+
+	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfile ${SERVICE}.conf || die
+	systemd_newunit "${FILESDIR}"/${PN}.service ${SERVICE}.service || die
 }
 
 pkg_postinst() {
