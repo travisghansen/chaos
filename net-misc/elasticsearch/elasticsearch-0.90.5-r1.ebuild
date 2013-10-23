@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit eutils
+inherit eutils systemd
 
 MY_PN="${PN%-bin}"
 DESCRIPTION="Open Source, Distributed, RESTful, Search Engine"
@@ -69,6 +69,9 @@ src_install() {
 
 	newinitd "${T}/${rcscript}" "${MY_PN}"
 	newconfd "${FILESDIR}/${MY_PN}.conf" "${MY_PN}"
+
+	#systemd
+	systemd_dounit "${FILESDIR}"/${PN}.service
 }
 
 pkg_postinst() {
