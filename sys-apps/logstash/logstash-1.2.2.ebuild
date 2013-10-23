@@ -4,13 +4,12 @@
 
 EAPI=5
 
-inherit eutils
+inherit eutils systemd
 
 DESCRIPTION="a tool for managing events and logs."
 HOMEPAGE="http://logstash.net/"
-DIST="monolithic"
-#DIST="flatjar"
-SRC_URI="https://logstash.objects.dreamhost.com/release/${P}-${DIST}.jar"
+DIST="flatjar"
+SRC_URI="https://download.elasticsearch.org/${PN}/${PN}/${P}-${DIST}.jar"
 LICENSE="Apache-2.0"
 
 SLOT="0"
@@ -25,32 +24,7 @@ RDEPEND="virtual/jre"
 S="${WORKDIR}"
 
 src_unpack() {
-	unpack "${A}"
-}
-
-src_prepare() {
-	# remove sun garbage
-	rm -rf jni/*SunOS/
-	rm -rf com/sun/jna/sunos*
-	
-	# remove FreeBSD for now
-	rm -rf jni/*FreeBSD/
-	rm -rf com/sun/jna/freebsd*
-
-	# remove linux 64bit when appropriate
-	use amd64 || {
-		rm -rf META-INF/native/linux64/
-		rm -rf org/xerial/snappy/native/Linux/amd64/
-		rm -rf jni/x86_64-Linux/
-		rm -rf com/sun/jna/linux-amd64/
-	}
-
-	use x86 || {
-		rm -rf META-INF/native/linux32/
-		rm -rf org/xerial/snappy/native/Linux/i386/
-		rm -rf jni/i386-Linux/
-		rm -rf com/sun/jna/linux-i386/
-	}
+	:
 }
 
 src_install() {
@@ -61,9 +35,12 @@ src_install() {
 	keepdir "/etc/${PN}/plugins"
 	keepdir "/var/lib/${PN}"
 	keepdir "/var/log/${PN}"
+	
+	# copy jar
 	dodir "/opt/${PN}/"
 	insinto "/opt/${PN}"
-	doins -r "${WORKDIR}"/*
+	doins "${DISTDIR}/${A}"
+	dosym "/opt/${PN}/${A}" "/opt/${PN}/${PN}.jar"
 
 	# requires pyes
 	# https://logstash.jira.com/browse/LOGSTASH-211
@@ -77,6 +54,10 @@ src_install() {
 	#Init scripts
 	newconfd "${FILESDIR}/${PN}.conf" "${PN}"
 	newinitd "${FILESDIR}/${PN}.init" "${PN}"
+	
+	#systemd
+	systemd_dounit "${FILESDIR}"/${PN}-agent.service
+	systemd_dounit "${FILESDIR}"/${PN}-web.service
 }
 
 pkg_postinst() {

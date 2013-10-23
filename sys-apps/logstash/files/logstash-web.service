@@ -1,0 +1,10 @@
+[Unit]
+Description=LogStash Web
+After=network.target elasticsearch.service
+
+[Service]
+EnvironmentFile=/etc/conf.d/logstash
+ExecStart=/usr/bin/logstash web $WEB_OPTS
+
+[Install]
+WantedBy=multi-user.target

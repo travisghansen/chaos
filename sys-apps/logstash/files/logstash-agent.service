@@ -1,0 +1,10 @@
+[Unit]
+Description=LogStash Agent
+After=network.target elasticsearch.service
+
+[Service]
+EnvironmentFile=/etc/conf.d/logstash
+ExecStart=/usr/bin/logstash agent --config /etc/logstash/conf.d/*.conf --log /var/log/logstash/logstash.log $AGENT_OPTS
+
+[Install]
+WantedBy=multi-user.target

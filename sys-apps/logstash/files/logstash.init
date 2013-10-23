@@ -13,14 +13,14 @@ JAVA_OPTS="-Xmx$JAVAMEM -Xms$JAVAMEM"
 export JAVA_HOME
 export JAVA_OPTS
 
-GROK_PATTERNS_PATH="/opt/logstash/patterns:/etc/logstash/patterns:${GROK_PATTERNS_PATH}"
-
-# http://www.logstash.net/docs/1.1.9/flags
+# http://www.logstash.net/docs/1.2.2/flags
 : ${LOGFILE:="/var/log/logstash/logstash.log"}
+
 : ${AGENT_START="true"}
-: ${AGENT_OPTS:=" --config /etc/logstash/conf.d/*.conf --log ${LOGFILE} --pluginpath /etc/logstash/plugins --grok-patterns-path ${GROK_PATTERNS_PATH} "}
+: ${AGENT_OPTS:=" --config /etc/logstash/conf.d/*.conf --log ${LOGFILE} "}
+
 : ${WEB_START:="true"}
-: ${WEB_OPTS:=" --backend elasticsearch:///?local "}
+: ${WEB_OPTS:=""}
 
 if [ -x "$JAVA_HOME/bin/java" ]; then
 	JAVA="$JAVA_HOME/bin/java"
@@ -28,7 +28,7 @@ else
 	JAVA=java
 fi
 
-server_command="${JAVA}"
+server_command="/usr/bin/logstash"
 
 depend() {
 	use net
@@ -65,7 +65,7 @@ start() {
 		--pidfile="${PIDFILE}" \
 		--make-pidfile \
 		--background \
-		--exec ${server_command} -- ${JAVA_OPTS} -cp /opt/logstash/ logstash.runner ${server_args}
+		--exec ${server_command} -- ${server_args}
 	eend $?
 }
 
