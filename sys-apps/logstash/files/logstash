@@ -7,6 +7,4 @@ else
 fi
 
 #"${JAVA}" ${JAVA_OPTS} -cp /opt/logstash/ logstash.runner "$@"
-"${JAVA}" ${JAVA_OPTS} -jar /opt/logstash/logstash.jar "$@"
-
-exit $?
+exec "${JAVA}" ${JAVA_OPTS} -jar /opt/logstash/logstash.jar "$@"
