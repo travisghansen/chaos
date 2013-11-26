@@ -5,7 +5,7 @@
 
 PID_FILE="/var/run/unifi.pid"
 DAEMON="${JAVA_HOME-/usr}"/bin/java
-UNIFI_PATH="/opt/UniFi"
+UNIFI_PATH="/usr/lib/unifi"
 
 depend() {
     need net
