@@ -7,17 +7,19 @@
 # http://mediagoblin.readthedocs.org/en/v0.5.1/
 # http://wiki.mediagoblin.org/Deployment
 # http://mediagoblin.readthedocs.org/en/latest/siteadmin/deploying.html
+# http://mediagoblin.readthedocs.org/en/latest/siteadmin/media-types.html
 
 ## TODO
 # [[mediagoblin.media_types.stl]]
 # requires blender >= 2.63
 
-# [mediagoblin.media_types.pdf]]
+# [[mediagoblin.media_types.pdf]]
 # pdf.js bundled?
 # expanded dep for headless libreoffice / unoconv
 
-# [[mediagoblin.media_types.ascii]].
+# [[mediagoblin.media_types.ascii]]
 # requires dev-python/chardet
+# may require media-fonts/inconsolata
 
 EAPI="5"
 PYTHON_DEPEND="2"
@@ -37,6 +39,13 @@ IUSE=""
 #virtual/python-imaging
 #dev-python/imaging
 
+# pytest-xdist
+# argparse
+
+# this is a fuster
+#	>=dev-python/sqlalchemy-0.8.0[sqlite]
+#	dev-python/sqlalchemy-migrate
+
 DEPEND=">=dev-lang/python-2.7[sqlite]
     dev-db/sqlite
 	dev-python/lxml
@@ -51,15 +60,15 @@ DEPEND=">=dev-lang/python-2.7[sqlite]
 	dev-python/mock
 	<dev-python/Babel-1.0
 	virtual/python-argparse
-	dev-python/argparse
 	dev-python/configobj
 	dev-python/markdown
-	>=dev-python/sqlalchemy-0.8.0[sqlite]
-	dev-python/sqlalchemy-migrate
 	dev-python/itsdangerous
 	dev-python/pytz
 	dev-python/six
 	=dev-python/oauthlib-0.5.0
+
+    dev-python/flup
+    dev-python/numpy
 
 	media-libs/gstreamer:0.10
 	media-libs/gst-plugins-good:0.10
@@ -89,10 +98,56 @@ DEVDEPEND="
 	dev-python/sphinx
 "
 
-RDEPEND="${DEPEND}"
+# not sure which of these are really used
+# but in order to be useful extremely full
+# codec support is required
+CODECDEPEND="
+	media-plugins/gst-plugins-lame:0.10
+	media-plugins/gst-plugins-x264:0.10
+	media-plugins/gst-plugins-xvid:0.10
+	media-plugins/gst-plugins-wavpack:0.10
+	media-plugins/gst-plugins-theora:0.10
+	media-plugins/gst-plugins-mpeg2dec:0.10
+	media-plugins/gst-plugins-a52dec:0.10
+	media-plugins/gst-plugins-alsa:0.10
+	media-plugins/gst-plugins-dts:0.10
+	media-plugins/gst-plugins-dv:0.10
+	media-plugins/gst-plugins-faac:0.10
+	media-plugins/gst-plugins-faad:0.10
+	media-plugins/gst-plugins-flac:0.10
+	media-plugins/gst-plugins-gsm:0.10
+	media-plugins/gst-plugins-jpeg:0.10
+	media-plugins/gst-plugins-libpng:0.10
+	media-plugins/gst-plugins-mimic:0.10
+	media-plugins/gst-plugins-musepack:0.10
+	media-plugins/gst-plugins-neon:0.10
+	media-plugins/gst-plugins-opus:0.10
+	media-plugins/gst-plugins-raw1394:0.10
+	media-plugins/gst-plugins-rtmp:0.10
+	media-plugins/gst-plugins-speex:0.10
+"
+
+CODECOTHERS="
+	media-plugins/gst-plugins-libmms:0.10
+	media-plugins/gst-plugins-libnice:0.10
+	media-plugins/gst-plugins-libvisual:0.10
+	media-plugins/gst-plugins-timidity:0.10
+"
+
+RDEPEND="${DEPEND} ${DEVDEPEND} ${CODECDEPEND}"
 
 
 src_install() {
 	distutils_src_install
 	rm ${D}/usr/bin/pybabel
+}
+
+pkg_postinst() {
+	#gmg adduser thansen
+	#gmg makeadmin thansen
+	#gmg changepw thansen
+	#einfo "foo"
+	# background worker using
+	# ./lazycelery.sh in data directory
+	:
 }
