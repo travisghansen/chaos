@@ -30,7 +30,7 @@ DEPEND="${RDEPEND}
 S="${WORKDIR}/gateway-${PV}/addons/sqlbox/"
 
 src_configure() {
-	econf --docdir=/usr/share/doc/${PF} \
+	LDFLAGS="" econf --docdir=/usr/share/doc/${PF} \
 		--without-ctlib \
 		--without-mssql \
 		$(use_enable ssl) \
