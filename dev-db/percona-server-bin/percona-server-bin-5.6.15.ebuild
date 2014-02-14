@@ -49,8 +49,9 @@ IUSE="cluster"
 # Be warned, *DEPEND are version-dependant
 # These are used for both runtime and compiletime
 DEPEND="userland_GNU? ( sys-process/procps )
-		cluster? ( dev-db/xtrabackup-bin
+		cluster? ( >=dev-db/xtrabackup-bin-2.1.4
 					sys-apps/iproute2
+					sys-apps/pv
 					net-analyzer/openbsd-netcat
 					sys-apps/xinetd )
 		>=dev-libs/openssl-1.0
@@ -78,8 +79,22 @@ src_prepare() {
 		# they use flags that do not work with netcat/netcat6
 		# nc -dl
 		sed -i \
-			-e "s|NC_BIN=nc|NC_BIN=nc.openbsd|" \
+			-e "s|which nc|which nc.openbsd|" \
 			"${S}"/bin/wsrep_sst_xtrabackup || die "failed to filter wsrep_sst_xtrabackup"
+		
+		sed -i \
+			-e "s|tcmd=\"nc|tcmd=\"nc.openbsd|" \
+			"${S}"/bin/wsrep_sst_xtrabackup || die "failed to filter wsrep_sst_xtrabackup"
+		
+		# they use flags that do not work with netcat/netcat6
+		# nc -dl
+		sed -i \
+			-e "s|which nc|which nc.openbsd|" \
+			"${S}"/bin/wsrep_sst_xtrabackup-v2 || die "failed to filter wsrep_sst_xtrabackup-v2"
+		
+		sed -i \
+			-e "s|tcmd=\"nc|tcmd=\"nc.openbsd|" \
+			"${S}"/bin/wsrep_sst_xtrabackup-v2 || die "failed to filter wsrep_sst_xtrabackup-v2"
 		
 		sed -i \
 			-e "s|/usr/bin/clustercheck|/opt/percona/bin/clustercheck|" \
@@ -94,6 +109,7 @@ src_install() {
 
 	dodir "/etc/${SERVICE}/"
 	cp -R "${S}/support-files/"*.cnf "${D}/etc/${SERVICE}"
+	cp -a "${S}/support-files/wsrep_notify" "${D}/etc/${SERVICE}"
 	cp "${FILESDIR}/my.cnf.sample" "${D}/etc/${SERVICE}/"
 	rm -rf "${S}/support-files"
 	mv "${S}/scripts/mysql_install_db" "${S}/bin"
@@ -121,8 +137,6 @@ src_install() {
 	#dosym /usr/$(get_libdir)/libcrypto.so.1.0.0 /usr/$(get_libdir)/libcrypto.so.10
 
 	use cluster && {
-		mv "${D}/etc/${SERVICE}/wsrep.cnf" \
-	       "${D}/etc/${SERVICE}/wsrep.cnf.sample"
 		insinto /etc/xinetd.d/
 		doins "${S}"/xinetd.d/mysqlchk
 	}
