@@ -50,11 +50,12 @@ IUSE="cluster"
 # These are used for both runtime and compiletime
 DEPEND="userland_GNU? ( sys-process/procps )
 		cluster? ( >=dev-db/xtrabackup-bin-2.1.4
+					net-misc/socat
 					sys-apps/iproute2
 					sys-apps/pv
 					net-analyzer/openbsd-netcat
 					sys-apps/xinetd )
-		>=dev-libs/openssl-1.0
+		>=dev-libs/openssl-1.0.1f
         >=sys-apps/sed-4
         >=sys-apps/texinfo-4.7-r1
         >=sys-libs/readline-4.1
@@ -133,8 +134,8 @@ src_install() {
 	#dosym /lib/libncurses.so.5 /lib/libtinfo.so.5
 
 	#NASTY HACK
-	#dosym /usr/$(get_libdir)/libssl.so.1.0.0 /usr/$(get_libdir)/libssl.so.10
-	#dosym /usr/$(get_libdir)/libcrypto.so.1.0.0 /usr/$(get_libdir)/libcrypto.so.10
+	#dosym /usr/$(get_libdir)/libssl.so /usr/$(get_libdir)/libssl.so.6
+	dosym /usr/$(get_libdir)/libcrypto.so /usr/$(get_libdir)/libcrypto.so.6
 
 	use cluster && {
 		insinto /etc/xinetd.d/
