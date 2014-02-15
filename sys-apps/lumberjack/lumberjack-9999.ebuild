@@ -11,6 +11,8 @@ if [[ ${PV} != *9999* ]] ; then
 	EGIT_COMMIT="tags/$(echo ${PV//_/-} | tr '[:lower:]' '[:upper:]' )"
 fi
 
+EGIT_BRANCH="old/lumberjack-c"
+
 if [[ ${PV} == *9999* ]]; then
 	#KEYWORDS="-*"
 	KEYWORDS="~amd64 ~x86"
