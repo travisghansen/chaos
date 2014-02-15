@@ -53,9 +53,8 @@ log-error 					= /var/log/percona/mysqld.err
 basedir 					= /opt/percona
 datadir 					= /var/lib/percona
 skip-external-locking
-key_buffer 					= 16M
+key_buffer_size 					= 16M
 max_allowed_packet 			= 1M
-table_cache 				= 64
 sort_buffer_size 			= 512K
 net_buffer_length 			= 8K
 read_buffer_size 			= 256K
@@ -99,8 +98,6 @@ general-log-file			= /tmp/mysqld-percona.sql
 # don't eat too much memory, we're trying to be safe on 64Mb boxes
 # you might want to bump this up a bit on boxes with more RAM
 innodb_buffer_pool_size = 512M
-# this is the default, increase it if you have lots of tables
-innodb_additional_mem_pool_size = 2M
 #
 # i'd like to use /var/lib/mysql/innodb, but that is seen as a database :-(
 # and upstream wants things to be under /var/lib/mysql/, so that's the route
