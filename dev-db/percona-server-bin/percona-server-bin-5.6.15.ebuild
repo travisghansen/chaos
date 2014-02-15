@@ -134,7 +134,7 @@ src_install() {
 	#dosym /lib/libncurses.so.5 /lib/libtinfo.so.5
 
 	#NASTY HACK
-	#dosym /usr/$(get_libdir)/libssl.so /usr/$(get_libdir)/libssl.so.6
+	dosym /usr/$(get_libdir)/libssl.so /usr/$(get_libdir)/libssl.so.6
 	dosym /usr/$(get_libdir)/libcrypto.so /usr/$(get_libdir)/libcrypto.so.6
 
 	use cluster && {
