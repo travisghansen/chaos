@@ -19,8 +19,8 @@ R_BUILD_NUMBER="519"
 
 #cluster server builds
 C_MY_PKG="Percona-XtraDB-Cluster"
-C_RELEASE="25.3"
-C_BUILD_NUMBER="706"
+C_RELEASE="25.4"
+C_BUILD_NUMBER="731"
 #C_RB_SEPARATOR="-"
 
 #https://bugs.launchpad.net/percona-xtradb-cluster/+bug/999495
