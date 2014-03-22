@@ -1,0 +1,16 @@
+[Unit]
+Description=MySQL database server
+After=syslog.target network.target
+
+[Service]
+User=mysql
+Group=mysql
+EnvironmentFile=/etc/conf.d/percona
+ExecStart=/opt/percona/bin/mysqld --defaults-file=${MY_CNF} --pid-file=/run/percona/mysqld.pid
+ExecStartPost=/opt/percona/bin/mysqld-post
+
+Restart=always
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
