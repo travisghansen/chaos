@@ -24,7 +24,7 @@
 EAPI="5"
 PYTHON_DEPEND="2"
 
-inherit distutils
+inherit distutils user
 
 DESCRIPTION="A media publishing platform that anyone can run."
 HOMEPAGE="http://mediagoblin.org/"
@@ -35,16 +35,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-#python-imaging is requried as pillow does not currently work
-#virtual/python-imaging
-#dev-python/imaging
-
 # pytest-xdist
 # argparse
-
-# this is a fuster
-#	>=dev-python/sqlalchemy-0.8.0[sqlite]
-#	dev-python/sqlalchemy-migrate
 
 DEPEND=">=dev-lang/python-2.7[sqlite]
     dev-db/sqlite
@@ -66,6 +58,8 @@ DEPEND=">=dev-lang/python-2.7[sqlite]
 	dev-python/pytz
 	dev-python/six
 	=dev-python/oauthlib-0.5.0
+	>=dev-python/sqlalchemy-0.9.0[sqlite]
+	>=dev-python/sqlalchemy-migrate-0.9
 
     dev-python/flup
     dev-python/numpy
@@ -136,16 +130,68 @@ CODECOTHERS="
 
 RDEPEND="${DEPEND} ${DEVDEPEND} ${CODECDEPEND}"
 
+pkg_setup() {
+    enewgroup ${PN}
+    enewuser ${PN} -1 /bin/bash /var/lib/${PN} ${PN}
+	python_pkg_setup
+}
 
 src_install() {
 	distutils_src_install
 	rm ${D}/usr/bin/pybabel
+	keepdir /var/lib/${PN}
+	dodir /var/log/${PN}
+
+	# copy stock ones over as samples
+	for file in mediagoblin.ini paste.ini;do
+		cp ${file} "${D}"/var/lib/${PN}/${file:-4}.sample.ini
+	done
+	
+	# copy lazystarter.sh into place and create symlinks
+	cp "lazystarter.sh" "${D}"/var/lib/${PN}/lazystarter.sh
+	cd "${D}"/var/lib/${PN}/
+	ln -sf lazystarter.sh lazycelery.sh
+	ln -sf lazystarter.sh lazyserver.sh
+	cd "${S}"
+
+	dodoc README
+	
+	# this is bogus on purpose
+	# create a gentoo-y mediagoblin.ini
+	sed -e "s|@BOGUS@|@BOGUS@|" \
+		"${FILESDIR}"/mediagoblin.template.ini > "${D}"/var/lib/${PN}/mediagoblin.ini \
+		|| die "failed to create mediagoblin.ini"
+	
+	# create gentoo-y paste.ini
+	sed -e "s|@INSTALL_DIR@|/usr/lib64/python2.7/site-packages|" \
+		"${FILESDIR}"/paste.template.ini > "${D}"/var/lib/${PN}/paste.ini \
+		|| die "failed to create paste.ini"
+	
+	echo "CONFIG_PROTECT=\"/var/lib/${PN}\"" > 99mediagoblin
+	doenvd 99mediagoblin
+	
+	newinitd "${FILESDIR}/${PN}.init" "${PN}"
+
+	chown -R "${PN}:${PN}" ${D}/var/lib/${PN}
+	chown -R "${PN}:${PN}" ${D}/var/log/${PN}
+}
+
+pkg_config() {
+	einfo "Performing DB Update..."
+	su - mediagoblin -c "gmg dbupdate"
 }
 
 pkg_postinst() {
-	#gmg adduser thansen
-	#gmg makeadmin thansen
-	#gmg changepw thansen
+	elog
+	elog "1. Edit /var/lib/${PN}/mediagoblin.ini to your needs"
+	elog "2. Edit /var/lib/${PN}/paste.ini to your needs"
+	elog
+	elog "3. emerge --config \"=${CATEGORY}/${PF}\""
+	elog
+
+	einfo "use 'gmg adduser -u myuser' to create an account"
+	einfo "use 'gmg makeadmin myuser' to create an admin'"
+	einfo "use 'gmg changepw myuser' to change an account password"
 	#einfo "foo"
 	# background worker using
 	# ./lazycelery.sh in data directory

@@ -1,0 +1,77 @@
+#!/sbin/runscript
+
+name="mediagoblin"
+description="mediagoblin service"
+
+: ${start_service_server:="true"}
+: ${start_service_worker:="true"}
+: ${service_user:="mediagoblin"}
+: ${service_group:="mediagoblin"}
+: ${service_home:="/var/lib/mediagoblin"}
+
+: ${server_pidfile:="/run/${name}/server.pid"}
+: ${server_log:="/var/log/${name}/server.log"}
+: ${worker_pidfile:="/run/${name}/worker.pid"}
+: ${worker_log:="/var/log/${name}/worker.log"}
+
+server_command="/usr/bin/paster"
+server_command_args="serve paste.ini --server-name=broadcast --log-file=${server_log} --pid-file=${server_pidfile} --daemon"
+worker_command="/usr/bin/celeryd"
+worker_command_args="--pidfile=${worker_pidfile}"
+
+export CELERY_CONFIG_MODULE=mediagoblin.init.celery.from_celery
+
+depend() {
+	provide mediagoblin
+	use net
+	before apache2
+}
+
+start() {
+	
+	if [ "X${start_service_server}" == "Xtrue" ]; then
+		ebegin "Starting ${name} server"
+		checkpath -d -o "${service_user}:${service_group}" -m750 "$(dirname "${server_pidfile}")"
+	
+		start-stop-daemon --start \
+			--chdir "${service_home}" --quiet \
+			--user="${service_user}:${service_group}" \
+			--pidfile="${server_pidfile}" \
+			--exec ${server_command} -- ${server_command_args}
+		eend $?
+	fi
+	
+
+
+	if [ "X${start_service_worker}" == "Xtrue" ]; then
+		ebegin "Starting ${name} worker"
+		checkpath -d -o "${service_user}:${service_group}" -m750 "$(dirname "${worker_pidfile}")"
+
+		start-stop-daemon --start \
+			--background --quiet \
+			--chdir "${service_home}" \
+			--user="${service_user}:${service_group}" \
+			--pidfile="${worker_pidfile}" \
+			--stdout "${worker_log}" --stderr "${worker_log}" \
+			--exec ${worker_command} -- ${worker_command_args}
+		eend $?
+	fi
+}
+
+stop() {
+	if [ "X${start_service_worker}" == "Xtrue" ]; then
+		ebegin "Stopping ${name} worker"
+		start-stop-daemon --stop \
+			--pidfile=${worker_pidfile} \
+			--exec ${worker_command} -- ${worker_command_args}
+		eend $?
+	fi
+
+	if [ "X${start_service_server}" == "Xtrue" ]; then
+		ebegin "Stopping ${name} server"
+		start-stop-daemon --stop \
+			--pidfile=${server_pidfile} \
+			--exec ${server_command} -- ${server_command_args}
+		eend $?
+	fi
+}
