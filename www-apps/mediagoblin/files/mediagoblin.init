@@ -13,6 +13,7 @@ description="mediagoblin service"
 : ${server_log:="/var/log/${name}/server.log"}
 : ${worker_pidfile:="/run/${name}/worker.pid"}
 : ${worker_log:="/var/log/${name}/worker.log"}
+: ${worker_timeout:="60000"}
 
 server_command="/usr/bin/paster"
 server_command_args="serve paste.ini --server-name=broadcast --log-file=${server_log} --pid-file=${server_pidfile} --daemon"
@@ -63,6 +64,7 @@ stop() {
 		ebegin "Stopping ${name} worker"
 		start-stop-daemon --stop \
 			--pidfile=${worker_pidfile} \
+			--wait=${worker_timeout} \
 			--exec ${worker_command} -- ${worker_command_args}
 		eend $?
 	fi
