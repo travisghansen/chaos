@@ -7,35 +7,43 @@
 # http://mediagoblin.readthedocs.org/en/v0.5.1/
 # http://wiki.mediagoblin.org/Deployment
 # http://mediagoblin.readthedocs.org/en/latest/siteadmin/deploying.html
+# http://mediagoblin.readthedocs.org/en/latest/siteadmin/media-types.html
 
 ## TODO
 # [[mediagoblin.media_types.stl]]
 # requires blender >= 2.63
 
-# [mediagoblin.media_types.pdf]]
+# [[mediagoblin.media_types.pdf]]
 # pdf.js bundled?
 # expanded dep for headless libreoffice / unoconv
 
-# [[mediagoblin.media_types.ascii]].
+# [[mediagoblin.media_types.ascii]]
 # requires dev-python/chardet
+# may require media-fonts/inconsolata
 
 EAPI="5"
 PYTHON_DEPEND="2"
 
-inherit eutils git-2 python
+inherit distutils user
 
 DESCRIPTION="A media publishing platform that anyone can run."
 HOMEPAGE="http://mediagoblin.org/"
-EGIT_REPO_URI="git://gitorious.org/${PN}/${PN}.git"
 
-LICENSE="GPL-3"
+if [[ ${PV} = *9999* ]] ; then
+	inherit git-2
+	EGIT_REPO_URI="git://gitorious.org/${PN}/${PN}.git"
+	KEYWORDS="-*"
+else
+	SRC_URI="http://pypi.python.org/packages/source/${PN:0:1}/${PN}/${P}.tar.gz"
+	KEYWORDS="~amd64 ~x86"
+fi
+
+LICENSE="AGPL-3"
 SLOT="0"
-KEYWORDS="-*"
 IUSE=""
 
-#python-imaging is requried as pillow does not currently work
-#virtual/python-imaging
-#dev-python/imaging
+# pytest-xdist
+# argparse
 
 DEPEND=">=dev-lang/python-2.7[sqlite]
     dev-db/sqlite
@@ -48,16 +56,20 @@ DEPEND=">=dev-lang/python-2.7[sqlite]
 	dev-python/werkzeug
 	dev-python/celery
 	dev-python/jinja
-	dev-python/sphinx
+	dev-python/mock
 	<dev-python/Babel-1.0
 	virtual/python-argparse
 	dev-python/configobj
 	dev-python/markdown
-	>=dev-python/sqlalchemy-0.8.0[sqlite]
 	dev-python/itsdangerous
 	dev-python/pytz
 	dev-python/six
 	=dev-python/oauthlib-0.5.0
+	>=dev-python/sqlalchemy-0.9.0[sqlite]
+	>=dev-python/sqlalchemy-migrate-0.9
+
+    dev-python/flup
+    dev-python/numpy
 
 	media-libs/gstreamer:0.10
 	media-libs/gst-plugins-good:0.10
@@ -75,49 +87,118 @@ DEPEND=">=dev-lang/python-2.7[sqlite]
 
 	dev-python/audiolab
 	media-plugins/gst-plugins-ogg
+
+
+	<dev-python/webtest-2
 	"
 
 DEVDEPEND="
 	<dev-python/webtest-2
 	dev-python/pytest
 	dev-python/mock
-	dev-python/sqlalchemy-migrate
+	dev-python/sphinx
 "
 
-RDEPEND="${DEPEND}"
+# not sure which of these are really used
+# but in order to be useful extremely full
+# codec support is required
+CODECDEPEND="
+	media-plugins/gst-plugins-lame:0.10
+	media-plugins/gst-plugins-x264:0.10
+	media-plugins/gst-plugins-xvid:0.10
+	media-plugins/gst-plugins-wavpack:0.10
+	media-plugins/gst-plugins-theora:0.10
+	media-plugins/gst-plugins-mpeg2dec:0.10
+	media-plugins/gst-plugins-a52dec:0.10
+	media-plugins/gst-plugins-alsa:0.10
+	media-plugins/gst-plugins-dts:0.10
+	media-plugins/gst-plugins-dv:0.10
+	media-plugins/gst-plugins-faac:0.10
+	media-plugins/gst-plugins-faad:0.10
+	media-plugins/gst-plugins-flac:0.10
+	media-plugins/gst-plugins-gsm:0.10
+	media-plugins/gst-plugins-jpeg:0.10
+	media-plugins/gst-plugins-libpng:0.10
+	media-plugins/gst-plugins-mimic:0.10
+	media-plugins/gst-plugins-musepack:0.10
+	media-plugins/gst-plugins-neon:0.10
+	media-plugins/gst-plugins-opus:0.10
+	media-plugins/gst-plugins-raw1394:0.10
+	media-plugins/gst-plugins-rtmp:0.10
+	media-plugins/gst-plugins-speex:0.10
+"
 
-#S="${WORKDIR}/CouchPotatoServer"
-DOCS="*.md"
+CODECOTHERS="
+	media-plugins/gst-plugins-libmms:0.10
+	media-plugins/gst-plugins-libnice:0.10
+	media-plugins/gst-plugins-libvisual:0.10
+	media-plugins/gst-plugins-timidity:0.10
+"
+
+RDEPEND="${DEPEND} ${DEVDEPEND} ${CODECDEPEND}"
 
 pkg_setup() {
-	enewgroup mediagoblin
-	enewuser  mediagoblin -1 -1 /var/lib/mediagoblin mediagoblin
+    enewgroup ${PN}
+    enewuser ${PN} -1 /bin/bash /var/lib/${PN} ${PN}
+	python_pkg_setup
 }
 
 src_install() {
-	keepdir "/var/lib/mediagoblin"
-	dodir "/var/run/mediagoblin"
-	dodir "/etc/mediagoblin"
-	fowners mediagoblin:mediagoblin /var/lib/mediagoblin
-	fowners mediagoblin:mediagoblin /var/run/mediagoblin
-	fowners mediagoblin:mediagoblin /etc/mediagoblin
+	distutils_src_install
+	rm ${D}/usr/bin/pybabel
+	keepdir /var/lib/${PN}
+	dodir /var/log/${PN}
 
-	#Init scripts
-	#newconfd "${FILESDIR}/${PN}.conf" "${PN}"
-	#newinitd "${FILESDIR}/${PN}.init" "${PN}"
-
-	dodir "/usr/share/couchpotato"
-	cp -R * "${D}/usr/share/couchpotato/"
+	# copy stock ones over as samples
+	for file in mediagoblin.ini paste.ini;do
+		cp ${file} "${D}"/var/lib/${PN}/${file:-4}.sample.ini
+	done
 	
-	cp ${FILESDIR}/settings.conf.sample "${D}/etc/couchpotato/"
+	# copy lazystarter.sh into place and create symlinks
+	cp "lazystarter.sh" "${D}"/var/lib/${PN}/lazystarter.sh
+	cd "${D}"/var/lib/${PN}/
+	ln -sf lazystarter.sh lazycelery.sh
+	ln -sf lazystarter.sh lazyserver.sh
+	cd "${S}"
+
+	dodoc README
+	
+	# this is bogus on purpose
+	# create a gentoo-y mediagoblin.ini
+	sed -e "s|@BOGUS@|@BOGUS@|" \
+		"${FILESDIR}"/mediagoblin.template.ini > "${D}"/var/lib/${PN}/mediagoblin.ini \
+		|| die "failed to create mediagoblin.ini"
+	
+	# create gentoo-y paste.ini
+	sed -e "s|@INSTALL_DIR@|/usr/lib64/python2.7/site-packages|" \
+		"${FILESDIR}"/paste.template.ini > "${D}"/var/lib/${PN}/paste.ini \
+		|| die "failed to create paste.ini"
+	
+	echo "CONFIG_PROTECT=\"/var/lib/${PN}\"" > 99mediagoblin
+	doenvd 99mediagoblin
+	
+	newinitd "${FILESDIR}/${PN}.init" "${PN}"
+
+	chown -R "${PN}:${PN}" ${D}/var/lib/${PN}
+	chown -R "${PN}:${PN}" ${D}/var/log/${PN}
+}
+
+pkg_config() {
+	einfo "Performing DB Update..."
+	su - mediagoblin -c "gmg dbupdate"
 }
 
 pkg_postinst() {
-	python_mod_optimize /usr/share/${PN}
-	einfo "You must copy /etc/couchpotato/settings.conf.sample"
-	einfo "to /etc/couchpotato/settings.conf and set the proper"
-	einfo "permissions on the file as well"
-	einfo ""
-	einfo "cp /etc/couchpotato/settings.conf.sample /etc/couchpotato/settings.conf"
-	einfo "chown couchpotato:couchpotato /etc/couchpotato/settings.conf"
+	python_mod_optimize ${PN}
+	
+	elog
+	elog "1. Edit /var/lib/${PN}/mediagoblin.ini to your needs"
+	elog "2. Edit /var/lib/${PN}/paste.ini to your needs"
+	elog
+	elog "3. emerge --config \"=${CATEGORY}/${PF}\""
+	elog
+
+	einfo "use 'gmg adduser -u myuser' to create an account"
+	einfo "use 'gmg makeadmin myuser' to create an admin'"
+	einfo "use 'gmg changepw myuser' to change an account password"
 }

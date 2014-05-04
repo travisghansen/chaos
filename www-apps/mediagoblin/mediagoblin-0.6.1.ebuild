@@ -21,6 +21,12 @@
 # requires dev-python/chardet
 # may require media-fonts/inconsolata
 
+## TODO
+# > 0.6.1
+# will require >=Bable-1.0
+# will require ExifRead
+# will require more craziness with sqlalchemy
+
 EAPI="5"
 PYTHON_DEPEND="2"
 
@@ -28,11 +34,18 @@ inherit distutils user
 
 DESCRIPTION="A media publishing platform that anyone can run."
 HOMEPAGE="http://mediagoblin.org/"
-SRC_URI="http://pypi.python.org/packages/source/${PN:0:1}/${PN}/${P}.tar.gz"
 
-LICENSE="GPL-3"
+if [[ ${PV} = *9999* ]] ; then
+	inherit git-2
+	EGIT_REPO_URI="git://gitorious.org/${PN}/${PN}.git"
+	KEYWORDS="-*"
+else
+	SRC_URI="http://pypi.python.org/packages/source/${PN:0:1}/${PN}/${P}.tar.gz"
+	KEYWORDS="~amd64 ~x86"
+fi
+
+LICENSE="AGPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 # pytest-xdist
@@ -182,6 +195,8 @@ pkg_config() {
 }
 
 pkg_postinst() {
+	python_mod_optimize ${PN}
+	
 	elog
 	elog "1. Edit /var/lib/${PN}/mediagoblin.ini to your needs"
 	elog "2. Edit /var/lib/${PN}/paste.ini to your needs"
@@ -192,8 +207,4 @@ pkg_postinst() {
 	einfo "use 'gmg adduser -u myuser' to create an account"
 	einfo "use 'gmg makeadmin myuser' to create an admin'"
 	einfo "use 'gmg changepw myuser' to change an account password"
-	#einfo "foo"
-	# background worker using
-	# ./lazycelery.sh in data directory
-	:
 }

@@ -5,7 +5,7 @@
 EAPI="2"
 PYTHON_DEPEND="2"
 
-inherit git-2
+inherit git-2 user
 
 DESCRIPTION="The ultimate PVR application that downloads and manages your TV
  shows"

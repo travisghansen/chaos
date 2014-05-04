@@ -5,7 +5,7 @@
 EAPI="2"
 PYTHON_DEPEND="2"
 
-inherit eutils git-2 python
+inherit eutils git-2 python user
 
 DESCRIPTION="CouchPotato is an automatic NZB and torrent downloader"
 HOMEPAGE="http://couchpotatoapp.com/"
