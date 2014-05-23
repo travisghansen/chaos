@@ -6,6 +6,11 @@ else
     JAVA=java
 fi
 
+# fixes -rauto_gem issues
+# https://logstash.jira.com/browse/LOGSTASH-2221
+RUBYOPT=""
+export RUBYOPT
+
 #"${JAVA}" ${JAVA_OPTS} -cp /opt/logstash/ logstash.runner "$@"
 #exec "${JAVA}" ${JAVA_OPTS} -jar /opt/logstash/logstash.jar "$@"
 exec /opt/logstash/bin/logstash "$@"
