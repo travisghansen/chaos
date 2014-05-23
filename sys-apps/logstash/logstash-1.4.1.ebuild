@@ -38,11 +38,12 @@ src_install() {
 	cp -R "${S}"/* "${D}/${LS_ROOT_PATH}/"
 	
 	# symlink launcher
-	dosym "${LS_ROOT_PATH}/bin/${PN}" "/usr/bin/${PN}"
+	# dosym "${LS_ROOT_PATH}/bin/${PN}" "/usr/bin/${PN}"
 
 	# requires pyes
 	# https://logstash.jira.com/browse/LOGSTASH-211
 	dobin ${FILESDIR}/logstash_index_cleaner.py
+	dobin ${FILESDIR}/logstash
 	
 	dodir /etc/logrotate.d
 	cp ${FILESDIR}/logstash.logrotate ${D}/etc/logrotate.d/${PN} || die \
