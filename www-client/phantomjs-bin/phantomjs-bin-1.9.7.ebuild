@@ -7,8 +7,8 @@ MY_P="phantomjs"
 
 DESCRIPTION="headless WebKit with JavaScript API"
 HOMEPAGE="http://www.phantomjs.org/"
-SRC_URI="x86? ( http://${MY_P}.googlecode.com/files/${MY_P}-${PV}-linux-i686.tar.bz2 )
-		 amd64? ( http://${MY_P}.googlecode.com/files/${MY_P}-${PV}-linux-x86_64.tar.bz2  )"
+SRC_URI="x86? ( https://bitbucket.org/ariya/${MY_P}/downloads/${MY_P}-${PV}-linux-i686.tar.bz2 )
+		 amd64? ( https://bitbucket.org/ariya/${MY_P}/downloads/${MY_P}-${PV}-linux-x86_64.tar.bz2  )"
 
 LICENSE="GPL-3"
 SLOT="0"
