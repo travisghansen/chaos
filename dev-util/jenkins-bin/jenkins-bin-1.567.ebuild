@@ -1,4 +1,4 @@
-inherit java-pkg-2 rpm
+inherit java-pkg-2 rpm user
 
 DESCRIPTION="Extensible continuous integration server"
 HOMEPAGE="http://jenkins-ci.org/"
