@@ -14,6 +14,8 @@ DEPEND="media-fonts/dejavu"
 RDEPEND="${DEPEND}
         >=virtual/jdk-1.5"
 
+MY_PN="jenkins"
+
 src_unpack() {
     rpm_src_unpack ${A}
 }
@@ -30,8 +32,12 @@ src_install() {
     insinto /usr/lib/jenkins
     doins usr/lib/jenkins/jenkins.war
 
-    newinitd "${FILESDIR}/init.sh" jenkins
-    newconfd "${FILESDIR}/conf" jenkins
+    newinitd "${FILESDIR}/init.sh" ${MY_PN}
+    newconfd "${FILESDIR}/conf" ${MY_PN}
+	
+	dodir /etc/logrotate.d
+	cp ${FILESDIR}/${MY_PN}.logrotate ${D}/etc/logrotate.d/${MY_PN} || die \
+	 "failed copying lograte file into place"
 
     fowners jenkins:jenkins /var/run/jenkins /var/log/jenkins /var/lib/jenkins /var/lib/jenkins/home /var/lib/jenkins/backup
 }
