@@ -1,0 +1,45 @@
+#!/sbin/runscript
+# Copyright 1999-2007 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+
+APP_PATH="/usr/share/sickbeard/SickBeard.py"
+PID_FILE="/var/run/sickbeard/sickbeard.pid"
+DAEMON="/usr/bin/python2"
+
+depend() {
+	need net
+	use sabnzbd
+}
+
+my_do_piddir() {
+	local piddir=$(dirname ${PID_FILE})
+	if [ ! -d ${piddir} ] ; then
+		ebegin "Making ${piddir}"
+		mkdir -p ${piddir}
+		eend $?
+		ebegin "Changing permissions of ${piddir}"
+		chown ${SICKBEARD_USER-sickbeard}:${SICKBEARD_GROUP-sickbeard} ${piddir}
+		eend $?
+	fi
+}
+
+start() {
+	ebegin "Starting sickbeard"
+	my_do_piddir
+	start-stop-daemon --quiet --start \
+	--pidfile "${PID_FILE}" \
+	-c ${SICKBEARD_USER-sickbeard}:${SICKBEARD_GROUP-sickbeard} \
+		--exec ${DAEMON} -- ${APP_PATH} --daemon --port="${PORT-8081}" \
+	--datadir="${DATA_DIR-/var/lib/sickbeard}" \
+	--config="${CONFIG_FILE-/etc/sickbeard/config.ini}" \
+	--pidfile="${PID_FILE}" --nolaunch &> /dev/null
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping sickbeard"
+	start-stop-daemon --quiet --stop -R 20 --pidfile "${PID_FILE}"
+	eend $?
+}
