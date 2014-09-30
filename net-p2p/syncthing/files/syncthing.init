@@ -1,0 +1,53 @@
+#!/sbin/runscript
+# Copyright 1999-2007 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+
+PID_FILE="/var/run/syncthing/syncthing.pid"
+DAEMON="/usr/bin/syncthing"
+
+#options:
+#  -generate=""                     Generate key in specified dir
+#  -gui-address=""                  Override GUI address
+#  -gui-apikey=""                   Override GUI API key
+#  -gui-authentication=""           Override GUI authentication. Expects 'username:password'
+#  -home="/root/.config/syncthing"  Set configuration directory
+#  -logflags="2"                    Set log flags
+#  -no-browser                      Do not start browser
+#  -reset                           Prepare to resync from cluster
+#  -upgrade                         Perform upgrade
+#  -upgrade-check                   Check for available upgrade
+#  -version                         Show version
+
+depend() {
+	need net
+}
+
+my_do_piddir() {
+	local piddir=$(dirname ${PID_FILE})
+	if [ ! -d ${piddir} ] ; then
+		ebegin "Making ${piddir}"
+		mkdir -p ${piddir}
+		eend $?
+		ebegin "Changing permissions of ${piddir}"
+		chown ${SYNCTHING_USER-root}:${SYNCTHING_GROUP-root} ${piddir}
+		eend $?
+	fi
+}
+
+start() {
+	ebegin "Starting syncthing"
+	my_do_piddir
+	start-stop-daemon --quiet --start \
+		--pidfile "${PID_FILE}" -b -m \
+		-c ${SYNCTHING_USER-root}:${SYNCTHING_GROUP-root} \
+		--exec ${DAEMON} -- -home="/etc/syncthing" -no-browser &> /dev/null
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping syncthing"
+	start-stop-daemon --quiet --stop -R 20 --pidfile "${PID_FILE}"
+	eend $?
+}
