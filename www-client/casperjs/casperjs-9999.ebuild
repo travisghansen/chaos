@@ -10,6 +10,7 @@ inherit eutils git-2
 EGIT_REPO_URI="git://github.com/n1k0/casperjs.git"
 if [[ ${PV} != *9999* ]] ; then
 	EGIT_COMMIT="tags/$(echo ${PV//_/-} | tr '[:lower:]' '[:upper:]' )"
+	EGIT_COMMIT="${EGIT_COMMIT/BETA/beta}"
 fi
 
 if [[ ${PV} == *9999* ]]; then
@@ -26,6 +27,10 @@ SLOT="0"
 
 DEPEND="|| ( ( >=www-client/phantomjs-bin-1.5.0 ) ( >=www-client/phantomjs-1.5.0 ) )"
 RDEPEND="${DEPEND}"
+
+src_compile(){
+	:
+}
 
 src_install(){
 	dodir "/usr/share/${PN}"
