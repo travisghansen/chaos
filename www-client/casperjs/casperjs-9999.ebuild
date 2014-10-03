@@ -15,7 +15,7 @@ fi
 if [[ ${PV} == *9999* ]]; then
 	KEYWORDS="-*"
 else
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="x86 amd64 ~amd64 ~x86"
 fi
 
 DESCRIPTION="navigation scripting & testing utility for PhantomJS"

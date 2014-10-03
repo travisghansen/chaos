@@ -12,7 +12,7 @@ SRC_URI="x86? ( https://bitbucket.org/ariya/${MY_P}/downloads/${MY_P}-${PV}-linu
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="x86 amd64 ~amd64 ~x86"
 #IUSE="examples python"
 
 RDEPEND="!www-client/phantomjs

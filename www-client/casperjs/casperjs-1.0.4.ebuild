@@ -15,7 +15,7 @@ fi
 if [[ ${PV} == *9999* ]]; then
 	KEYWORDS="-*"
 else
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="x86 amd64 ~amd64 ~x86"
 fi
 
 DESCRIPTION="navigation scripting & testing utility for PhantomJS"
@@ -31,6 +31,6 @@ src_install(){
 	dodir "/usr/share/${PN}"
 	cp -R "${S}"/* "${D}/usr/share/${PN}"
 
-	chown -R root:root "${D}/opt/${PN}"
+	chown -R root:root "${D}/usr/share/${PN}"
 	dosym /usr/share/${PN}/bin/casperjs /usr/bin/casperjs
 }
