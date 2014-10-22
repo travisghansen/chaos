@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
+<repositories xmlns="" version="1.0">
+  <repo quality="experimental" status="unofficial">
+    <name>chaos</name>
+    <description lang="en">travisghansen's overlay</description>
+    <homepage>https://github.com/travisghansen/chaos</homepage>
+    <owner type="person">
+      <email>travisghansen@github.com</email>
+      <name>Travis Glenn Hansen</name>
+    </owner>
+    <source type="git">https://github.com/travisghansen/chaos.git</source>
+    <source type="git">git://github.com/travisghansen/chaos.git</source>
+    <source type="git">git@github.com:travisghansen/chaos.git</source>
+    <feed>https://github.com/travisghansen/chaos/commits/master.atom</feed>
+  </repo>
+</repositories>
