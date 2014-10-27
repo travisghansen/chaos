@@ -17,8 +17,7 @@ KEYWORDS="x86 amd64 lpha sparc"
 IUSE=""
 
 DEPEND="dev-python/pyes
-	dev-python/urllib3
-	virtual/python-argparse"
+	dev-python/urllib3"
 
 RDEPEND="virtual/jre"
 
