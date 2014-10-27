@@ -8,6 +8,7 @@
 # http://wiki.mediagoblin.org/Deployment
 # http://mediagoblin.readthedocs.org/en/latest/siteadmin/deploying.html
 # http://mediagoblin.readthedocs.org/en/latest/siteadmin/media-types.html
+# http://mediagoblin.readthedocs.org/en/v0.6.1/siteadmin/commandline-upload.html
 
 ## TODO
 # [[mediagoblin.media_types.stl]]

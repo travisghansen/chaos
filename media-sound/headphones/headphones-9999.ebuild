@@ -5,7 +5,7 @@
 EAPI="3"
 PYTHON_DEPEND="2:2.6"
 
-inherit eutils git-2 python
+inherit eutils git-2 python user
 
 MY_PN="${PN/s/S}"
 MY_PN="${MY_PN/b/B}"
@@ -43,7 +43,7 @@ src_install() {
 	dodir /usr/share/${PN}
 	insinto /usr/share/${PN}
 
-	for hp_dir in bs4 cherrypy data html5lib lib mako headphones ; do
+	for hp_dir in data lib headphones ; do
 		doins -r ${hp_dir} || die "failed to install ${hp_dir}"
 	done
 	doins Headphones.py || die "failed to install Headphones.py"
