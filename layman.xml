@@ -2,7 +2,7 @@
 <!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
 <repositories xmlns="" version="1.0">
   <repo quality="experimental" status="unofficial">
-    <name>chaos</name>
+    <name>travisghansen-chaos</name>
     <description lang="en">travisghansen's overlay</description>
     <homepage>https://github.com/travisghansen/chaos</homepage>
     <owner type="person">
