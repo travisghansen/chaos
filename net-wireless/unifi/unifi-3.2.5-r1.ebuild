@@ -3,13 +3,13 @@
 # $Header: /var/cvsroot/gentoo-x86/media-fonts/freefont-ttf/freefont-ttf-20090104.ebuild,v 1.4 2009/05/28 19:43:05 beandog Exp $
 
 EAPI=3
-inherit multilib
+inherit multilib systemd
 
 MY_PN="UniFi"
 
 DESCRIPTION="Management Controller for UniFi APs"
 HOMEPAGE="http://wiki.ubnt.com/UniFi_FAQ"
-SRC_URI="http://distfiles.one-gear.com/distfiles/${MY_PN}.unix-${PV}.zip"
+SRC_URI="http://dl.ubnt.com/unifi/${PV}/${MY_PN}.unix.zip -> ${P}.zip"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -38,4 +38,17 @@ src_install() {
 	#Init scripts
 	newconfd "${FILESDIR}/${PN}.conf" "${PN}"
 	newinitd "${FILESDIR}/${PN}.init" "${PN}"
+	
+	#systemd
+	systemd_dounit "${FILESDIR}"/${MY_PN}.service
+}
+
+pkg_postinst() {
+	elog "After an update please run the following to clear the css/assets cache:"
+	elog "emerge --config \"=${CATEGORY}/${PF}\""
+}
+
+pkg_config() {
+	# cleans old cache
+	[ -d "/usr/$(get_libdir)/unifi/webapps/ROOT/" ] && rm -rf "/usr/$(get_libdir)/unifi/webapps/ROOT/"
 }
