@@ -6,18 +6,18 @@ EAPI=5
 
 inherit eutils git-2
 
-EGIT_REPO_URI="git://github.com/jordansissel/lumberjack.git"
+EGIT_REPO_URI="https://git.hivalley.com/mirror/lumberjack.git"
 if [[ ${PV} != *9999* ]] ; then
 	EGIT_COMMIT="tags/$(echo ${PV//_/-} | tr '[:lower:]' '[:upper:]' )"
 fi
 
-EGIT_BRANCH="old/lumberjack-c"
+#EGIT_BRANCH="old/lumberjack-c"
 
 if [[ ${PV} == *9999* ]]; then
 	#KEYWORDS="-*"
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="x86 amd64 ~amd64 ~x86"
 else
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="x86 amd64 ~amd64 ~x86"
 fi
 
 DESCRIPTION="Cuts logs in preparation for processing elsewhere"
