@@ -18,7 +18,7 @@ KEYWORDS="alpha amd64 ia64 ~ppc ~ppc64 sparc x86"
 DEPEND=""
 RDEPEND="${DEPEND}
 		  >=dev-db/mongodb-2.0.0
-		  >=virtual/jdk-1.7"
+		  virtual/jdk:1.7"
 IUSE=""
 
 S="${WORKDIR}/UniFi"
@@ -27,11 +27,9 @@ src_install() {
 	dodir /usr/$(get_libdir)/unifi
 	dodir /var/log/unifi
 	dodir /var/lib/unifi/work
-	dodir /var/lib/unifi/run
 	keepdir /var/lib/unifi/data
 	cp -R "${S}"/* "${D}"/usr/$(get_libdir)/unifi
 	dosym /var/lib/unifi/data /usr/$(get_libdir)/unifi/data
-	dosym /var/lib/unifi/run /usr/$(get_libdir)/unifi/run
 	dosym /var/lib/unifi/work /usr/$(get_libdir)/unifi/work
 	dosym /var/log/unifi /usr/$(get_libdir)/unifi/logs
 	echo "CONFIG_PROTECT=\"/var/lib/unifi/data/system.properties\"" > 99unifi
@@ -51,6 +49,7 @@ pkg_postinst() {
 }
 
 pkg_config() {
+	:
 	# cleans old cache
-	[ -d "/usr/$(get_libdir)/unifi/webapps/ROOT/" ] && rm -rf "/usr/$(get_libdir)/unifi/webapps/ROOT/"
+	#[ -d "/usr/$(get_libdir)/unifi/webapps/ROOT/" ] && rm -rf "/usr/$(get_libdir)/unifi/webapps/ROOT/"
 }
