@@ -3,22 +3,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-
 PID_FILE="/var/run/syncthing/syncthing.pid"
 DAEMON="/usr/bin/syncthing"
-
-#options:
-#  -generate=""                     Generate key in specified dir
-#  -gui-address=""                  Override GUI address
-#  -gui-apikey=""                   Override GUI API key
-#  -gui-authentication=""           Override GUI authentication. Expects 'username:password'
-#  -home="/root/.config/syncthing"  Set configuration directory
-#  -logflags="2"                    Set log flags
-#  -no-browser                      Do not start browser
-#  -reset                           Prepare to resync from cluster
-#  -upgrade                         Perform upgrade
-#  -upgrade-check                   Check for available upgrade
-#  -version                         Show version
 
 depend() {
 	need net
@@ -42,7 +28,9 @@ start() {
 	start-stop-daemon --quiet --start \
 		--pidfile "${PID_FILE}" -b -m \
 		-c ${SYNCTHING_USER-root}:${SYNCTHING_GROUP-root} \
-		--exec ${DAEMON} -- -home="/etc/syncthing" -no-browser &> /dev/null
+		--stdout /etc/syncthing/syncthing.log \
+		--stderr /etc/syncthing/syncthing.log \
+		--exec ${DAEMON} -- -home="/etc/syncthing" -no-browser -logfile="-" ${SYNCTHING_OPTS}
 	eend $?
 }
 
