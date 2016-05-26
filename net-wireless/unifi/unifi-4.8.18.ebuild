@@ -18,7 +18,7 @@ KEYWORDS="alpha amd64 ia64 ~ppc ~ppc64 sparc x86"
 DEPEND=""
 RDEPEND="${DEPEND}
 		  >=dev-db/mongodb-2.0.0
-		  virtual/jdk:1.7"
+		  >=virtual/jdk-1.7"
 IUSE=""
 
 S="${WORKDIR}/UniFi"
